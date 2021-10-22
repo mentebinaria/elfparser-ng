@@ -404,19 +404,9 @@ void MainWindow::on_aboutButton_clicked()
 #ifdef APPLE
         dir.assign(QApplication::applicationDirPath().toStdString());
         boost::replace_last(dir, "MacOS", "Resources/icon_72529.png");
-#elif WINDOWS
-        dir.assign("./icon_72529.png");
 #else
-        dir.assign("/usr/local/share/elfparser/icon_72529.png");
+        dir.assign("./icon_72529.png");
 #endif
-        if (!image.load(QString(dir.c_str())))
-        {
-            aboutUi.imageLabel->setText("Failed to load image");
-        }
-        else
-        {
-            aboutUi.imageLabel->setPixmap(image);
-        }
     }
     m_dialog->show();
 }
