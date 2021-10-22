@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
-    <height>324</height>
+    <width>692</width>
+    <height>336</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,48 +42,14 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <widget class="QLabel" name="imageLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>185</width>
-          <height>185</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>185</width>
-          <height>185</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Minimum</enum>
-        </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>20</height>
+          <height>40</height>
          </size>
         </property>
        </spacer>
@@ -96,9 +62,6 @@
        </widget>
       </item>
      </layout>
-     <zorder>imageLabel</zorder>
-     <zorder>verticalSpacer</zorder>
-     <zorder>closeButton</zorder>
     </widget>
    </item>
    <item>
@@ -112,6 +75,12 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QGroupBox" name="versionBox">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="title">
          <string>Version</string>
         </property>
@@ -119,7 +88,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Version&lt;/span&gt;: 1.4.0&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;License: &lt;/span&gt;&lt;a href=&quot;https://creativecommons.org/licenses/by-nc-sa/3.0/us/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;CC BY-NC-SA 3.0 US&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Release Date:&lt;/span&gt; November 2, 2014&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Copyright: &lt;/span&gt;2014 Jacob Baines&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Website: &lt;/span&gt;&lt;a href=&quot;http://www.elfparser.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;www.elfparser.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Version&lt;/span&gt;: &lt;span style=&quot; color:#ffffff;&quot;&gt;1.4.0&lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;License: &lt;/span&gt;&lt;a href=&quot;https://creativecommons.org/licenses/by-nc-sa/3.0/us/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;CC BY-NC-SA 3.0 US&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Release Date: &lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;22&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;10/2021&lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Copyright: &lt;/span&gt;&lt;span style=&quot; font-family:'Droid Sans Mono','monospace','monospace','Droid Sans Fallback'; color:#fafafa;&quot;&gt;elfparser-ng (c) 2021 Mente Binária / elfparser (c) 2014-2021 Jacob Baines&lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -151,7 +120,7 @@
          <item>
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please report bugs to &lt;a href=&quot;admin@elfparser.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;admin@elfparser.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please report bugs to &lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;elfparser-ng/issues&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
