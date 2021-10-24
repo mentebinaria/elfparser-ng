@@ -14,15 +14,13 @@ class TinyTest : public testing::Test
 {
 protected:
     
-    virtual void SetUp()
-    {
-    }
+    virtual void SetUp(){ }
     
     ELFParser m_parser;
 };
 
 /*
- * The true.asm binary from muppet labs.
+ * the true.asm binary from muppet labs.
  */
 TEST_F(TinyTest, true_binary)
 {
@@ -47,7 +45,7 @@ TEST_F(TinyTest, true_binary)
 }
 
 /*
- * The bf.asm binary from muppet labs.
+ * the bf.asm binary from muppet labs.
  */
 TEST_F(TinyTest, bf_binary)
 {

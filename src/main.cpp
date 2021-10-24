@@ -16,9 +16,12 @@ bool parseCommandLine(int p_argCount, char *p_argArray[],
                       bool &p_print, bool &p_printReasons, bool &p_capabilities)
 {
     boost::program_options::options_description description("options");
-    description.add_options()("help", "A list of command line options")("version", "Display version information")("file,f", boost::program_options::value<std::string>(),
-                                                                                                                  "The ELF file to examine")("directory,d", boost::program_options::value<std::string>(),
-                                                                                                                                             "The directory to look through.")("reasons,r", "Print the scoring reasons")("capabilities,c", "Print the files observed capabilities")("print,p", "Print the ELF files various parsed structures.");
+    description.add_options()
+    ("help", "A list of command line options")("version", "Display version information")
+    ("file,f", boost::program_options::value<std::string>(),"The ELF file to examine")
+    ("directory,d", boost::program_options::value<std::string>(),"The directory to look through.")
+    ("reasons,r", "Print the scoring reasons")("capabilities,c", "Print the files observed capabilities")
+    ("print,p", "Print the ELF files various parsed structures.");
 
     boost::program_options::variables_map argv_map;
     try
@@ -33,20 +36,19 @@ bool parseCommandLine(int p_argCount, char *p_argArray[],
         std::cerr << e.what() << "\n"
                   << std::endl;
         std::cout << description << std::endl;
-        return false;
+        return true;
     }
 
     boost::program_options::notify(argv_map);
     if (argv_map.empty() || argv_map.count("help"))
     {
         std::cout << description << std::endl;
-        return false;
+        return true;
     }
-
-    if (argv_map.count("version"))
+    else if (argv_map.count("version"))
     {
         std::cout << version_elf_parser() << std::endl;
-        return false;
+        return true;
     }
 
     p_print = argv_map.count("print") != 0;
@@ -56,7 +58,7 @@ bool parseCommandLine(int p_argCount, char *p_argArray[],
     if (argv_map.count("file") && argv_map.count("directory"))
     {
         std::cout << description << std::endl;
-        return false;
+        return true;
     }
 
     if (argv_map.count("file"))
@@ -70,17 +72,17 @@ bool parseCommandLine(int p_argCount, char *p_argArray[],
         p_directory.assign(argv_map["directory"].as<std::string>());
         return true;
     }
-    return false;
+    return true;
 }
 
 /*
-     * pass the file to the parser and print the score if an error doesn't
-     * occur. print other output based on passed in bools.
-     * p_fileName the file to parse
-     * p_printReasons indicates if we should print the score reasons
-     * p_printCapabilities print extra knowledge about the binary
-     * p_printELF print the various data structures we parse
-     */
+ * pass the file to the parser and print the score if an error doesn't
+ * occur. print other output based on passed in bools.
+ * p_fileName the file to parse
+ * p_printReasons indicates if we should print the score reasons
+ * p_printCapabilities print extra knowledge about the binary
+ * p_printELF print the various data structures we parse
+ */
 void do_parsing(const std::string &p_fileName, bool p_printReasons,
                 bool p_printCapabilities, bool p_printELF)
 {

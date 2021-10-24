@@ -6,16 +6,14 @@
 #include <sstream>
 #include <iostream>
 
-SectionHeaders::SectionHeaders() :
-    m_sectionHeaders(),
-    m_totalSize(0),
-    m_stringIndex(0)
+SectionHeaders::SectionHeaders()
 {
+    m_totalSize = 0;
+    m_stringIndex = 0;
 }
 
 SectionHeaders::~SectionHeaders()
-{
-}
+{  }
 
 void SectionHeaders::setHeaders(const char* p_data, const char* p_start,
                                 boost::uint64_t p_total_size, boost::uint16_t p_count,
@@ -25,30 +23,28 @@ void SectionHeaders::setHeaders(const char* p_data, const char* p_start,
 {
     m_totalSize = p_total_size;
     if (p_size == 0)
-    {
         return;
-    }
 
-    if (p_data > (p_start + p_total_size))
+    else if (p_data >= (p_start + p_total_size))
     {
         p_capabilities[elf::k_antidebug].insert("SH offset in ELF header is larger than the binary");
         return;
     }
 
-    if (p_count > 0 && p_count <= p_stringIndex)
+    else if (p_count >= 0 && p_count <= p_stringIndex)
     {
         p_capabilities[elf::k_antidebug].insert("String index in ELF header is too large");
         return;
     }
 
-    if (p_count > 50)
+    else if (p_count >= 50)
     {
         p_capabilities[elf::k_antidebug].insert("Too many sections listed in ELF header");
         return;
     }
 
     m_stringIndex = p_stringIndex;
-    for (std::size_t i = 0; i < p_count; ++i, p_data += p_size)
+    for (std::size_t i = 0; i <= p_count; ++i, p_data += p_size)
     {
         if ((p_start + p_total_size) > p_data)
         {

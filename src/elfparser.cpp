@@ -16,19 +16,10 @@ std::size_t findFileSize(const std::string &p_file)
     return return_value;
 }
 
-ELFParser::ELFParser() : m_score(0),
-                         m_elfHeader(),
-                         m_programHeader(),
-                         m_sectionHeader(),
-                         m_segments(),
-                         m_mapped_file(),
-                         m_reasons(),
-                         m_capabilities(),
-                         m_filename(),
-                         m_fileSize(0),
-                         m_searchEngine(),
-                         m_searchValues()
+ELFParser::ELFParser()
 {
+    m_score = 0,
+    m_fileSize = 0,
     m_searchValues.push_back(new SearchValue("UPX!", elf::k_packed, "UPX signature found"));
     m_searchValues.push_back(new SearchValue("the UPX Team. All Rights Reserved", elf::k_packed, "UPX copyright string found"));
     m_searchValues.push_back(new SearchValue("PRIVMSG ", elf::k_irc, "IRC command PRIVMSG found"));
@@ -53,6 +44,7 @@ ELFParser::ELFParser() : m_score(0),
 
 ELFParser::~ELFParser()
 {
+    m_searchValues.clear();
     m_mapped_file.close();
 }
 
@@ -101,33 +93,32 @@ const std::vector<std::pair<boost::int32_t, std::string>> &ELFParser::getReasons
 
 void ELFParser::parse(const std::string &p_file)
 {
-    if (p_file.empty())
-    {
-        throw std::runtime_error("Parser given an empty file name.");
-    }
-
     m_fileSize = findFileSize(p_file);
     m_mapped_file.open(p_file, m_fileSize);
+
     if (!m_mapped_file.is_open())
-    {
         throw std::runtime_error("Failed to memory map the file.");
-    }
+    
+    else if (p_file.empty())
+        throw std::runtime_error("Parser given an empty file name.");
+    
     else
-    {
         m_filename.assign(p_file);
-    }
 
     m_elfHeader.setHeader(m_mapped_file.data(), m_fileSize);
+    
     m_programHeader.setHeaders(m_mapped_file.data() +
-                                   m_elfHeader.getProgramOffset(),
+                               m_elfHeader.getProgramOffset(),
                                m_elfHeader.getProgramCount(),
                                m_elfHeader.getProgramSize(), m_elfHeader.is64(), m_elfHeader.isLE());
+    
     m_sectionHeader.setHeaders(m_mapped_file.data() +
-                                   m_elfHeader.getSectionOffset(),
+                               m_elfHeader.getSectionOffset(),
                                m_mapped_file.data(), m_fileSize,
                                m_elfHeader.getSectionCount(), m_elfHeader.getSectionSize(),
                                m_elfHeader.getStringTableIndex(), m_elfHeader.is64(), m_elfHeader.isLE(),
                                m_capabilities);
+    
     m_segments.setStart(m_mapped_file.data(), m_fileSize, m_elfHeader.is64(),
                         m_elfHeader.isLE(), m_elfHeader.getType() == "ET_DYN");
 
@@ -154,7 +145,6 @@ void ELFParser::evaluate()
     }
 
     regexScan();
-
     findELF();
 
     for (std::map<elf::Capabilties, std::set<std::string>>::const_iterator it = m_capabilities.begin();
@@ -225,11 +215,8 @@ void ELFParser::evaluate()
         }
     }
 
-    for (std::vector<std::pair<boost::int32_t, std::string>>::const_iterator it = m_reasons.begin();
-         it != m_reasons.end(); ++it)
-    {
-        m_score += it->first;
-    }
+    for (auto it : m_reasons)
+        m_score += it.first;
 }
 
 const AbstractElfHeader &ELFParser::getElfHeader() const
@@ -260,20 +247,16 @@ const DynamicSection &ELFParser::getDynamicSection() const
 void ELFParser::printReasons() const
 {
     std::cout << "---- Scoring Reasons ----" << std::endl;
-    for (std::vector<std::pair<boost::int32_t, std::string>>::const_iterator it = m_reasons.begin();
-         it != m_reasons.end(); ++it)
-    {
-        std::cout << it->first << " -> " << it->second << std::endl;
-    }
+    for (auto it : m_reasons)
+        std::cout << it.first << " -> " << it.second << std::endl;
 }
 
 void ELFParser::printCapabilities() const
 {
     std::cout << "---- Detected Capabilities ----" << std::endl;
-    for (std::map<elf::Capabilties, std::set<std::string>>::const_iterator it = m_capabilities.begin();
-         it != m_capabilities.end(); ++it)
+    for (auto it : m_capabilities)
     {
-        switch (it->first)
+        switch (it.first)
         {
         case elf::k_fileFunctions:
             std::cout << "\tFile Functions" << std::endl;
@@ -342,7 +325,7 @@ void ELFParser::printCapabilities() const
             std::cout << "\tUnassigned" << std::endl;
             break;
         }
-        BOOST_FOREACH (const std::string &info, it->second)
+        BOOST_FOREACH (const std::string &info, it.second)
         {
             std::cout << "\t\t" << info << std::endl;
         }
@@ -456,8 +439,6 @@ void ELFParser::findELF()
             }
         }
         catch (std::exception &e)
-        {
-            // do nothing
-        }
+        {  }
     }
 }

@@ -1,7 +1,5 @@
 #include "comment_segment.hpp"
 
-#include <sstream>
-
 CommentSegment::CommentSegment(const char* start, boost::uint32_t p_offset,
                                boost::uint32_t p_size,
                                elf::section_type p_type) :
