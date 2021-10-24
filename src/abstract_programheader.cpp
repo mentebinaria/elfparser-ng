@@ -12,18 +12,15 @@
 #include <arpa/inet.h>
 #endif
 
-AbstractProgramHeader::AbstractProgramHeader(const char *p_data, boost::uint16_t p_size,
-                                             bool p_is64, bool p_isLE) : m_program_header32(),
-                                                                         m_program_header64(),
-                                                                         m_is64(p_is64),
-                                                                         m_isLE(p_isLE)
+AbstractProgramHeader::AbstractProgramHeader(const char *p_data, boost::uint16_t p_size, bool p_is64, bool p_isLE)
 {
+    m_is64 = p_is64;
+    m_isLE = p_isLE;
+
     if (p_is64)
     {
         if (p_size != sizeof(elf::program_header_64))
-        {
             throw std::runtime_error("Unexpected program header size");
-        }
 
         m_program_header64 = reinterpret_cast<const elf::program_header_64 *>(p_data);
     }
@@ -48,8 +45,7 @@ AbstractProgramHeader::AbstractProgramHeader(const AbstractProgramHeader &p_rhs)
 }
 
 AbstractProgramHeader::~AbstractProgramHeader()
-{
-}
+{  }
 
 bool AbstractProgramHeader::is64() const
 {
@@ -63,16 +59,12 @@ bool AbstractProgramHeader::isLE() const
 
 bool AbstractProgramHeader::isExecutable() const
 {
-    if (getFlags() & elf::k_pfexec)
-        return true;
-    return false;
+    return (getFlags() & elf::k_pfexec) != 0;
 }
 
 bool AbstractProgramHeader::isWritable() const
 {
-    if (getFlags() & elf::k_pfwrite)
-        return true;
-    return false;
+    return (getFlags() & elf::k_pfwrite) != 0;
 }
 
 std::string AbstractProgramHeader::getFlagsString() const
@@ -93,9 +85,7 @@ std::string AbstractProgramHeader::getFlagsString() const
     else if (getFlags() & elf::k_pfread)
     {
         if (!returnValue.empty())
-        {
             returnValue.append(", ");
-        }
         returnValue.append("Read");
     }
     return returnValue;
@@ -106,31 +96,31 @@ std::string AbstractProgramHeader::getName() const
     switch (getType())
     {
     case elf::k_pnull:
-        return "PT_NULL";
+        return std::string("PT_NULL");
     case elf::k_pload:
-        return "PT_LOAD";
+        return std::string("PT_LOAD");
     case elf::k_pdynamic:
-        return "PT_DYNAMIC";
+        return std::string("PT_DYNAMIC");
     case elf::k_pinterp:
-        return "PT_INTERP";
+        return std::string("PT_INTERP");
     case elf::k_pnote:
-        return "PT_NOTE";
+        return std::string("PT_NOTE");
     case elf::k_pshlib:
-        return "PT_SHLIB";
+        return std::string("PT_SHLIB");
     case elf::k_pphdr:
-        return "PT_PHDR";
+        return std::string("PT_PHDR");
     case elf::k_ptls:
-        return "PT_TLS";
+        return std::string("PT_TLS");
     case elf::k_gnuEh:
-        return "GNU_EH_FRAME";
+        return std::string("GNU_EH_FRAME");
     case elf::k_gnuStack:
-        return "GNU_STACK";
+        return std::string("GNU_STACK");
     case elf::k_gnuRelRo:
-        return "GNU_RELRO";
+        return std::string("GNU_RELRO");
     case elf::k_reginfo:
-        return "REGINFO";
+        return std::string("REGINFO");
     case elf::k_exidx:
-        return "EXIDX";
+        return std::string("EXIDX");
     default:
         std::stringstream return_this;
         return_this << "0x" << std::hex << getType();
