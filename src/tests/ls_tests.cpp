@@ -14,9 +14,7 @@ class LSTest : public testing::Test
 {
 protected:
 
-    virtual void SetUp()
-    {
-    }
+    virtual void SetUp(){}
 
     ELFParser m_parser;
 };
@@ -180,26 +178,7 @@ TEST_F(LSTest, Thirtytwo_Intel_ls)
     EXPECT_EQ(114, m_parser.getSegments().getDynamicSection().getSymbolTableSize());
     EXPECT_EQ(130, m_parser.getSegments().getDynamicSymbols().getSymbols().size());
 }
-/*
-TEST_F(LSTest, Sixtyfour_Intel_ls_upx)
-{
-    m_parser.parse("../test_files/64_intel_ls_upx");
-    m_parser.evaluate();
-    EXPECT_TRUE(0 > m_parser.getScore());
-    ASSERT_FALSE(m_parser.m_reasons.empty());
 
-    bool found_probably_packed = false;
-    for(std::vector<std::pair<boost::int32_t, std::string> >::const_iterator reasons = m_parser.m_reasons.begin();
-        reasons != m_parser.m_reasons.end(); ++reasons)
-    {
-        if (reasons->second == "Probably packed")
-        {
-            found_probably_packed = true;
-        }
-    }
-    EXPECT_TRUE(found_probably_packed);
-}
-*/
 TEST_F(LSTest, Thirtytwo_Arm_ls)
 {
     m_parser.parse("../test_files/32_arm_ls");
