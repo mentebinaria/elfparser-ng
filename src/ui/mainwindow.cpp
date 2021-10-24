@@ -47,7 +47,7 @@ void MainWindow::openFile()
     if (dialog.exec())
     {
         if (dialog.selectedFiles().count() != 1)
-            exit(EXIT_FAILURE);
+            return;
 
         try
         {
@@ -62,7 +62,7 @@ void MainWindow::openFile()
             QMessageBox msgBox;
             msgBox.setText(errorMessage.c_str());
             msgBox.exec();
-            exit(EXIT_FAILURE);
+            return;
         }
 
         // LCD display
@@ -388,9 +388,7 @@ void MainWindow::reset()
 }
 
 void MainWindow::closeAbout()
-{
-
-}
+{  }
 
 void MainWindow::on_aboutButton_clicked()
 {
@@ -407,6 +405,7 @@ void MainWindow::on_aboutButton_clicked()
 #else
         dir.assign("./icon_72529.png");
 #endif
+    
     }
     m_dialog->show();
 }
