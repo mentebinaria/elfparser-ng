@@ -5,7 +5,7 @@
 
 std::string version_elf_parser()
 {
-    return std::string("Version: ELF Parser 1.4.0\n  Copyright:\n  elfparser-ng (c) 2021 Mente Binária elfparser\n  (c) 2014-2021 Jacob Baines");
+    return std::string("Version: ELF Parser 1.4.0\nCopyright:\n  elfparser-ng (c) 2021 Mente Binária\n  elfparser  (c) 2014-2021 Jacob Baines");
 }
 
 #endif // !SC_VERSION_HPP
