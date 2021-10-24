@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.0)
 
 # Options
 option(test "Build all tests." ON)
@@ -19,9 +19,9 @@ set(PROJECT_VERSION_MINOR "4")
 set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION_COUNT 3)
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-set(PROJECT_VENDOR "Jacob Baines")
-set(PROJECT_COPYRIGHT_YEAR "2014")
-set(PROJECT_DOMAIN_FIRST "elfparser")
+set(PROJECT_VENDOR " elfparser-ng (c) 2021 Mente Binária //  elfparser  (c) 2014-2021 Jacob Baines")
+set(PROJECT_COPYRIGHT_YEAR "2020")
+set(PROJECT_DOMAIN_FIRST "elfparser-ng")
 set(PROJECT_DOMAIN_SECOND "com")
 set(PROJECT_DOMAIN "${PROJECT_DOMAIN_FIRST}.${PROJECT_DOMAIN_SECOND}")
 
