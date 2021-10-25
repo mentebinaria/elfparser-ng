@@ -121,22 +121,23 @@ std::string AbstractDynamicEntry::createTag(boost::uint64_t p_tag) const
             break;
     default:
         str << std::hex << "0x" << p_tag << std::dec;
-        
+
     }
     return str.str();
 }
 
 std::string AbstractDynamicEntry::createValue(boost::uint64_t p_tag, boost::uint64_t p_value, const char *p_strTab) const
 {
+    std::string str;
     switch (p_tag)
     {
     case elf::dynamic::k_needed:
     case elf::dynamic::k_soname:
     case elf::dynamic::k_rpath:
-        if (p_strTab != NULL)
-            return std::string(p_strTab + p_value);
+        if (p_strTab != __null)
+            str = std::string(p_strTab + p_value);
     }
-    return CEXIT_SUCCESS;
+    return str;
 }
 
 boost::uint64_t AbstractDynamicEntry::getTag() const
