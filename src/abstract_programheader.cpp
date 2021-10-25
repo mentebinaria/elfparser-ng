@@ -137,7 +137,7 @@ std::string AbstractProgramHeader::getName() const
         break;
     default:
         str << "0x" << std::hex << getType();
-        return str.str();
+
     }
     return str.str();
 }
