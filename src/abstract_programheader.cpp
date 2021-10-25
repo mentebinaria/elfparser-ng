@@ -14,8 +14,8 @@
 
 AbstractProgramHeader::AbstractProgramHeader(const char *p_data, boost::uint16_t p_size, bool p_is64, bool p_isLE)
 {
-    m_is64 = p_is64;
     m_isLE = p_isLE;
+    m_is64 = p_is64;
 
     if (p_is64)
     {
@@ -45,7 +45,8 @@ AbstractProgramHeader::AbstractProgramHeader(const AbstractProgramHeader &p_rhs)
 }
 
 AbstractProgramHeader::~AbstractProgramHeader()
-{  }
+{
+}
 
 bool AbstractProgramHeader::is64() const
 {
@@ -71,21 +72,20 @@ std::string AbstractProgramHeader::getFlagsString() const
 {
     std::string returnValue;
     if (getFlags() & elf::k_pfexec)
-    {
         returnValue.append("Exec");
-    }
+
     else if (getFlags() & elf::k_pfwrite)
     {
         if (!returnValue.empty())
-        {
             returnValue.append(", ");
-        }
+
         returnValue.append("Write");
     }
     else if (getFlags() & elf::k_pfread)
     {
         if (!returnValue.empty())
             returnValue.append(", ");
+
         returnValue.append("Read");
     }
     return returnValue;
@@ -93,39 +93,53 @@ std::string AbstractProgramHeader::getFlagsString() const
 
 std::string AbstractProgramHeader::getName() const
 {
+    std::stringstream str;
     switch (getType())
     {
     case elf::k_pnull:
-        return std::string("PT_NULL");
+        str << "PT_NULL";
+        break;
     case elf::k_pload:
-        return std::string("PT_LOAD");
+        str << "PT_LOAD";
+        break;
     case elf::k_pdynamic:
-        return std::string("PT_DYNAMIC");
+        str << "PT_DYNAMIC";
+        break;
     case elf::k_pinterp:
-        return std::string("PT_INTERP");
+        str << "PT_INTERP";
+        break;
     case elf::k_pnote:
-        return std::string("PT_NOTE");
+        str << "PT_NOTE";
+        break;
     case elf::k_pshlib:
-        return std::string("PT_SHLIB");
+        str << "PT_SHLIB";
+        break;
     case elf::k_pphdr:
-        return std::string("PT_PHDR");
+        str << "PT_PHDR";
+        break;
     case elf::k_ptls:
-        return std::string("PT_TLS");
+        str << "PT_TLS";
+        break;
     case elf::k_gnuEh:
-        return std::string("GNU_EH_FRAME");
+        str << "GNU_EH_FRAME";
+        break;
     case elf::k_gnuStack:
-        return std::string("GNU_STACK");
+        str << "GNU_STACK";
+        break;
     case elf::k_gnuRelRo:
-        return std::string("GNU_RELRO");
+        str << "GNU_RELRO";
+        break;
     case elf::k_reginfo:
-        return std::string("REGINFO");
+        str << "REGINFO";
+        break;
     case elf::k_exidx:
-        return std::string("EXIDX");
+        str << "EXIDX";
+        break;
     default:
-        std::stringstream return_this;
-        return_this << "0x" << std::hex << getType();
-        return return_this.str();
+        str << "0x" << std::hex << getType();
+        return str.str();
     }
+    return str.str();
 }
 
 boost::uint32_t AbstractProgramHeader::getType() const

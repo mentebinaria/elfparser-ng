@@ -4,15 +4,14 @@ std::size_t findFileSize(const std::string &p_file)
 {
     std::ifstream in(p_file.c_str(), std::ios::binary | std::ios::ate);
     if (!in.is_open())
-    {
         throw std::runtime_error("Could not open " + p_file);
-    }
+
     if (!in.good())
-    {
         throw std::runtime_error("Error opening " + p_file);
-    }
+    
     std::size_t return_value = in.tellg();
     in.close();
+
     return return_value;
 }
 

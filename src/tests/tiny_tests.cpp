@@ -24,7 +24,7 @@ protected:
  */
 TEST_F(TinyTest, true_binary)
 {
-    m_parser.parse("../test_files/true");
+    m_parser.parse("../src/tests/test_files/true");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
     EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
@@ -49,7 +49,7 @@ TEST_F(TinyTest, true_binary)
  */
 TEST_F(TinyTest, bf_binary)
 {
-    m_parser.parse("../test_files/bf");
+    m_parser.parse("../src/tests/test_files/bf");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
     EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());

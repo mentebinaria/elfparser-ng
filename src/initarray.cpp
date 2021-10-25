@@ -17,8 +17,7 @@ InitArray::InitArray(const std::string& p_name)
 }
 
 InitArray::~InitArray()
-{
-}
+{  }
 
 void InitArray::set(const char* p_data, boost::uint32_t p_size,
                     boost::uint32_t p_offset, boost::uint32_t p_entries,
@@ -31,7 +30,7 @@ void InitArray::set(const char* p_data, boost::uint32_t p_size,
 
     end += (size * p_entries);
 
-    for ( ; offset < end; offset += size)
+    for ( ; offset <= end; offset += size)
     {
         if (is64)
         {

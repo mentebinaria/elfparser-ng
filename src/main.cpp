@@ -17,24 +17,23 @@ bool parseCommandLine(int p_argCount, char *p_argArray[],
 {
     boost::program_options::options_description description("options");
     description.add_options()
-    ("help", "A list of command line options")("version", "Display version information")
-    ("file,f", boost::program_options::value<std::string>(),"The ELF file to examine")
-    ("directory,d", boost::program_options::value<std::string>(),"The directory to look through.")
-    ("reasons,r", "Print the scoring reasons")("capabilities,c", "Print the files observed capabilities")
+    ("help", "A list of command line options")
+    ("version", "Display version information")
+    ("file,f", boost::program_options::value<std::string>(), "The ELF file to examine")
+    ("directory,d", boost::program_options::value<std::string>(), "The directory to look through.")
+    ("reasons,r", "Print the scoring reasons")
+    ("capabilities,c", "Print the files observed capabilities")
     ("print,p", "Print the ELF files various parsed structures.");
 
     boost::program_options::variables_map argv_map;
     try
     {
         boost::program_options::store(
-            boost::program_options::parse_command_line(
-                p_argCount, p_argArray, description),
-            argv_map);
+            boost::program_options::parse_command_line(p_argCount, p_argArray, description), argv_map);
     }
     catch (const std::exception &e)
     {
-        std::cerr << e.what() << "\n"
-                  << std::endl;
+        std::cerr << e.what() << std::endl << std::endl;
         std::cout << description << std::endl;
         return true;
     }
@@ -102,8 +101,7 @@ void do_parsing(const std::string &p_fileName, bool p_printReasons,
 
     std::cout << p_fileName << " - Score: " << parser.getScore();
     if (!parser.getFamily().empty())
-        std::cout << " [Family: " << parser.getFamily() << "]" << std::endl
-                  << std::endl;
+        std::cout << " [Family: " << parser.getFamily() << "]" << std::endl << std::endl;
 
     if (p_printReasons)
         parser.printReasons();
@@ -124,8 +122,6 @@ int main(int p_argCount, char *p_argArray[])
     return app.exec();
 }
 #else
-
-// parse the command line options and process a file or a directory
 
 int main(int p_argCount, char *p_argArray[])
 {

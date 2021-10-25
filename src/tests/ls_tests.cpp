@@ -21,7 +21,7 @@ protected:
 
 TEST_F(LSTest, Sixtyfour_Intel_ls)
 {
-    m_parser.parse("../test_files/64_intel_ls");
+    m_parser.parse("../src/tests/test_files/64_intel_ls");
     EXPECT_TRUE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
     EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
@@ -105,7 +105,7 @@ TEST_F(LSTest, Sixtyfour_Intel_ls)
 
 TEST_F(LSTest, Thirtytwo_Intel_ls)
 {
-    m_parser.parse("../test_files/32_intel_ls");
+    m_parser.parse("../src/tests/test_files/32_intel_ls");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
     EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
@@ -181,7 +181,7 @@ TEST_F(LSTest, Thirtytwo_Intel_ls)
 
 TEST_F(LSTest, Thirtytwo_Arm_ls)
 {
-    m_parser.parse("../test_files/32_arm_ls");
+    m_parser.parse("../src/tests/test_files/32_arm_ls");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
     EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
@@ -258,7 +258,7 @@ TEST_F(LSTest, Thirtytwo_Arm_ls)
 
 TEST_F(LSTest, mips_be_ping)
 {
-    m_parser.parse("../test_files/32_mips_be_ping");
+    m_parser.parse("../src/tests/test_files/32_mips_be_ping");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_FALSE(m_parser.getElfHeader().isLE());
     EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());

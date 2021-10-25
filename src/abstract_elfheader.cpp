@@ -265,18 +265,23 @@ std::string AbstractElfHeader::getMachine() const
 std::string AbstractElfHeader::getEncoding() const
 {
     boost::uint8_t encoding = m_header64 != NULL ? m_header64->m_encoding : m_header32->m_encoding;
+    std::string str;
     switch (encoding)
     {
         case 0:
-            return std::string("Invalid");
+            str = "Invalid";
+            break;
         case 1:
-            return std::string("Little Endian");
+            str =  "Little Endian";
+            break;
         case 2:
-            return std::string("Big Endian");
+            str = "Big Endian";
+            break;
         default:
-            return std::string("Unknown");
+            str = "Unknown";
+            break;
     }
-    return CEXIT_SUCCESS;
+    return str;
 }
 
 std::string AbstractElfHeader::getABIVersion() const
@@ -292,10 +297,8 @@ std::string AbstractElfHeader::getABIVersion() const
 
 std::string AbstractElfHeader::getClass() const
 {
-    if(m_is64) 
-        return "64-bit";
-    else 
-        return "32-bit";
+    std::string str = (m_is64) ? "64-bit" :  "32-bit";
+    return str;
 }
 
 std::string AbstractElfHeader::getFileVersion() const
@@ -324,13 +327,11 @@ std::string AbstractElfHeader::getFlags() const
     assert(m_header32 != NULL || m_header64 != NULL);
     boost::uint32_t value = 0;
     if (m_is64)
-    {
         value = isLE() ? m_header64->m_flags : ntohl(m_header64->m_flags);
-    }
+
     else
-    {
         value = isLE() ? m_header32->m_flags : ntohl(m_header32->m_flags);
-    }
+
     std::stringstream result;
     result << "0x" << std::hex << value;
     return result.str();
@@ -340,24 +341,24 @@ std::string AbstractElfHeader::printToStdOut() const
 {
     std::stringstream return_value;
     return_value << "ELF Header\n\tclass=";
-    return_value << getClass() << "\n";
-    return_value << "\tencoding=" << getEncoding() << "\n";
-    return_value << "\tfileversion=" << getFileVersion() << "\n";
-    return_value << "\tos=" << getOSABI() << "\n";
-    return_value << "\tabi=" << getABIVersion() << "\n";
-    return_value << "\ttype=" << getType() << "\n";
-    return_value << "\tmachine=" << getMachine() << "\n";
-    return_value << "\tversion=" << getVersion() << "\n";
-    return_value << "\tentryPoint=" << getEntryPointString() << "\n";
-    return_value << "\tphoffset=" << "0x" << std::hex << getProgramOffset() << "\n";
-    return_value << "\tshoffset=" << "0x" << std::hex << getSectionOffset() << "\n";
-    return_value << "\tflags=" << getFlags() << "\n";
-    return_value << "\tehsize=" << getEHSize() << "\n";
-    return_value << "\tphentsize=" << getProgramSize() << "\n";
-    return_value << "\tphnum=" << getProgramCount() << "\n";
-    return_value << "\tshentsize=" << getSectionSize() << "\n";
-    return_value << "\tshnum=" << getSectionCount() << "\n";
-    return_value << "\tshtrndx=" << getStringTableIndex() << "\n";
+    return_value << getClass() << std::endl;
+    return_value << "\tencoding=" << getEncoding() << std::endl;
+    return_value << "\tfileversion=" << getFileVersion() << std::endl;
+    return_value << "\tos=" << getOSABI() << std::endl;
+    return_value << "\tabi=" << getABIVersion() << std::endl;
+    return_value << "\ttype=" << getType() << std::endl;
+    return_value << "\tmachine=" << getMachine() << std::endl;
+    return_value << "\tversion=" << getVersion() << std::endl;
+    return_value << "\tentryPoint=" << getEntryPointString() << std::endl;
+    return_value << "\tphoffset=" << "0x" << std::hex << getProgramOffset() << std::endl;
+    return_value << "\tshoffset=" << "0x" << std::hex << getSectionOffset() << std::endl;
+    return_value << "\tflags=" << getFlags() << std::endl;
+    return_value << "\tehsize=" << getEHSize() << std::endl;
+    return_value << "\tphentsize=" << getProgramSize() << std::endl;
+    return_value << "\tphnum=" << getProgramCount() << std::endl;
+    return_value << "\tshentsize=" << getSectionSize() << std::endl;
+    return_value << "\tshnum=" << getSectionCount() << std::endl;
+    return_value << "\tshtrndx=" << getStringTableIndex() << std::endl;
     return return_value.str();
 }
 
@@ -365,18 +366,15 @@ void AbstractElfHeader::evaluate(std::vector<std::pair<boost::int32_t, std::stri
                                  std::map<elf::Capabilties, std::set<std::string> >& p_capabilities) const
 {
     if (getProgramOffset() != 0 && getProgramOffset() < 45)
-    {
         p_capabilities[elf::k_antidebug].insert("Possible compact ELF: program header overlaps with ELF header");
-    }
-    if (getEncoding() == "Invalid")
-    {
+
+    else if (getEncoding() == "Invalid")
         p_capabilities[elf::k_antidebug].insert("Possible compact ELF: invalid encoding in ELF header");
-    }
-    if (getSectionOffset() != 0 && getSectionCount() == 0)
-    {
+
+    else if (getSectionOffset() != 0 && getSectionCount() == 0)
         p_capabilities[elf::k_antidebug].insert("Possible compact ELF: section count 0 but section offset non-zero");
-    }
-    if (m_header32 != NULL)
+
+    else if (m_header32 != NULL)
     {
         if (m_header32->m_class != 1 && m_header32->m_class != 2)
         {

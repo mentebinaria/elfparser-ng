@@ -29,72 +29,101 @@ void AbstractDynamicEntry::createString(const char *p_strOffset)
 
 std::string AbstractDynamicEntry::createTag(boost::uint64_t p_tag) const
 {
+    std::stringstream str;
     switch (p_tag)
     {
         case elf::dynamic::k_needed:
-            return std::string("NEEDED");
+            str << "NEEDED";
+            break;
         case elf::dynamic::k_pltrelsz:
-            return std::string("PLTRELSZ");
+            str << "PLTRELSZ";
+            break;
         case elf::dynamic::k_pltgot:
-            return std::string("PLTGOT");
+            str << "PLTGOT";
+            break;        
         case elf::dynamic::k_hash:
-            return std::string("HASH");
+            str << "HASH";
+            break;
         case elf::dynamic::k_strtab:
-            return std::string("STRTAB");
+            str << "STRTAB";
+            break;
         case elf::dynamic::k_symtab:
-            return std::string("SYMTAB");
+            str << "SYMTAB";
+            break;
         case elf::dynamic::k_rela:
-            return std::string("RELA");
+            str << "RELA";
+            break;
         case elf::dynamic::k_relasz:
-            return std::string("RELASZ");
+            str << "RELASZ";
+            break;
         case elf::dynamic::k_relaent:
-            return std::string("RELAENT");
+            str << "RELAENT";
+            break;
         case elf::dynamic::k_strsz:
-            return std::string("STRSZ");
+            str << "STRSZ";
+            break;
         case elf::dynamic::k_syment:
-            return std::string("SYMENT");
+            str << "SYMENT";
+            break;
         case elf::dynamic::k_init:
-            return std::string("INIT");
+            str << "INIT";
+            break;
         case elf::dynamic::k_fini:
-            return std::string("FINI");
+            str << "FINI";
+            break;
         case elf::dynamic::k_soname:
-            return std::string("SONAME");
+            str << "SONAME";
+            break;
         case elf::dynamic::k_rpath:
-            return std::string("RPATH");
+            str << "RPATH";
+            break;
         case elf::dynamic::k_symbolic:
-            return std::string("SYMBOLIC");
+            str << "SYMBOLIC";
+            break;
         case elf::dynamic::k_rel:
-            return std::string("REL");
+            str << "REL";
+            break;
         case elf::dynamic::k_relsz:
-            return std::string("RELSZ");
+            str << "RELSZ";
+            break;
         case elf::dynamic::k_relent:
-            return std::string("RELENT");
+            str << "RELENT";
+            break;
         case elf::dynamic::k_pltrel:
-            return std::string("PLTREL");
+            str << "PLTREL";
+            break;
         case elf::dynamic::k_debug:
-            return std::string("DEBUG");
+            str << "DEBUG";
+            break;
         case elf::dynamic::k_textrel:
-            return std::string("TEXTREL");
+            str << "TEXTREL";
+            break;
         case elf::dynamic::k_jmprel:
-            return std::string("JMPREL");
+            str << "JMPREL";
+            break;
         case elf::dynamic::k_bindnow:
-            return std::string("BIND_NOW");
+            str << "BIND_NOW";
+            break;
         case elf::dynamic::k_initarray:
-            return std::string("INIT_ARRAY");
+            str << "INIT_ARRAY";
+            break;
         case elf::dynamic::k_finiarray:
-            return std::string("FINI_ARRAY");
+            str << "FINI_ARRAY";
+            break;
         case elf::dynamic::k_init_arraysz:
-            return std::string("INIT_ARRAYSZ");
+            str << "INIT_ARRAYSZ";
+            break;
         case elf::dynamic::k_fini_arraysz:
-            return std::string("FINI_ARRAYSZ");
+            str << "FINI_ARRAYSZ";
+            break;
         case elf::dynamic::k_gnuhash:
-            return std::string("GNU_HASH");
+            str << "GNU_HASH";
+            break;
     default:
-        std::stringstream valueString;
-        valueString << std::hex << "0x" << p_tag << std::dec;
-        return valueString.str();
+        str << std::hex << "0x" << p_tag << std::dec;
+        return str.str();
     }
-    return CEXIT_SUCCESS;
+    return str.str();
 }
 
 std::string AbstractDynamicEntry::createValue(boost::uint64_t p_tag, boost::uint64_t p_value, const char *p_strTab) const

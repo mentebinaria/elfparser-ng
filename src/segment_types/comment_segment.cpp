@@ -9,8 +9,7 @@ CommentSegment::CommentSegment(const char* start, boost::uint32_t p_offset,
 }
 
 CommentSegment::~CommentSegment()
-{
-}
+{  }
 
 std::string CommentSegment::printToStdOut() const
 {

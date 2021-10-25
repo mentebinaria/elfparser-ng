@@ -10,10 +10,6 @@
 class AbstractDynamicEntry
 {
     private:
-
-        // disable evil things
-        // AbstractDynamicEntry& operator=(const AbstractDynamicEntry& p_rhs);
-
         boost::uint64_t m_tag;
         boost::uint64_t m_value;
         std::string m_stringValue;
