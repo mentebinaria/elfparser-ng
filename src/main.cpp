@@ -141,13 +141,7 @@ int main(int p_argCount, char *p_argArray[])
     {
         for (boost::filesystem::recursive_directory_iterator iter(directoryName);
              iter != boost::filesystem::recursive_directory_iterator(); ++iter)
-        {
-            if (!boost::filesystem::is_regular_file(iter->path()))
-            {
-                continue;
-            }
-            do_parsing(iter->path().string(), printReasons, printCapabilities, printElf);
-        }
+                do_parsing(iter->path().string(), printReasons, printCapabilities, printElf);
     }
 
     return EXIT_SUCCESS;
