@@ -22,7 +22,6 @@ set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT
 set(PROJECT_VENDOR " elfparser-ng (c) 2021 Mente Binária //  elfparser  (c) 2014-2021 Jacob Baines")
 set(PROJECT_COPYRIGHT_YEAR "2020")
 set(PROJECT_DOMAIN_FIRST "elfparser-ng")
-set(PROJECT_DOMAIN_SECOND "com")
 set(PROJECT_DOMAIN "${PROJECT_DOMAIN_FIRST}.${PROJECT_DOMAIN_SECOND}")
 
 # compiler flags
@@ -50,7 +49,6 @@ set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.46 COMPONENTS program_options iostreams system filesystem regex REQUIRED)
 
 # includes
-include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 include_directories(SYSTEM lib/hash-lib)
 
 # preprocessor definitions
