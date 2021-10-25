@@ -121,7 +121,7 @@ std::string AbstractDynamicEntry::createTag(boost::uint64_t p_tag) const
             break;
     default:
         str << std::hex << "0x" << p_tag << std::dec;
-        return str.str();
+        
     }
     return str.str();
 }
