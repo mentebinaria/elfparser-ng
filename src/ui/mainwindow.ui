@@ -23,7 +23,7 @@
    <string>ELF Parser</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="icons.qrc">
+   <iconset>
     <normaloff>:/locked</normaloff>:/locked</iconset>
   </property>
   <property name="autoFillBackground">
@@ -133,7 +133,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="overviewTab">
        <property name="sizePolicy">
@@ -695,9 +695,7 @@
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="icons.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>openButton</sender>
