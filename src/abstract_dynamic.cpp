@@ -135,7 +135,7 @@ std::string AbstractDynamicEntry::createValue(boost::uint64_t p_tag, boost::uint
     case elf::dynamic::k_soname:
     case elf::dynamic::k_rpath:
         if (p_strTab != __null)
-            str = std::string(p_strTab + p_value);
+            str = p_strTab + p_value;
     }
     return str;
 }
@@ -150,7 +150,7 @@ boost::uint64_t AbstractDynamicEntry::getValue() const
     return m_value;
 }
 
-const std::string &AbstractDynamicEntry::getString() const
+const std::string AbstractDynamicEntry::getString() const
 {
     return m_stringValue;
 }
@@ -160,10 +160,9 @@ std::string AbstractDynamicEntry::printToStdOut() const
     std::stringstream valueString;
     valueString << "\t tag = " << createTag(m_tag) << ", value = ";
     if (validString())
-        valueString << m_stringValue;
+        valueString << m_stringValue << std::endl;
     else
-        valueString << "0x" << std::hex << m_value;
-    valueString << "\n";
-
+        valueString << "0x" << std::hex << m_value << std::endl;
+    
     return valueString.str();
 }

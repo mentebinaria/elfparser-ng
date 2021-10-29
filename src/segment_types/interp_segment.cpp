@@ -17,8 +17,8 @@ InterpSegment::~InterpSegment()
 std::string InterpSegment::printToStdOut() const
 {
     std::stringstream return_value;
-    return_value << "Interpreter (offset=0x" << std::hex << m_offset
-        << ", size=" << std::dec << m_size << ")\n"
-        << "\tValue=\"" << m_interpreter << "\"\n";
+    return_value << "Interpreter (offset= 0x" << std::hex << m_offset
+        << ", size= " << std::dec << m_size << ")\n" << " Value= " << m_interpreter << std::endl;
+    
     return return_value.str();
 }

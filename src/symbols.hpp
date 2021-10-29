@@ -5,6 +5,8 @@
 #include <gtest/gtest_prod.h>
 #endif
 
+#define CEXIT_SUCCESS " ";
+
 #include "abstract_symbol.hpp"
 #include "structures/capabilities.hpp"
 #include <set>

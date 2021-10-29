@@ -96,17 +96,17 @@ std::string SectionHeaders::printToStdOut() const
                 << ")\n";
     BOOST_FOREACH(const AbstractSectionHeader& header, m_sectionHeaders)
     {
-        returnValue << "\tSection name=\"";
+        returnValue << "\t Section name= \"";
         returnValue <<  header.getName();
         returnValue << "\" type=" << header.getType();
-        returnValue << " flags=" << header.getFlags();
-        returnValue << " address=0x" << std::hex << header.getVirtAddress() << std::dec;
-        returnValue << " offset=" << header.getPhysOffset();
-        returnValue << " size=" << header.getSize();
-        returnValue << " link=" << header.getLink();
-        returnValue << " info=" << header.getInfo();
-        returnValue << " align=" << header.getAddrAlign();
-        returnValue << " entsize=" << header.getEntSize() << "\n";
+        returnValue << " flags= " << header.getFlags();
+        returnValue << " address= 0x" << std::hex << header.getVirtAddress() << std::dec;
+        returnValue << " offset= " << header.getPhysOffset();
+        returnValue << " size= " << header.getSize();
+        returnValue << " link= " << header.getLink();
+        returnValue << " info= " << header.getInfo();
+        returnValue << " align= " << header.getAddrAlign();
+        returnValue << " entsize= " << header.getEntSize() << std::endl;
     }
     return returnValue.str();
 }

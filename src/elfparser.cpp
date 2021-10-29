@@ -146,68 +146,67 @@ void ELFParser::evaluate()
     regexScan();
     findELF();
 
-    for (std::map<elf::Capabilties, std::set<std::string>>::const_iterator it = m_capabilities.begin();
-         it != m_capabilities.end(); ++it)
+    for (auto it : m_capabilities)
     {
-        switch (it->first)
+        switch (it.first)
         {
         case elf::k_fileFunctions:
             break;
         case elf::k_networkFunctions:
-            m_reasons.push_back(std::make_pair(1 * it->second.size(), std::string("Network functions")));
+            m_reasons.push_back(std::make_pair(1 * it.second.size(), std::string("Network functions")));
             break;
         case elf::k_processManipulation:
-            m_reasons.push_back(std::make_pair(4 * it->second.size(), std::string("Process manipulation functions")));
+            m_reasons.push_back(std::make_pair(4 * it.second.size(), std::string("Process manipulation functions")));
             break;
         case elf::k_pipeFunctions:
             break;
         case elf::k_crypto:
             break;
         case elf::k_infoGathering:
-            m_reasons.push_back(std::make_pair(1 * it->second.size(), std::string("Information gathering")));
+            m_reasons.push_back(std::make_pair(1 * it.second.size(), std::string("Information gathering")));
             break;
         case elf::k_envVariables:
-            m_reasons.push_back(std::make_pair(2 * it->second.size(), std::string("Environment variable manipulation")));
+            m_reasons.push_back(std::make_pair(2 * it.second.size(), std::string("Environment variable manipulation")));
             break;
         case elf::k_permissions:
             break;
         case elf::k_syslog:
-            m_reasons.push_back(std::make_pair(1 * it->second.size(), std::string("Syslog manipulation functions")));
+            m_reasons.push_back(std::make_pair(1 * it.second.size(), std::string("Syslog manipulation functions")));
             break;
         case elf::k_packetSniff:
-            m_reasons.push_back(std::make_pair(10 * it->second.size(), std::string("Packet sniffing")));
+            m_reasons.push_back(std::make_pair(10 * it.second.size(), std::string("Packet sniffing")));
             break;
         case elf::k_shell:
-            m_reasons.push_back(std::make_pair(10 * it->second.size(), std::string("Shell commands")));
+            m_reasons.push_back(std::make_pair(10 * it.second.size(), std::string("Shell commands")));
             break;
         case elf::k_packed:
-            m_reasons.push_back(std::make_pair(25 * it->second.size(), std::string("Packed")));
+            m_reasons.push_back(std::make_pair(25 * it.second.size(), std::string("Packed")));
             break;
         case elf::k_irc:
-            m_reasons.push_back(std::make_pair(15 * it->second.size(), std::string("IRC functionality")));
+            m_reasons.push_back(std::make_pair(15 * it.second.size(), std::string("IRC functionality")));
             break;
         case elf::k_http:
-            m_reasons.push_back(std::make_pair(4 * it->second.size(), std::string("HTTP functionality")));
+            m_reasons.push_back(std::make_pair(4 * it.second.size(), std::string("HTTP functionality")));
             break;
         case elf::k_compression:
-            m_reasons.push_back(std::make_pair(4 * it->second.size(), std::string("Compression")));
+            m_reasons.push_back(std::make_pair(4 * it.second.size(), std::string("Compression")));
             break;
         case elf::k_ipAddress:
-            m_reasons.push_back(std::make_pair(4 * it->second.size(), std::string("Hard coded IPv4 addresses")));
+            m_reasons.push_back(std::make_pair(4 * it.second.size(), std::string("Hard coded IPv4 addresses")));
             break;
         case elf::k_url:
             break;
         case elf::k_hooking:
-            m_reasons.push_back(std::make_pair(25 * it->second.size(), std::string("Function hooking")));
+            m_reasons.push_back(std::make_pair(25 * it.second.size(), std::string("Function hooking")));
             break;
         case elf::k_antidebug:
-            m_reasons.push_back(std::make_pair(10 * it->second.size(), std::string("Anti debug techniques")));
+            m_reasons.push_back(std::make_pair(10 * it.second.size(), std::string("Anti debug techniques")));
             break;
         case elf::k_filePath:
-            m_reasons.push_back(std::make_pair(1 * it->second.size(), std::string("File paths")));
+            m_reasons.push_back(std::make_pair(1 * it.second.size(), std::string("File paths")));
             break;
         case elf::k_dropper:
-            m_reasons.push_back(std::make_pair(50 * it->second.size(), std::string("Dropper functionaltiy")));
+            m_reasons.push_back(std::make_pair(50 * it.second.size(), std::string("Dropper functionaltiy")));
             break;
         default:
             break;
@@ -247,7 +246,7 @@ void ELFParser::printReasons() const
 {
     std::cout << "---- Scoring Reasons ----" << std::endl;
     for (auto it : m_reasons)
-        std::cout << it.first << " -> " << it.second << std::endl;
+        std::cout << it.first << " . " << it.second << std::endl;
 }
 
 void ELFParser::printCapabilities() const
@@ -258,75 +257,75 @@ void ELFParser::printCapabilities() const
         switch (it.first)
         {
         case elf::k_fileFunctions:
-            std::cout << "\tFile Functions" << std::endl;
+            std::cout << "File Functions" << std::endl;
             break;
         case elf::k_networkFunctions:
-            std::cout << "\tNetwork Functions" << std::endl;
+            std::cout << "Network Functions" << std::endl;
             break;
         case elf::k_processManipulation:
-            std::cout << "\tProcess Manipulation" << std::endl;
+            std::cout << "Process Manipulation" << std::endl;
             break;
         case elf::k_pipeFunctions:
-            std::cout << "\tPipe Functions" << std::endl;
+            std::cout << "Pipe Functions" << std::endl;
             break;
         case elf::k_crypto:
-            std::cout << "\tRandom Functions" << std::endl;
+            std::cout << "Random Functions" << std::endl;
             break;
         case elf::k_infoGathering:
-            std::cout << "\tInformation Gathering" << std::endl;
+            std::cout << "Information Gathering" << std::endl;
             break;
         case elf::k_envVariables:
-            std::cout << "\tEnvironment Variables" << std::endl;
+            std::cout << "Environment Variables" << std::endl;
             break;
         case elf::k_permissions:
-            std::cout << "\tPermissions" << std::endl;
+            std::cout << "Permissions" << std::endl;
             break;
         case elf::k_syslog:
-            std::cout << "\tSystem Log" << std::endl;
+            std::cout << "System Log" << std::endl;
             break;
         case elf::k_packetSniff:
-            std::cout << "\tPacket Sniffing" << std::endl;
+            std::cout << "Packet Sniffing" << std::endl;
             break;
         case elf::k_shell:
-            std::cout << "\tShell" << std::endl;
+            std::cout << "Shell" << std::endl;
             break;
         case elf::k_packed:
-            std::cout << "\tPacked" << std::endl;
+            std::cout << "Packed" << std::endl;
             break;
         case elf::k_irc:
-            std::cout << "\tIRC" << std::endl;
+            std::cout << "IRC" << std::endl;
             break;
         case elf::k_http:
-            std::cout << "\tHTTP" << std::endl;
+            std::cout << "HTTP" << std::endl;
             break;
         case elf::k_compression:
-            std::cout << "\tCompression" << std::endl;
+            std::cout << "Compression" << std::endl;
             break;
         case elf::k_ipAddress:
-            std::cout << "\tIP Addresses" << std::endl;
+            std::cout << "IP Addresses" << std::endl;
             break;
         case elf::k_url:
-            std::cout << "\tURL" << std::endl;
+            std::cout << "URL" << std::endl;
             break;
         case elf::k_hooking:
-            std::cout << "\tFunction Hooking" << std::endl;
+            std::cout << "Function Hooking" << std::endl;
             break;
         case elf::k_antidebug:
-            std::cout << "\tAnti-Debug" << std::endl;
+            std::cout << "Anti-Debug" << std::endl;
             break;
         case elf::k_dropper:
-            std::cout << "\tDropper" << std::endl;
+            std::cout << "Dropper" << std::endl;
             break;
         case elf::k_filePath:
-            std::cout << "\tFile Path" << std::endl;
+            std::cout << "File Path" << std::endl;
             break;
         default:
-            std::cout << "\tUnassigned" << std::endl;
+            std::cout << "Unassigned" << std::endl;
             break;
         }
         BOOST_FOREACH (const std::string &info, it.second)
         {
-            std::cout << "\t\t" << info << std::endl;
+            std::cout << info << std::endl;
         }
     }
 }

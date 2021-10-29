@@ -17,8 +17,8 @@ DebugLinkSegment::~DebugLinkSegment()
 std::string DebugLinkSegment::printToStdOut() const
 {
     std::stringstream return_value;
-    return_value << "Debug Link Segment (offset=0x" << std::hex << m_offset
-        << ", size=" << std::dec << m_size << ")\n"
-        << "\tFile=\"" << m_file << "\"\n";
+    return_value << "Debug Link Segment (offset= 0x" << std::hex << m_offset
+        << ", size= " << std::dec << m_size << ")\n"
+        << "  File= " << m_file << std::endl;
     return return_value.str();
 }

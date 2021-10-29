@@ -61,13 +61,12 @@ std::string StringTableSegment::stringLookup(std::size_t p_index) const
 std::string StringTableSegment::printToStdOut() const
 {
     std::stringstream return_value;
-    return_value << "String Table (offset=0x" << std::hex << m_offset
-        << ", size=" << std::dec << m_size << ", entries="
-        << m_stringsSet.size() << ")\n";
+    return_value << "String Table (offset= 0x" << std::hex << m_offset
+        << ", size= " << std::dec << m_size << ", entries= " << m_stringsSet.size() << std::endl;
 
     BOOST_FOREACH(const std::string& p_ascii, m_stringsSet)
     {
-        return_value << "\tString=\"" << p_ascii << "\"\n";
+        return_value << "String= " << p_ascii << std::endl;
     }
 
     return return_value.str();

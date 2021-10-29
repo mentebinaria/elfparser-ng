@@ -14,31 +14,29 @@ class DebugLinkSegment : public SegmentType
 {
 public:
 
-    /*!
+    /*
      * Puts the file name into m_file
-     * \param[in] p_start the start of the binary
-     * \param[in] p_offset the offset to this segment
-     * \param[in] p_size the size of this segment
-     * \param[in] p_type elf::k_progbits
+     * p_start the start of the binary
+     * p_offset the offset to this segment
+     * p_size the size of this segment
+     * p_type elf::k_progbits
      */
     DebugLinkSegment(const char* start, boost::uint32_t p_offset,
                      boost::uint32_t p_size, elf::section_type p_type);
 
-    //! Nothing of note
+    // Nothing of note
     ~DebugLinkSegment();
 
-    //! \return the string representation of the debug link
+    // return the string representation of the debug link
     virtual std::string printToStdOut() const;
 
 private:
 
-    //! Disable evil things
+    // Disable evil things
     DebugLinkSegment(const DebugLinkSegment& p_rhs);
     DebugLinkSegment& operator=(const DebugLinkSegment& p_rhs);
 
-private:
-
-    //! The filename the debug link points to
+    // The filename the debug link points to
     std::string m_file;
 };
 

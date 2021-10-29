@@ -236,9 +236,9 @@ std::string Symbols::printToStdOut() const
     returnValue << "Symbols (count=" << m_symbols.size() << ")\n";
     BOOST_FOREACH(const AbstractSymbol& symbol, m_symbols)
     {
-        returnValue << "\t" << "type=" << symbol.getTypeName() << ", binding="
-                    << symbol.getBinding() << ", value=0x" << std::hex
-                    << symbol.getValue() << ", name=" << symbol.getName() << "\n";
+        returnValue << "\t type= " << symbol.getTypeName() << ", binding= "
+                    << symbol.getBinding() << ", value= 0x" << std::hex
+                    << symbol.getValue() << ", name= " << symbol.getName() << std::endl;
     }
     return returnValue.str();
 }

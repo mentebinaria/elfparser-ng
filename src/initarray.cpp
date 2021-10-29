@@ -69,7 +69,7 @@ std::string InitArray::printToStd() const
     returnValue << m_name << " (" << m_entries.size() << ") " << std::endl;
     for (std::size_t i = 0; i < m_entries.size(); ++i)
     {
-        returnValue << "\tEntry addess=0x" << std::hex << m_entries[i].first << " name=" << m_entries[i].second << std::endl;
+        returnValue << "Entry addess=0x" << std::hex << m_entries[i].first << " name=" << m_entries[i].second << std::endl;
     }
 
     return returnValue.str();

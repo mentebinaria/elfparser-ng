@@ -35,13 +35,13 @@ ReadOnlySegment::~ReadOnlySegment()
 std::string ReadOnlySegment::printToStdOut() const
 {
     std::stringstream return_value;
-    return_value << "Read Only Segment (offset=0x" << std::hex << m_offset
-                 << ", size=" << std::dec << m_size << ", strings="
-                 << m_asciiStrings.size() << ")\n";
+    return_value << "Read Only Segment (offset= 0x" << std::hex << m_offset
+                 << ", size= " << std::dec << m_size << ", strings= "
+                 << m_asciiStrings.size() << ")\n\t";
 
     BOOST_FOREACH(const std::string& p_ascii, m_asciiStrings)
     {
-        return_value << "\tString=\"" << p_ascii << "\"\n";
+        return_value << "String= " << p_ascii << "\t" << std::endl;
     }
     return return_value.str();
 }

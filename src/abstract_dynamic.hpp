@@ -5,8 +5,6 @@
 #include <string>
 #include <sstream>
 
-#define CEXIT_SUCCESS " ";
-
 class AbstractDynamicEntry
 {
     private:
@@ -27,7 +25,7 @@ class AbstractDynamicEntry
         
         boost::uint64_t getTag() const;
         boost::uint64_t getValue() const;
-        const std::string& getString() const;
+        const std::string getString() const;
     
         std::string printToStdOut() const;
 
