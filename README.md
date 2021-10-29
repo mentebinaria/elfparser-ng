@@ -10,7 +10,7 @@ I was looking for ELF based malware on https://malwr.com and couldn't help but n
 
 ## Help
 
-ELF Parser can be compiled on Windows, OS X, or Linux (demangling and unit tests don't work on Windows). Windows uses the VS 2010 project in the base directory for compilation whereas Linux/OS X uses CMake. Compiling on Linux goes like this:
+ELF Parser can be compiled on Windows, OS X, or Linux (demangling and unit tests don't work on Windows) Compiling on Linux goes like this:
 
 [![asciicast](https://asciinema.org/a/444072.svg)](https://asciinema.org/a/444072)
 
@@ -19,10 +19,30 @@ ELF Parser has a number of compilation targets that can be configured by CMakeLi
 * Unit tests
 * CLI build
 * GUI build
-* Visual Studios build
+
 
 ## Dependencies
 
 [boost C++](https://www.boost.org)
+```
+sudo apt-get install boost
+```
 
 [Qt5](https://www.qt.io/download-open-source)
+``` 
+sudo apt-get install build-essential \
+qtcreator qt5-default \
+qtcreator qtdeclarative5-dev \
+```
+## Features
+features that elf parser currently has
+
+* ELF Header 
+* Program Header
+* Section Headers
+* Dynamic Section
+* Symbols
+* Note Segment
+* Read Only Segment
+* Debug Link Segment
+* String Table
