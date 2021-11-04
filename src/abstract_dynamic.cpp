@@ -15,7 +15,7 @@ AbstractDynamicEntry::AbstractDynamicEntry(const AbstractDynamicEntry &p_rhs)
 }
 
 AbstractDynamicEntry::~AbstractDynamicEntry()
-{  }
+{}
 
 bool AbstractDynamicEntry::validString() const
 {
