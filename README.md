@@ -14,12 +14,15 @@ ELF Parser can be compiled on Windows, OS X, or Linux (demangling and unit tests
 
 [![asciicast](https://asciinema.org/a/444072.svg)](https://asciinema.org/a/444072)
 
+
+>To compile windows, just go to [CMakeFiles](CMakeLists.txt), change `windows` to `on`
+![Windows](assets/compiler_windows.png)
+
 ## Compile Targets
 ELF Parser has a number of compilation targets that can be configured by CMakeLists.txt. The targets are:
 * Unit tests
 * CLI build
 * GUI build
-
 
 ## Dependencies
 
