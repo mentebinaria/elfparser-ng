@@ -26,7 +26,7 @@ ELF Parser has a number of compilation targets that can be configured by CMakeLi
 
 ## Dependencies
 
-[boost C++](hhttp://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
+[boost C++](http://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
 ```
 sudo apt-get install boost
 ```
