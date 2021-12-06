@@ -27,13 +27,13 @@ void AbstractDynamicEntry::createString(const char *p_strOffset)
     m_stringValue.assign(createValue(m_tag, m_value, p_strOffset));
 }
 
-std::string AbstractDynamicEntry::createTag(boost::uint64_t p_tag) const
+std::string AbstractDynamicEntry::createTag(boost::uint64_t p_tag) const 
 {
     std::stringstream str;
     switch (p_tag)
     {
         case elf::dynamic::k_needed:
-            str << "NEEDED";
+            str << "NEEDED"; 
             break;
         case elf::dynamic::k_pltrelsz:
             str << "PLTRELSZ";
@@ -134,7 +134,7 @@ std::string AbstractDynamicEntry::createValue(boost::uint64_t p_tag, boost::uint
     case elf::dynamic::k_needed:
     case elf::dynamic::k_soname:
     case elf::dynamic::k_rpath:
-        if (p_strTab != __null)
+        if (p_strTab != NULL)
             str = p_strTab + p_value;
     }
     return str;
