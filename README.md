@@ -16,7 +16,7 @@ ELF Parser can be compiled on Windows, OS X, or Linux (demangling and unit tests
 
 
 >To compile windows, just go to [CMakeFiles](CMakeLists.txt), change `windows` to `on`
-![Windows](assets/compiler_windows.png)
+![Windows](assets/compiler_windows.png) Open Visual Studio 2019 command `ctrl+f5`
 
 ## Compile Targets
 ELF Parser has a number of compilation targets that can be configured by CMakeLists.txt. The targets are:
@@ -26,7 +26,7 @@ ELF Parser has a number of compilation targets that can be configured by CMakeLi
 
 ## Dependencies
 
-[boost C++](https://www.boost.org)
+[boost C++](hhttp://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
 ```
 sudo apt-get install boost
 ```
