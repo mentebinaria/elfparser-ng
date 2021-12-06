@@ -14,12 +14,14 @@
 #include <cassert>
 #include <cstring>
 #include <stdexcept>
-#include <arpa/inet.h>
 
 #define CEXIT_SUCCESS " ";
 
-#if __APPLE__ || WINDOWS
-#include "endian.h"
+#if WINDOWS
+    #include <WinSock2.h>
+    #include "endian.h"
+#else 
+    #include <arpa/inet.h>
 #endif
 
 namespace elf
