@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 # Options
 option(test "Build all tests." ON)
-option(debug "Build with debug flags." OFF)
+option(debug "Build with debug flags." ON)
 option(qt "Build with QT GUI." ON)
 option(windows "Enabled windows build." OFF)
 
@@ -49,6 +49,7 @@ set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.46 COMPONENTS program_options iostreams system filesystem regex REQUIRED)
 
 # includes
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 include_directories(SYSTEM lib/hash-lib)
 
 # preprocessor definitions
@@ -245,9 +246,6 @@ else()
         SET(CPACK_NSIS_DISPLAY_NAME "ELF Parser")
         SET(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}\\\\src\\\\ui\\\\icon_72529.ico")
         SET(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\\\src\\\\ui\\\\icon_72529.png")
-        SET(CPACK_NSIS_URL_INFO_ABOUT "http://www.elfparser.com")
-        SET(CPACK_NSIS_HELP_LINK "http://www.elfparser.com/contact.html")
-        SET(CPACK_NSIS_CONTACT "admin@elfparser.com")
         SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
         SET(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\${PROJECT_NAME}.lnk' '\$INSTDIR\\\\${PROJECT_NAME}.exe'")
         SET(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
@@ -262,8 +260,6 @@ else()
         SET(CPACK_PACKAGE_DESCRIPTION "elfparser")
         SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Binary static analysis tool")
         SET(CPACK_PACKAGE_VENDOR "${PROJECT_VENDOR}")
-        SET(CPACK_PACKAGE_CONTACT "admin@elfparser.com")
-        SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "admin@elfparser.com")
         SET(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
         SET(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
         SET(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
