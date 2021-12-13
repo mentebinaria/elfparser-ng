@@ -1,6 +1,6 @@
 # ELF Parser
 Multiplatform CLI and GUI tool to show information about ELF files
-This project is a tentative to keep [elfparser](https://github.com/mentebinaria/elfparser-ng) alive. Plans include update it and add new features.
+This project is a tentative to keep [elfparser](https://github.com/jacob-baines/elfparser) alive. Plans include update it and add new features.
 
 > [License](LICENSE)
 
@@ -16,7 +16,8 @@ ELF Parser can be compiled on Windows, OS X, or Linux (demangling and unit tests
 
 
 >To compile windows, just go to [CMakeFiles](CMakeLists.txt), change `windows` to `on`
-![Windows](assets/compiler_windows.png) Open Visual Studio 2019 command `ctrl+f5`
+![Windows](assets/compiler_windows.png) install `cmake` create archive `build` enter archive 
+execute command `cmake ..`, Open Visual Studio 2019 command `ctrl+f5`
 
 ## Compile Targets
 ELF Parser has a number of compilation targets that can be configured by CMakeLists.txt. The targets are:
@@ -26,9 +27,10 @@ ELF Parser has a number of compilation targets that can be configured by CMakeLi
 
 ## Dependencies
 
-[boost C++](hhttp://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
+[boost C++](http://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
 ```
-sudo apt-get install boost
+sudo apt-get install libboost-all-dev
+
 ```
 
 [Qt5](https://www.qt.io/download-open-source)
