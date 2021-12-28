@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 
 # Options
-option(test "Build all tests." ON)
-option(debug "Build with debug flags." ON)
-option(qt "Build with QT GUI." ON)
+option(test "Build all tests." OFF)
+option(debug "Build with debug flags." OFF)
+option(qt "Build with QT GUI." OFF)
 option(windows "Enabled windows build." OFF)
 
 #define project
