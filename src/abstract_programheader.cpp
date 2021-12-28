@@ -7,7 +7,7 @@
 #include <iostream>
 
 #if __APPLE__ || WINDOWS
-#include "endian.h"
+#include "endian.hpp"
 #else
 #include <arpa/inet.h>
 #endif

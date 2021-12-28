@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 
 # Options
-option(test "Build all tests." ON)
-option(debug "Build with debug flags." ON)
-option(qt "Build with QT GUI." ON)
+option(test "Build all tests." OFF)
+option(debug "Build with debug flags." OFF)
+option(qt "Build with QT GUI." OFF)
 option(windows "Enabled windows build." OFF)
 
 #define project
@@ -26,10 +26,10 @@ set(PROJECT_DOMAIN "${PROJECT_DOMAIN_FIRST}.${PROJECT_DOMAIN_SECOND}")
 
 # compiler flags
 if (debug)
-    set(CMAKE_CXX_FLAGS "-g -Wall -Werror")
+    set(CMAKE_CXX_FLAGS "-g -Wall -Werror -fno-stack-protector -march=native")
 else()
     if (APPLE)
-        set(CMAKE_CXX_FLAGS "-O2 -Wall -Werror")
+        set(CMAKE_CXX_FLAGS "-O2 -Wall -Werror -fno-stack-protector -march=native")
     else()
         if(windows)
             if (tests)
@@ -38,7 +38,7 @@ else()
                 set(CMAKE_CXX_FLAGS "-O2 /EHsc")
             endif()
         else()
-            set(CMAKE_CXX_FLAGS "-O2 -Werror -Wall")
+            set(CMAKE_CXX_FLAGS "-O2 -Werror -Wall -fno-stack-protector -march=native")
         endif()
     endif()
 endif()

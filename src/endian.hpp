@@ -25,7 +25,7 @@
 #define be64toh(x) OSSwapBigToHostInt64(x)
 #define le64toh(x) OSSwapLittleToHostInt64(x)
 #elif WINDOWS
-#include <winsock2.h>
+#include <WinSock2.h>
 #include <cstdlib>
 
 #define htons(x) _byteswap_ushort(x)
