@@ -11,10 +11,9 @@
 #include "elfparser.hpp"
 #include "structures/elfheader.hpp"
 #include "datastructures/search_value.hpp"
-#include "../lib/hash-lib/md5.h"
-#include "../lib/hash-lib/sha256.h"
-#include "../lib/hash-lib/md5.h"
-#include "../lib/hash-lib/sha1.h"
+#include "../lib/hash-lib/md5.hpp"
+#include "../lib/hash-lib/sha256.hpp"
+#include "../lib/hash-lib/sha1.hpp"
 
 #include <map>
 #include <set>

@@ -2,10 +2,8 @@
 #include <sstream>
 #include <boost/foreach.hpp>
 
-#ifdef __APPLE__
-#include "endian.h"
-#elif WINDOWS
-#include "endian.h"
+#if WINDOWS || __APPLE__
+#include "endian.hpp"
 #else
 #include <arpa/inet.h>
 #endif

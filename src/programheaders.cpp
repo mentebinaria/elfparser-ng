@@ -7,10 +7,12 @@
 #include <sstream>
 
 ProgramHeaders::ProgramHeaders() : m_programHeaders()
-{ }
+{
+}
 
 ProgramHeaders::~ProgramHeaders()
-{ }
+{
+}
 
 void ProgramHeaders::setHeaders(const char *p_data, boost::uint16_t p_count,
                                 boost::uint16_t p_size, bool p_is64, bool p_isLE)
@@ -59,28 +61,17 @@ void ProgramHeaders::evaluate(std::vector<std::pair<boost::int32_t, std::string>
 
     BOOST_FOREACH (const AbstractProgramHeader &header, m_programHeaders)
     {
-        switch (header.getType())
+        if (header.getType() == elf::k_pload)
         {
-        case elf::k_pload:
             ++load_count;
             found_load = true;
-            break;
-        default:
-            break;
         }
         ++entry_count;
     }
 
     if (load_count > 2)
-    {
         p_reasons.push_back(std::make_pair(30, std::string("Found 2+ PT_LOAD. Possible post-compilation addition of code (cryptor or packer)")));
-    }
 
-    if (entry_count > 0)
-    {
-        if (!found_load)
-        {
-            p_reasons.push_back(std::make_pair(5, std::string("Didn't find PT_LOAD in the program headers")));
-        }
-    }
+    if (entry_count > 0 && !found_load)
+        p_reasons.push_back(std::make_pair(5, std::string("Didn't find PT_LOAD in the program headers")));
 }

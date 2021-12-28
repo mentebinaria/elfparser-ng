@@ -7,6 +7,7 @@
 #include <boost/assign.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
+
 #include "symbols.hpp"
 #include "abstract_symbol.hpp"
 #include "abstract_segments.hpp"
@@ -21,6 +22,7 @@ std::map<std::string, std::pair<elf::Capabilties, std::string> > capabilities = 
     ("fclose", std::make_pair(elf::k_fileFunctions, "fclose() found"))
     ("feof", std::make_pair(elf::k_fileFunctions, "feof() found"))
     ("fopen", std::make_pair(elf::k_fileFunctions, "fopen() found"))
+    ("fmemopen", std::make_pair(elf::k_fileFunctions, "fmemopen() found"))
     ("funlockfile", std::make_pair(elf::k_fileFunctions, "funlockfile() found"))
     ("unlink", std::make_pair(elf::k_fileFunctions, "unlink() found"))
     ("accept", std::make_pair(elf::k_networkFunctions, "accept() found"))
@@ -101,10 +103,9 @@ void Symbols::createSymbols(const char* p_data,
                             bool p_is64, bool p_isLE, bool p_isDY)
 {
     m_isDY = p_isDY;
+
     if (p_symTabOffset == 0 || p_strTabOffset == 0 || p_symTabSize == 0)
-    {
         exit(EXIT_FAILURE);
-    }
 
     boost::uint8_t multiplier = p_is64 ? sizeof(elf::symbol::symtable_entry64) : sizeof(elf::symbol::symtable_entry32);
     for (boost::uint32_t i = 0; p_symTabOffset + i < p_dataSize; i += multiplier)
@@ -151,31 +152,22 @@ void Symbols::createSymbols(const char* p_data,
                             symbol.setName(fixed);
                         }
                         else
-                        {
                             symbol.setName("FailedDemangling");
-                        }
-                        free(unmangled);
+                        
+                        delete unmangled;
                     }
                     else
 #endif
-                    {
                         symbol.setName(p_data + p_strTabOffset + symbol.getNameIndex());
-                    }
                 }
                 else
-                {
                     symbol.setName(p_data + p_strTabOffset + symbol.getNameIndex());
-                }
             }
             else
-            {
                 symbol.setName("NoNullTerminator");
-            }
 
             if ((symbol.getType() & 0x0f) == 4 && !symbol.getName().empty())
-            {
                 m_files.insert(symbol.getName());
-            }
         }
         m_symbols.push_back(symbol);
     }
@@ -183,15 +175,14 @@ void Symbols::createSymbols(const char* p_data,
 
 std::string Symbols::findSymbol(boost::uint64_t p_address) const
 {
+    std::string str;
     BOOST_FOREACH(const AbstractSymbol& entry, m_symbols)
     {
         if (entry.getValue() == p_address)
-        {
-            return entry.getName();
-        }
+            str = entry.getName();
     }
 
-    return CEXIT_SUCCESS;
+    return str;
 }
 
 
@@ -223,11 +214,10 @@ void Symbols::evaluate(std::vector<std::pair<boost::int32_t, std::string> >& p_r
             }
         }
     }
+
+    // seen in Mayhem. Not sure what technique this is
     if (m_symbols.size() > 10 && ((m_symbols.size() - 2) == noType))
-    {
-        // seen in Mayhem. Not sure what technique this is
         p_capabilities[elf::k_antidebug].insert("Almost all symbols marked as NO_TYPE in they symbol table");
-    }
 }
 
 std::string Symbols::printToStdOut() const
