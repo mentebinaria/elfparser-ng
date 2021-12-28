@@ -4,11 +4,11 @@
 // see http://create.stephan-brumme.com/disclaimer.html
 //
 
-#include "sha256.h"
+#include "sha256.hpp"
 
 // big endian architectures need #define __BYTE_ORDER __BIG_ENDIAN
 #ifndef _MSC_VER
-#include "../../src/endian.h"
+#include "../../src/endian.hpp"
 #endif
 
 
