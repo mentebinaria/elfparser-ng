@@ -56,6 +56,8 @@ public slots:
     void on_aboutButton_clicked();
     void sectionSelected(QTableWidgetItem*, QTableWidgetItem*);
     void programSelected(QTableWidgetItem*, QTableWidgetItem*);
+    void conf_buttons();
+    void conf_tables();
 
 };
 
