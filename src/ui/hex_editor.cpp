@@ -7,7 +7,6 @@
 #include <QPainter>
 
 #include "hex_editor.hpp"
-#include "ui_hex_editor.h"
 
 #define AREA_SIZE size()
 #define MIN_HEXCHARS 47

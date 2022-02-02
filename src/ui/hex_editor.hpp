@@ -15,7 +15,7 @@
 
 #include <QByteArray>
 #include <QAbstractScrollArea>
-
+#include <QScrollBar>
 class HexEditor : public QAbstractScrollArea
 {
     Q_OBJECT
