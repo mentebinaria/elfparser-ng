@@ -62,12 +62,12 @@ HexEditor::~HexEditor()
  */
 void HexEditor::paintEvent(QPaintEvent *event)
 {
-    updatePositions();
-    confScrollBar();
-    viewport()->update();
-
     QPainter painter(viewport());
 
+    updatePositions();
+    confScrollBar();
+
+    // scroll bar
     int firstLineIdx = verticalScrollBar()->value();
     int lastLineIdx = firstLineIdx + AREA_SIZE.height() / m_charHeight;
     if (lastLineIdx > m_BufferHex.size() / m_bytesPerLine)
@@ -84,8 +84,14 @@ void HexEditor::paintEvent(QPaintEvent *event)
         {
             char caracter = m_BufferHex[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
             CHAR_VALID(caracter);
+
+            int pos = ((lineIdx * m_bytesPerLine + i) * 2);
+            SET_BACKGROUND_MARK(pos);
             
             painter.drawText(xPosAscii, yPos, QString(caracter));
+
+            painter.setBackground(painter.brush());
+            painter.setBackgroundMode(Qt::OpaqueMode);
         }
 
         // binary position
@@ -96,7 +102,7 @@ void HexEditor::paintEvent(QPaintEvent *event)
 
             QString val = QString::number((m_BufferHex.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF0) >> 4, 16);
             painter.drawText(xPos, yPos, val);
-            
+
             val = QString::number((m_BufferHex.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF), 16);
             painter.drawText(xPos + m_charWidth, yPos, val);
 
@@ -108,7 +114,6 @@ void HexEditor::paintEvent(QPaintEvent *event)
         QString address = QString("%1").arg(lineIdx * m_bytesPerLine, 10, 16, QChar('0'));
         painter.drawText(m_posAddr, yPos, address);
     }
-
 }
 
 /**
@@ -270,7 +275,7 @@ void HexEditor::keyPressEvent(QKeyEvent *event)
         QByteArray data = m_BufferHex.mid(m_selectBegin / 2, (m_selectEnd - m_selectBegin) / 2 + 1);
         if (m_selectBegin % 2)
         {
-            res += QString::number((data.at((++idx) / 2) & 0xF), 16) += " ";
+            res += QString::number((data.at((idx++) / 2) & 0xF), 16) += " ";
             idx++;
             copyOffset = 1;
         }
