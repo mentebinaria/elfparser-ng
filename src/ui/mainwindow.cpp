@@ -6,7 +6,10 @@
 #include "../elfparser.hpp"
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
+#include "hex_editor.hpp"
 
+#include <QAbstractScrollArea>
+#include <QClipboard>
 #include <iostream>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
@@ -18,10 +21,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_tableItems(),
                                           m_treeItems(),
                                           m_copyAction(),
-                                          m_parser()
+                                          m_parser(),
+                                          m_hex_editor(new HexEditor())
 {
     setWindowTitle("ELF Parser Ng");
-   
 
     m_ui->setupUi(this);
 
@@ -36,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // configs button
     conf_buttons();
 
-    //configs tables
+    // configs tables
     conf_tables();
 }
 
@@ -59,6 +62,7 @@ void MainWindow::openFile()
 
         try
         {
+            m_hex_editor->LoadBinary(dialog.selectedFiles().at(0));
             m_parser->parse(dialog.selectedFiles().at(0).toStdString());
             m_parser->evaluate();
         }
@@ -359,9 +363,7 @@ void MainWindow::overviewToClipboard()
     if (selected->hasSelection())
     {
         BOOST_FOREACH (const QModelIndex &index, selected->selectedRows())
-        {
             QApplication::clipboard()->setText(m_ui->overviewTable->item(index.row(), 0)->text());
-        }
     }
 }
 
@@ -393,28 +395,57 @@ void MainWindow::reset()
     m_ui->scoreDisplay->display(0);
     m_ui->sectionInfo->clear();
     m_ui->programsInfo->clear();
+    m_hex_editor->clear();
 }
 
 void MainWindow::conf_buttons()
 {
-    m_ui->openButton->setIcon(QIcon("assets/open.png"));
-    m_ui->resetButton->setIcon(QIcon("assets/reset.png"));
-    m_ui->closeButton->setIcon(QIcon("assets/close.png"));
-    m_ui->aboutButton->setIcon(QIcon("assets/about.png"));
+    // open
+    m_ui->openButton->setIcon(QIcon("../src/ui/assets/open.png"));
+
+    // reset
+    m_ui->resetButton->setIcon(QIcon("../src/ui/assets/reset.png"));
+
+    // close
+    m_ui->closeButton->setIcon(QIcon("../src/ui/assets/close.png"));
+
+    // about
+    m_ui->aboutButton->setIcon(QIcon("../src/ui/assets/about.png"));
+
+    // hex editor
+    m_ui->hexButton->setIcon(QIcon("../src/ui/assets/hex.png"));
 }
 
 void MainWindow::conf_tables()
 {
-    // table symbols
+    // scoring
+    m_ui->scoringTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    // symbols
     m_ui->symbolsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    // header
     m_ui->headerTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    // overview
     m_ui->overviewTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    // programs
     m_ui->programsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    // capabilities
     m_ui->capabilitiesTree->horizontalScrollBar();
 }
 
 void MainWindow::closeAbout()
 {
+}
+
+void MainWindow::on_closeButton_clicked()
+{
+    QMessageBox::StandardButton close = QMessageBox::question(this, "Close", "Close this Program ?", QMessageBox::Yes | QMessageBox::No);
+    if (close == QMessageBox::Yes)
+        this->close();
 }
 
 void MainWindow::on_aboutButton_clicked()
@@ -430,10 +461,28 @@ void MainWindow::on_aboutButton_clicked()
         dir.assign(QApplication::applicationDirPath().toStdString());
         boost::replace_last(dir, "MacOS", "Resources/icon.png");
 #else
-        dir.assign("assets/icon.png");
+        dir.assign("src/ui/assets/icon.png");
 #endif
     }
-    m_dialog->show();
+    m_dialog->showNormal();
 }
 
 #endif
+
+void MainWindow::on_hexButton_clicked()
+{
+    try
+    {
+        m_hex_editor->CallDialog();
+    }
+    catch (const std::exception &e)
+    {
+        std::string errorMessage("Loading Error: ");
+        errorMessage.append(e.what());
+
+        QMessageBox msgBox;
+        msgBox.setText(errorMessage.c_str());
+        msgBox.exec();
+        return;
+    }
+}

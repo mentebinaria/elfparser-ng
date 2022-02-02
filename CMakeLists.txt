@@ -3,14 +3,14 @@ cmake_minimum_required(VERSION 3.0)
 # Options
 option(test "Build all tests." OFF)
 option(debug "Build with debug flags." OFF)
-option(qt "Build with QT GUI." OFF)
+option(qt "Build with QT GUI." ON)
 option(windows "Enabled windows build." OFF)
 
 #define project
 if (qt)
-    project(elfparser CXX)
+    project(elfparser-ng CXX)
 else()
-    project(elfparser-cli CXX)
+    project(elfparser-cli-ng CXX)
 endif()
 
 # project variables
@@ -84,7 +84,7 @@ if (qt)
 
     # let QT generate files
     qt5_wrap_ui(UI_HEADERS src/ui/mainwindow.ui src/ui/about.ui)
-    set(EXTRA_SOURCES src/ui/mainwindow.cpp)
+    set(EXTRA_SOURCES src/ui/mainwindow.cpp src/ui/hex_editor.cpp)
     set(EXTRA_SOURCES ${EXTRA_SOURCES} ${UI_HEADERS})
 
     if (APPLE)
@@ -126,6 +126,7 @@ add_executable(${PROJECT_NAME} ${GUI_TYPE}
                lib/hash-lib/sha1.cpp
                lib/hash-lib/sha256.cpp
                lib/hash-lib/md5.cpp
+
                ${EXTRA_SOURCES}
                ${RESOURCE_ADDED})
 
@@ -203,7 +204,8 @@ if (test)
                     lib/hash-lib/sha256.cpp
                     lib/hash-lib/md5.cpp
                     src/tests/ls_tests.cpp
-                    src/tests/tiny_tests.cpp)
+                    src/tests/tiny_tests.cpp                   
+                    )
 
     target_link_libraries(${PROJECT_NAME}_test gtest gtest_main ${Boost_LIBRARIES})
 endif()

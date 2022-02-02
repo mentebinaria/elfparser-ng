@@ -8,12 +8,8 @@
 #include "programheaders.hpp"
 #include "structures/capabilities.hpp"
 #include "datastructures/search_tree.hpp"
-#include "elfparser.hpp"
 #include "structures/elfheader.hpp"
 #include "datastructures/search_value.hpp"
-#include "../lib/hash-lib/md5.hpp"
-#include "../lib/hash-lib/sha256.hpp"
-#include "../lib/hash-lib/sha1.hpp"
 
 #include <map>
 #include <set>
@@ -33,6 +29,7 @@
 #include <iomanip>
 
 class SearchValue;
+class HexEditor;
 
 /* parses an ELF binary and computes a score that indicates how malicious
  * or dangerous the binary is. A lot of good information on parsing
@@ -51,6 +48,9 @@ private:
 
     // he binaries score
     boost::uint32_t m_score;
+
+    // he object that editor hex bin
+    //HexEditor m_HexEditor;
 
     // he object that parses the elf header
     AbstractElfHeader m_elfHeader;
@@ -151,12 +151,12 @@ public:
     // return a const reference to the abstract semgnents
     const AbstractSegments& getSegments() const;
 
-    // eturn a const reference to the dynamic section
+    // return a const reference to the dynamic section
     const DynamicSection& getDynamicSection() const;
 
     // return a string indicating the malware family
     std::string getFamily() const;
 
-};
+}; 
 
 #endif

@@ -16,6 +16,7 @@ namespace Ui
     class MainWindow;
 }
 
+class HexEditor;
 class ELFParser;
 class QTableWidgetItem;
 class QTreeWidgetItem;
@@ -43,6 +44,9 @@ private:
     // The reusable ELF parser
     boost::scoped_ptr<ELFParser> m_parser;
 
+    // The resuable Editor Hex 
+    boost::scoped_ptr<HexEditor> m_hex_editor;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -58,7 +62,9 @@ public slots:
     void programSelected(QTableWidgetItem*, QTableWidgetItem*);
     void conf_buttons();
     void conf_tables();
-
+	void on_closeButton_clicked();
+    void on_hexButton_clicked();
+	
 };
 
 #endif //! MAINWINDOW_H

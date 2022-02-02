@@ -1,4 +1,7 @@
 #include "elfparser.hpp"
+#include "../lib/hash-lib/md5.hpp"
+#include "../lib/hash-lib/sha256.hpp"
+#include "../lib/hash-lib/sha1.hpp"
 
 std::size_t findFileSize(const std::string &p_file)
 {
@@ -8,7 +11,7 @@ std::size_t findFileSize(const std::string &p_file)
 
     if (!in.good())
         throw std::runtime_error("Error opening " + p_file);
-    
+
     std::size_t return_value = in.tellg();
     in.close();
 
@@ -97,28 +100,30 @@ void ELFParser::parse(const std::string &p_file)
 
     if (!m_mapped_file.is_open())
         throw std::runtime_error("Failed to memory map the file.");
-    
+
     else if (p_file.empty())
         throw std::runtime_error("Parser given an empty file name.");
-    
+
     else
         m_filename.assign(p_file);
 
-    m_elfHeader.setHeader(m_mapped_file.data(), m_fileSize);
-    
-    m_programHeader.setHeaders(m_mapped_file.data() +
-                               m_elfHeader.getProgramOffset(),
+    auto ptrDataMem = m_mapped_file.data();
+
+    m_elfHeader.setHeader(ptrDataMem, m_fileSize);
+
+    m_programHeader.setHeaders(ptrDataMem +
+                                   m_elfHeader.getProgramOffset(),
                                m_elfHeader.getProgramCount(),
                                m_elfHeader.getProgramSize(), m_elfHeader.is64(), m_elfHeader.isLE());
-    
-    m_sectionHeader.setHeaders(m_mapped_file.data() +
-                               m_elfHeader.getSectionOffset(),
-                               m_mapped_file.data(), m_fileSize,
+
+    m_sectionHeader.setHeaders(ptrDataMem +
+                                   m_elfHeader.getSectionOffset(),
+                               ptrDataMem, m_fileSize,
                                m_elfHeader.getSectionCount(), m_elfHeader.getSectionSize(),
                                m_elfHeader.getStringTableIndex(), m_elfHeader.is64(), m_elfHeader.isLE(),
                                m_capabilities);
-    
-    m_segments.setStart(m_mapped_file.data(), m_fileSize, m_elfHeader.is64(),
+
+    m_segments.setStart(ptrDataMem, m_fileSize, m_elfHeader.is64(),
                         m_elfHeader.isLE(), m_elfHeader.getType() == "ET_DYN");
 
     // important to do section header first since it produces more complete data
@@ -437,6 +442,7 @@ void ELFParser::findELF()
             }
         }
         catch (std::exception &e)
-        {  }
+        {
+        }
     }
 }

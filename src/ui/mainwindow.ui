@@ -23,7 +23,7 @@
    <string>ELF Parser Ng</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="icons.qrc">
     <normaloff>:/locked</normaloff>:/locked</iconset>
   </property>
   <property name="autoFillBackground">
@@ -36,8 +36,8 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
      <widget class="QFrame" name="leftFrame">
       <property name="minimumSize">
        <size>
@@ -77,10 +77,10 @@
           <string>Controls</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="openButton">
+          <item row="0" column="1">
+           <widget class="QPushButton" name="resetButton">
             <property name="text">
-             <string>Open</string>
+             <string>Reset</string>
             </property>
            </widget>
           </item>
@@ -91,10 +91,10 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="resetButton">
+          <item row="0" column="0">
+           <widget class="QPushButton" name="openButton">
             <property name="text">
-             <string>Reset</string>
+             <string>Open</string>
             </property>
            </widget>
           </item>
@@ -102,6 +102,13 @@
            <widget class="QPushButton" name="aboutButton">
             <property name="text">
              <string>About</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QPushButton" name="hexButton">
+            <property name="text">
+             <string>EditHex</string>
             </property>
            </widget>
           </item>
@@ -124,7 +131,7 @@
       </layout>
      </widget>
     </item>
-    <item>
+    <item row="0" column="1">
      <widget class="QTabWidget" name="mainTabs">
       <property name="enabled">
        <bool>true</bool>
@@ -133,7 +140,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="overviewTab">
        <property name="sizePolicy">
@@ -652,6 +659,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QTableWidget" name="scoringTable">
+          <property name="maximumSize">
+           <size>
+            <width>10000</width>
+            <height>10000</height>
+           </size>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -695,56 +708,10 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections>
-  <connection>
-   <sender>openButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>openFile()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>97</x>
-     <y>129</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>477</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sectionsTable</sender>
-   <signal>currentItemChanged(QTableWidgetItem*,QTableWidgetItem*)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>sectionSelected(QTableWidgetItem*,QTableWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>657</x>
-     <y>173</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>499</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>programsTable</sender>
-   <signal>currentItemChanged(QTableWidgetItem*,QTableWidgetItem*)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>programSelected(QTableWidgetItem*,QTableWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>657</x>
-     <y>173</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>499</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>resetButton</sender>
    <signal>clicked()</signal>
@@ -752,28 +719,28 @@
    <slot>reset()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>97</x>
-     <y>200</y>
+     <x>242</x>
+     <y>159</y>
     </hint>
     <hint type="destinationlabel">
-     <x>499</x>
-     <y>299</y>
+     <x>311</x>
+     <y>260</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>closeButton</sender>
+   <sender>openButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>close()</slot>
+   <slot>openFile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>226</x>
-     <y>200</y>
+     <x>98</x>
+     <y>158</y>
     </hint>
     <hint type="destinationlabel">
-     <x>499</x>
-     <y>299</y>
+     <x>311</x>
+     <y>291</y>
     </hint>
    </hints>
   </connection>
