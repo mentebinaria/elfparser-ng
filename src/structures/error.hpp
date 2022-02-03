@@ -11,3 +11,9 @@ enum file
     ERROR_WRITE,
     SUCESS_WRITE
 };
+
+enum exit
+{
+    ERROR_RETURN = -1,
+    SUCESS_RETURN
+};
