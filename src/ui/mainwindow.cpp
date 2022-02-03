@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_parser(),
                                           m_hex_editor(new HexEditor())
 {
-    setWindowTitle("ELF Parser Ng");
+    setWindowTitle("elfparser-ng");
 
     m_ui->setupUi(this);
 
@@ -386,6 +386,7 @@ void MainWindow::reset()
     m_tableItems.clear();
     m_treeItems.clear();
     m_parser.reset();
+    m_hex_editor->Clear();
     m_ui->overviewTable->clearContents();
     m_ui->headerTable->clearContents();
     m_ui->sectionsTable->clearContents();
@@ -395,7 +396,6 @@ void MainWindow::reset()
     m_ui->scoreDisplay->display(0);
     m_ui->sectionInfo->clear();
     m_ui->programsInfo->clear();
-    m_hex_editor->clear();
 }
 
 void MainWindow::conf_buttons()
@@ -473,7 +473,12 @@ void MainWindow::on_hexButton_clicked()
 {
     try
     {
-        m_hex_editor->CallDialog();
+        QMessageBox::StandardButton close = QMessageBox::question(this, "Hex Editor", "Open Hex Editor ?", QMessageBox::Yes | QMessageBox::No);
+        if (close == QMessageBox::Yes)
+        {
+            if(m_hex_editor->CallDialog() == SUCESS_RETURN)
+                hide();
+        }
     }
     catch (const std::exception &e)
     {
