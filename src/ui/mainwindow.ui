@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>ELF Parser Ng</string>
+   <string>elfparser-ng</string>
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
@@ -108,7 +108,7 @@
           <item row="2" column="0">
            <widget class="QPushButton" name="hexButton">
             <property name="text">
-             <string>EditHex</string>
+             <string>HexEditor</string>
             </property>
            </widget>
           </item>
