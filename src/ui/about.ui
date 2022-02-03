@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
+    <width>650</width>
     <height>301</height>
    </rect>
   </property>
@@ -18,8 +18,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>700</width>
-    <height>600</height>
+    <width>650</width>
+    <height>316</height>
    </size>
   </property>
   <property name="baseSize">
@@ -50,7 +50,7 @@
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Icon:&lt;/span&gt; by iconsmind.com licensed using the &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/us/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0082fa;&quot;&gt;CC BY 3.0&lt;/span&gt;&lt;/a&gt; license&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Hashing:&lt;/span&gt; by Stephan Brumme licensed using the zlib license&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;UI:&lt;/span&gt; Qt is licensed using the LGPL&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; color:#727272;&quot;&gt;Icon:&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt; by iconsmind.com licensed using the &lt;/span&gt;&lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/us/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#000000;&quot;&gt;CC BY 3.0&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt; license&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#727272;&quot;&gt;Hashing:&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt; by Stephan Brumme licensed using the zlib license&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#727272;&quot;&gt;UI: &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;Qt is licensed using the LGPL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -69,9 +69,9 @@
             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Version&lt;/span&gt;: &lt;span style=&quot; color:#ffffff;&quot;&gt;1.5.0&lt;/span&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;License: &lt;/span&gt;&lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/us/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0082fa;&quot;&gt;CC BY-NC-SA 3.0 US&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Release Date: &lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;22&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;10/2021&lt;/span&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Copyright: &lt;/span&gt;&lt;span style=&quot; font-family:'Droid Sans Mono','monospace','monospace','Droid Sans Fallback'; text-decoration: underline; color:#fafafa;&quot;&gt;elfparser-ng (c) 2021 Mente Binária &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Droid Sans Mono','monospace','monospace','Droid Sans Fallback'; text-decoration: underline; color:#fafafa;&quot;&gt;elfparser (c) 2014-2021 Jacob Baines&lt;/span&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans CJK JP'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#727272;&quot;&gt;Version:&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#000000;&quot;&gt; 1.5.0&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#727272;&quot;&gt;License:&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#000000;&quot;&gt; CC BY-NC-SA 3.0 US&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#727272;&quot;&gt;Release Date:&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#000000;&quot;&gt; 22/10/2022&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#727272;&quot;&gt;Copyright:&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#000000;&quot;&gt; elfparser-ng (c) 2022 Mente Binária &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#727272;&quot;&gt;elfparser (c)&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-weight:600; color:#000000;&quot;&gt; 2014-2022 Jacob Baines&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -123,7 +123,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC';&quot;&gt;if you want to report a bug or &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC';&quot;&gt;feature acess this link&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC';&quot;/&gt;&lt;a href=&quot;https://github.com/mentebinaria/elfparser-ng/issues&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC'; text-decoration: underline; color:#0082fa;&quot;&gt;elfparser-ng/issues&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC'; font-weight:600; color:#000000;&quot;&gt;If you want to report a bug or &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC'; font-weight:600; color:#000000;&quot;&gt;feature acess this link&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/mentebinaria/elfparser-ng/issues&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC'; font-weight:600; text-decoration: underline; color:#000000;&quot;&gt;elfparser-ng/issues&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
