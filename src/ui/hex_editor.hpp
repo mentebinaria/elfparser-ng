@@ -16,6 +16,8 @@
 #include <QByteArray>
 #include <QAbstractScrollArea>
 #include <QScrollBar>
+#include "src/structures/error.hpp"
+
 class HexEditor : public QAbstractScrollArea
 {
     Q_OBJECT
@@ -54,9 +56,7 @@ protected:
 public:
     explicit HexEditor(QWidget *parent = nullptr);
     ~HexEditor();
-
-public slots:
-    void LoadBinary(const QString &__fpath);
-    void CallDialog();
-    void clear();
+    int  LoadBinary(const QString &__fpath);
+    int  CallDialog();
+    void Clear();
 };
