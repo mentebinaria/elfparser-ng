@@ -5,6 +5,8 @@
 #include <QApplication>
 #include <QFile>
 #include <QPainter>
+#include <QScrollArea>
+#include <QIcon>
 
 #include "hex_editor.hpp"
 
@@ -14,6 +16,7 @@
 #define ADR_HEX 10
 #define ADR_LENGTH 10
 #define ASCII_HEX 16
+
 #define CHAR_VALID(caracter) ((caracter < 0x20) || (caracter > 0x7e)) ? caracter = '.' : caracter;
 #define SET_BACKGROUND_MARK(pos)                   \
     if (pos >= m_selectBegin && pos < m_selectEnd) \
@@ -26,14 +29,13 @@
  */
 HexEditor::HexEditor(QWidget *parent) : QAbstractScrollArea(parent)
 {
-
+    // initialize members class
 #if QT_VERSION >= 0x051100
     m_charWidth = fontMetrics().width(QLatin1Char('9'));
 #else
     m_charWidth = fontMetrics().horizontalAdvance(QLatin1Char('9'));
 #endif
 
-    // Initialize Members Class
     m_BufferHex = nullptr;
     m_cursorPos = 0;
     m_charHeight = fontMetrics().height();
@@ -42,8 +44,10 @@ HexEditor::HexEditor(QWidget *parent) : QAbstractScrollArea(parent)
     m_posAscii = m_posHex + MIN_HEXCHARS * m_charWidth + ASCII_HEX;
     m_bytesPerLine = MIN_BYTES_LINE;
 
+    // window config
     setMinimumWidth(m_posAscii + (MIN_BYTES_LINE * m_charWidth));
     setBackgroundRole(QPalette::Dark);
+    setWindowIcon(QIcon("../src/ui/assets/hex.png"));
 }
 
 /**
@@ -70,24 +74,19 @@ void HexEditor::paintEvent(QPaintEvent *event)
     // scroll bar
     int firstLineIdx = verticalScrollBar()->value();
     int lastLineIdx = firstLineIdx + AREA_SIZE.height() / m_charHeight;
-    if (lastLineIdx > m_BufferHex.size() / m_bytesPerLine)
-    {
-        lastLineIdx = m_BufferHex.size() / m_bytesPerLine;
-        if (m_BufferHex.size() % m_bytesPerLine)
-            lastLineIdx++;
-    }
+    QByteArray ScrollData = m_BufferHex.mid(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
 
     for (int lineIdx = firstLineIdx, yPos = m_charHeight; lineIdx < lastLineIdx; lineIdx += 1, yPos += m_charHeight)
     {
         // ascii position
-        for (int xPosAscii = m_posAscii, i = 0; ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < m_BufferHex.size() && (i < m_bytesPerLine); i++, xPosAscii += m_charWidth)
+        for (int xPosAscii = m_posAscii, i = 0; ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < ScrollData.size() && (i < m_bytesPerLine); i++, xPosAscii += m_charWidth)
         {
-            char caracter = m_BufferHex[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
+            char caracter = ScrollData[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
             CHAR_VALID(caracter);
 
             int pos = ((lineIdx * m_bytesPerLine + i) * 2);
             SET_BACKGROUND_MARK(pos);
-            
+
             painter.drawText(xPosAscii, yPos, QString(caracter));
 
             painter.setBackground(painter.brush());
@@ -95,15 +94,15 @@ void HexEditor::paintEvent(QPaintEvent *event)
         }
 
         // binary position
-        for (int xPos = m_posHex, i = 0; i < m_bytesPerLine && ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < m_BufferHex.size(); i++, xPos += 3 * m_charWidth)
+        for (int xPos = m_posHex, i = 0; i < m_bytesPerLine && ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < ScrollData.size(); i++, xPos += 3 * m_charWidth)
         {
             int pos = ((lineIdx * m_bytesPerLine + i) * 2);
             SET_BACKGROUND_MARK(pos);
 
-            QString val = QString::number((m_BufferHex.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF0) >> 4, 16);
+            QString val = QString::number((ScrollData.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF0) >> 4, 16);
             painter.drawText(xPos, yPos, val);
 
-            val = QString::number((m_BufferHex.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF), 16);
+            val = QString::number((ScrollData.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF), 16);
             painter.drawText(xPos + m_charWidth, yPos, val);
 
             painter.setBackground(painter.brush());
@@ -272,10 +271,10 @@ void HexEditor::keyPressEvent(QKeyEvent *event)
         int idx = 0;
         int copyOffset = 0;
 
-        QByteArray data = m_BufferHex.mid(m_selectBegin / 2, (m_selectEnd - m_selectBegin) / 2 + 1);
+        QByteArray ScrollData = m_BufferHex.mid(m_selectBegin / 2, (m_selectEnd - m_selectBegin) / 2 + 1);
         if (m_selectBegin % 2)
         {
-            res += QString::number((data.at((idx++) / 2) & 0xF), 16) += " ";
+            res += QString::number((ScrollData.at((idx++) / 2) & 0xF), 16) += " ";
             idx++;
             copyOffset = 1;
         }
@@ -283,11 +282,11 @@ void HexEditor::keyPressEvent(QKeyEvent *event)
         int selectedSize = m_selectEnd - m_selectBegin;
         for (; idx < selectedSize; idx += 2)
         {
-            if (data.size() > (copyOffset + idx) / 2)
+            if (ScrollData.size() > (copyOffset + idx) / 2)
             {
-                QString val = QString::number((data.at((copyOffset + idx) / 2) & 0xF0) >> 4, 16);
+                QString val = QString::number((ScrollData.at((copyOffset + idx) / 2) & 0xF0) >> 4, 16);
                 if (++idx < selectedSize)
-                    val += QString::number((data.at((copyOffset + idx) / 2) & 0xF), 16) += " ";
+                    val += QString::number((ScrollData.at((copyOffset + idx) / 2) & 0xF), 16) += " ";
 
                 res += val;
 
@@ -343,9 +342,6 @@ void HexEditor::confScrollBar()
 
 void HexEditor::updatePositions()
 {
-    m_charWidth = fontMetrics().horizontalAdvance(QLatin1Char('9'));
-    m_charHeight = fontMetrics().height();
-
     int serviceSymbolsWidth = ADR_LENGTH * m_charWidth + ADR_HEX + ASCII_HEX;
 
     m_bytesPerLine = (width() - serviceSymbolsWidth) / (4 * m_charWidth) - 1; // 4 symbols per byte
@@ -391,7 +387,7 @@ void HexEditor::ensureVisible()
 
     if (cursorY < firstLineIdx)
         verticalScrollBar()->setValue(cursorY);
-    else if (cursorY >= lastLineIdx)
+    if (cursorY >= lastLineIdx)
         verticalScrollBar()->setValue(cursorY - AREA_SIZE.height() / m_charHeight + 1);
 }
 
@@ -444,6 +440,7 @@ std::size_t HexEditor::cursorPos(const QPoint &pos)
         int y = (pos.y() / m_charHeight) * 2 * m_bytesPerLine;
         posActual = x + y + firstLineIdx * m_bytesPerLine * 2;
     }
+    
     return posActual;
 }
 
@@ -453,8 +450,9 @@ std::size_t HexEditor::cursorPos(const QPoint &pos)
  *
  * @param __fpath name file to open and read
  */
-void HexEditor::LoadBinary(const QString &__fpath)
+int HexEditor::LoadBinary(const QString &__fpath)
 {
+    int status_exit = ERROR_OPEN;
     QFile qFile;
 
     qFile.setFileName(__fpath);
@@ -462,7 +460,11 @@ void HexEditor::LoadBinary(const QString &__fpath)
     qFile.open(QFile::ReadOnly);
     if (qFile.isOpen())
     {
+        status_exit = SUCESS_OPEN;
+
         m_BufferHex = qFile.readAll();
+
+        (m_BufferHex.size() != 0) ? status_exit = SUCESS_READ : status_exit = ERROR_READ;
 
         qFile.close();
     }
@@ -470,25 +472,36 @@ void HexEditor::LoadBinary(const QString &__fpath)
         throw std::runtime_error("Falied to open file " + __fpath.toStdString() + " not possible len bin");
 
     resetSelection(0);
+
+    return status_exit;
 }
 
 /**
- * @brief call window dialog Hex Editor
- *
+ * @brief call window dialog Hex Editor, if buffer not loaded, return ERROR_RETURN, else SUCESS_RETURN
+ * call window if loaded buffer
+ * 
+ * @return int  
  */
-void HexEditor::CallDialog()
+int HexEditor::CallDialog()
 {
+    int status_exit = ERROR_RETURN;
+
     if (!m_BufferHex.isEmpty())
+    {
+        status_exit = SUCESS_RETURN;
         show();
+    }
     else
         throw std::runtime_error(" Buffer empty, pass binary to view");
+    
+    return status_exit;
 }
 
 /**
  * @brief clean view hex
  *
  */
-void HexEditor::clear()
+void HexEditor::Clear()
 {
     m_BufferHex.clear();
     verticalScrollBar()->setValue(0);
