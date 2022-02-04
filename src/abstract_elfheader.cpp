@@ -154,13 +154,13 @@ std::string AbstractElfHeader::getEntryPointString() const
 
 std::string AbstractElfHeader::getVersion() const
 {
-    std::string result;
+    std::stringstream result;
     if (m_is64)
-        result = (isLE()) ? m_header64->m_version : ntohl(m_header64->m_version);
+        result << (isLE() ? m_header64->m_version : ntohl(m_header64->m_version));
     else
-        result = (isLE()) ? m_header32->m_version : ntohl(m_header32->m_version);
+        result << (isLE() ? m_header32->m_version : ntohl(m_header32->m_version));
 
-    return result;
+    return result.str();
 }
 
 boost::uint32_t AbstractElfHeader::getProgramOffset() const
@@ -180,11 +180,11 @@ boost::uint16_t AbstractElfHeader::getProgramCount() const
 {
     boost::uint16_t PC;
     assert(m_header32 != NULL || m_header64 != NULL);
-    
+
     if (m_is64)
         PC = (isLE()) ? m_header64->m_phnum : ntohs(m_header64->m_phnum);
     else
-        PC = (isLE()) ? m_header32->m_phnum : ntohs(m_header32->m_phnum); 
+        PC = (isLE()) ? m_header32->m_phnum : ntohs(m_header32->m_phnum);
 
     return PC;
 }
@@ -193,12 +193,12 @@ boost::uint16_t AbstractElfHeader::getProgramSize() const
 {
     boost::uint16_t PS;
     assert(m_header32 != NULL || m_header64 != NULL);
-   
+
     if (m_is64)
         PS = (isLE()) ? m_header64->m_phentsize : ntohs(m_header64->m_phentsize);
-    else 
+    else
         PS = (isLE()) ? m_header32->m_phentsize : ntohs(m_header32->m_phentsize);
-   
+
     return PS;
 }
 
@@ -206,12 +206,12 @@ boost::uint32_t AbstractElfHeader::getSectionOffset() const
 {
     boost::uint32_t offset;
     assert(m_header32 != NULL || m_header64 != NULL);
-    
+
     if (m_is64)
-        offset =  (isLE()) ? m_header64->m_shoff : htobe64(m_header64->m_shoff);
-    else 
+        offset = (isLE()) ? m_header64->m_shoff : htobe64(m_header64->m_shoff);
+    else
         offset = (isLE()) ? m_header32->m_shoff : ntohl(m_header32->m_shoff);
-    
+
     return offset;
 }
 
@@ -221,8 +221,8 @@ boost::uint16_t AbstractElfHeader::getSectionSize() const
     assert(m_header32 != NULL || m_header64 != NULL);
 
     if (m_is64)
-        size =  (isLE()) ? m_header64->m_shentsize : ntohs(m_header64->m_shentsize);
-    else 
+        size = (isLE()) ? m_header64->m_shentsize : ntohs(m_header64->m_shentsize);
+    else
         size = (isLE()) ? m_header32->m_shentsize : ntohs(m_header32->m_shentsize);
 
     return size;
