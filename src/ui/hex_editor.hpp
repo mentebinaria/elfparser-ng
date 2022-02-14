@@ -21,7 +21,7 @@
 class HexEditor : public QAbstractScrollArea
 {
     Q_OBJECT
-    
+
 private:
     QByteArray m_BufferHex;
 
@@ -34,7 +34,9 @@ private:
         m_selectEnd,
         m_selectInit,
         m_cursorPos,
-        m_bytesPerLine;
+        m_bytesPerLine,
+        m_statusExitWin;
+    void (*callback)();
 
     void confScrollBar();
     void updatePositions();
@@ -47,16 +49,20 @@ private:
     QSize fullSize() const;
     std::size_t cursorPos(const QPoint &pos);
 
+signals:
+
 protected:
     void paintEvent(QPaintEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void closeEvent(QCloseEvent* ce);    
 
 public:
-    explicit HexEditor(QWidget *parent = nullptr);
+    HexEditor(QWidget *parent = nullptr);
     ~HexEditor();
-    int  LoadBinary(const QString &__fpath);
-    int  CallDialog();
+    int LoadBinary(const QString &__fpath);
+    int CallDialog();
     void Clear();
+    void setCallBack(void(*callBack)());
 };

@@ -120,10 +120,11 @@ void do_parsing(const std::string &p_fileName, bool p_printReasons,
 #ifdef QT_GUI
 int main(int p_argCount, char *p_argArray[])
 {
-    QApplication app(p_argCount, p_argArray);
-    MainWindow window;
-    window.show();
-    return app.exec();
+    QApplication a(p_argCount, p_argArray);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
 }
 #else
 

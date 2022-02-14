@@ -77,38 +77,71 @@
           <string>Controls</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
+          <item row="1" column="1">
+           <widget class="QPushButton" name="closeButton">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Close</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="openButton">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Open</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Utils</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="1">
+           <widget class="QPushButton" name="hexButton">
+            <property name="maximumSize">
+             <size>
+              <width>120</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>HexEditor</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
            <widget class="QPushButton" name="resetButton">
+            <property name="maximumSize">
+             <size>
+              <width>120</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="text">
              <string>Reset</string>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QPushButton" name="closeButton">
+           <widget class="QPushButton" name="rpasserButton">
             <property name="text">
-             <string>Close</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="openButton">
-            <property name="text">
-             <string>Open</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="aboutButton">
-            <property name="text">
-             <string>About</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QPushButton" name="hexButton">
-            <property name="text">
-             <string>HexEditor</string>
+             <string>Rpasser</string>
             </property>
            </widget>
           </item>
@@ -707,6 +740,28 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>947</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuabout">
+    <property name="title">
+     <string>help</string>
+    </property>
+    <addaction name="aboutButton"/>
+   </widget>
+   <addaction name="menuabout"/>
+  </widget>
+  <action name="aboutButton">
+   <property name="text">
+    <string>about</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="icons.qrc"/>
@@ -719,8 +774,8 @@
    <slot>reset()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>242</x>
-     <y>159</y>
+     <x>282</x>
+     <y>285</y>
     </hint>
     <hint type="destinationlabel">
      <x>311</x>
@@ -735,12 +790,12 @@
    <slot>openFile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>98</x>
-     <y>158</y>
+     <x>124</x>
+     <y>209</y>
     </hint>
     <hint type="destinationlabel">
-     <x>311</x>
-     <y>291</y>
+     <x>147</x>
+     <y>230</y>
     </hint>
    </hints>
   </connection>

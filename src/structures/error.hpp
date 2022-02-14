@@ -14,6 +14,6 @@ enum file
 
 enum exit
 {
-    ERROR_RETURN = -1,
-    SUCESS_RETURN
+    EMPTY = -1,
+    FULL,
 };

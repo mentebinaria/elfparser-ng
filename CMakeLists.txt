@@ -15,7 +15,7 @@ endif()
 
 # project variables
 set(PROJECT_VERSION_MAJOR "1")
-set(PROJECT_VERSION_MINOR "4")
+set(PROJECT_VERSION_MINOR "6")
 set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION_COUNT 3)
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
@@ -26,10 +26,10 @@ set(PROJECT_DOMAIN "${PROJECT_DOMAIN_FIRST}.${PROJECT_DOMAIN_SECOND}")
 
 # compiler flags
 if (debug)
-    set(CMAKE_CXX_FLAGS "-g -Wall -Werror -fno-stack-protector -march=native")
+    set(CMAKE_CXX_FLAGS "-g -fno-stack-protector -march=native")
 else()
     if (APPLE)
-        set(CMAKE_CXX_FLAGS "-O2 -Wall -Werror -fno-stack-protector -march=native")
+        set(CMAKE_CXX_FLAGS "-O2 -fno-stack-protector -march=native")
     else()
         if(windows)
             if (tests)
@@ -159,7 +159,7 @@ endif()
 # linking comp / libs
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 if (qt)
-    qt5_use_modules(${PROJECT_NAME} Widgets)
+    target_link_libraries(${PROJECT_NAME}  ${Boost_LIBRARIES} Qt5::Widgets)
 endif()
 
 ####

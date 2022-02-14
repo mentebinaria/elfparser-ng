@@ -47,24 +47,30 @@ private:
     // The resuable Editor Hex 
     boost::scoped_ptr<HexEditor> m_hex_editor;
 
+   QString m_FileName;
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
 
 public slots:
+    void parser(QString filename);
+    void rparser();
     void reset();
     void openFile();
     void closeAbout();
     void overviewToClipboard();
-    void on_aboutButton_clicked();
+    void on_aboutButton_triggered();
     void sectionSelected(QTableWidgetItem*, QTableWidgetItem*);
     void programSelected(QTableWidgetItem*, QTableWidgetItem*);
     void conf_buttons();
     void conf_tables();
 	void on_closeButton_clicked();
-    void on_hexButton_clicked();
-	
+    void on_hexButton_clicked();   
+    void on_rpasserButton_clicked();
+    static void visibleOn();
+
 };
 
 #endif //! MAINWINDOW_H

@@ -2,11 +2,14 @@
 #include <QPaintEvent>
 #include <QKeyEvent>
 #include <QClipboard>
-#include <QApplication>
 #include <QFile>
 #include <QPainter>
 #include <QScrollArea>
 #include <QIcon>
+#include <QApplication>
+#include <QMainWindow>
+#include <QPushButton>
+#include <QMessageBox>
 
 #include "hex_editor.hpp"
 
@@ -16,6 +19,7 @@
 #define ADR_HEX 10
 #define ADR_LENGTH 10
 #define ASCII_HEX 16
+#define UPDATE viewport()->update();
 
 #define CHAR_VALID(caracter) ((caracter < 0x20) || (caracter > 0x7e)) ? caracter = '.' : caracter;
 #define SET_BACKGROUND_MARK(pos)                   \
@@ -74,14 +78,14 @@ void HexEditor::paintEvent(QPaintEvent *event)
     // scroll bar
     int firstLineIdx = verticalScrollBar()->value();
     int lastLineIdx = firstLineIdx + AREA_SIZE.height() / m_charHeight;
-    QByteArray ScrollData = m_BufferHex.mid(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
+    QByteArray ScrollBuffer = m_BufferHex.mid(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
 
     for (int lineIdx = firstLineIdx, yPos = m_charHeight; lineIdx < lastLineIdx; lineIdx += 1, yPos += m_charHeight)
     {
         // ascii position
-        for (int xPosAscii = m_posAscii, i = 0; ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < ScrollData.size() && (i < m_bytesPerLine); i++, xPosAscii += m_charWidth)
+        for (int xPosAscii = m_posAscii, i = 0; ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < ScrollBuffer.size() && (i < m_bytesPerLine); i++, xPosAscii += m_charWidth)
         {
-            char caracter = ScrollData[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
+            char caracter = ScrollBuffer[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
             CHAR_VALID(caracter);
 
             int pos = ((lineIdx * m_bytesPerLine + i) * 2);
@@ -94,21 +98,20 @@ void HexEditor::paintEvent(QPaintEvent *event)
         }
 
         // binary position
-        for (int xPos = m_posHex, i = 0; i < m_bytesPerLine && ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < ScrollData.size(); i++, xPos += 3 * m_charWidth)
+        for (int xPos = m_posHex, i = 0; i < m_bytesPerLine && ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < ScrollBuffer.size(); i++, xPos += 3 * m_charWidth)
         {
             int pos = ((lineIdx * m_bytesPerLine + i) * 2);
             SET_BACKGROUND_MARK(pos);
 
-            QString val = QString::number((ScrollData.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF0) >> 4, 16);
+            QString val = QString::number((ScrollBuffer.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF0) >> 4, 16);
             painter.drawText(xPos, yPos, val);
 
-            val = QString::number((ScrollData.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF), 16);
+            val = QString::number((ScrollBuffer.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF), 16);
             painter.drawText(xPos + m_charWidth, yPos, val);
 
             painter.setBackground(painter.brush());
             painter.setBackgroundMode(Qt::OpaqueMode);
         }
-
         // address offset
         QString address = QString("%1").arg(lineIdx * m_bytesPerLine, 10, 16, QChar('0'));
         painter.drawText(m_posAddr, yPos, address);
@@ -271,10 +274,10 @@ void HexEditor::keyPressEvent(QKeyEvent *event)
         int idx = 0;
         int copyOffset = 0;
 
-        QByteArray ScrollData = m_BufferHex.mid(m_selectBegin / 2, (m_selectEnd - m_selectBegin) / 2 + 1);
+        QByteArray ScrollBuffer = m_BufferHex.mid(m_selectBegin / 2, (m_selectEnd - m_selectBegin) / 2 + 1);
         if (m_selectBegin % 2)
         {
-            res += QString::number((ScrollData.at((idx++) / 2) & 0xF), 16) += " ";
+            res += QString::number((ScrollBuffer.at((idx++) / 2) & 0xF), 16) += " ";
             idx++;
             copyOffset = 1;
         }
@@ -282,11 +285,11 @@ void HexEditor::keyPressEvent(QKeyEvent *event)
         int selectedSize = m_selectEnd - m_selectBegin;
         for (; idx < selectedSize; idx += 2)
         {
-            if (ScrollData.size() > (copyOffset + idx) / 2)
+            if (ScrollBuffer.size() > (copyOffset + idx) / 2)
             {
-                QString val = QString::number((ScrollData.at((copyOffset + idx) / 2) & 0xF0) >> 4, 16);
+                QString val = QString::number((ScrollBuffer.at((copyOffset + idx) / 2) & 0xF0) >> 4, 16);
                 if (++idx < selectedSize)
-                    val += QString::number((ScrollData.at((copyOffset + idx) / 2) & 0xF), 16) += " ";
+                    val += QString::number((ScrollBuffer.at((copyOffset + idx) / 2) & 0xF), 16) += " ";
 
                 res += val;
 
@@ -316,7 +319,7 @@ void HexEditor::mouseMoveEvent(QMouseEvent *event)
         setSelection(actPos);
     }
 
-    viewport()->update();
+    UPDATE
 }
 
 void HexEditor::mousePressEvent(QMouseEvent *event)
@@ -330,7 +333,7 @@ void HexEditor::mousePressEvent(QMouseEvent *event)
 
     setCursorPos(cPos);
 
-    viewport()->update();
+    UPDATE
 }
 
 void HexEditor::confScrollBar()
@@ -440,7 +443,7 @@ std::size_t HexEditor::cursorPos(const QPoint &pos)
         int y = (pos.y() / m_charHeight) * 2 * m_bytesPerLine;
         posActual = x + y + firstLineIdx * m_bytesPerLine * 2;
     }
-    
+
     return posActual;
 }
 
@@ -479,22 +482,22 @@ int HexEditor::LoadBinary(const QString &__fpath)
 /**
  * @brief call window dialog Hex Editor, if buffer not loaded, return ERROR_RETURN, else SUCESS_RETURN
  * call window if loaded buffer
- * 
- * @return int  
+ *
+ * @return int
  */
 int HexEditor::CallDialog()
 {
-    int status_exit = ERROR_RETURN;
+    m_statusExitWin = EMPTY;
 
     if (!m_BufferHex.isEmpty())
     {
-        status_exit = SUCESS_RETURN;
+        m_statusExitWin = FULL;
         show();
     }
     else
         throw std::runtime_error(" Buffer empty, pass binary to view");
-    
-    return status_exit;
+
+    return m_statusExitWin;
 }
 
 /**
@@ -506,5 +509,17 @@ void HexEditor::Clear()
     m_BufferHex.clear();
     verticalScrollBar()->setValue(0);
 
-    viewport()->update();
+    UPDATE
+}
+
+void HexEditor::closeEvent(QCloseEvent *ce)
+{
+    setVisible(false);
+    callback();
+    ce->ignore();
+}
+
+void HexEditor::setCallBack(void(*callBack)())
+{
+    callback = callBack;
 }

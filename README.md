@@ -1,4 +1,4 @@
-# ELF Parser
+# elfparser
 Multiplatform CLI and GUI tool to show information about ELF files
 This project is a tentative to keep [elfparser](https://github.com/jacob-baines/elfparser) alive. Plans include update it and add new features.
 
@@ -30,7 +30,6 @@ ELF Parser has a number of compilation targets that can be configured by CMakeLi
 [boost C++](http://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
 ```
 sudo apt-get install libboost-all-dev
-
 ```
 
 [Qt5](https://www.qt.io/download-open-source)
@@ -40,7 +39,7 @@ sudo apt-get install build-essential qtcreator qt5-default  qtdeclarative5-dev
 ## Features
 features that elf parser currently has
 
-* ELF Header 
+* Elf Header 
 * Program Header
 * Section Headers
 * Dynamic Section
@@ -49,3 +48,4 @@ features that elf parser currently has
 * Read Only Segment
 * Debug Link Segment
 * String Table
+* Hex Editor
