@@ -16,6 +16,8 @@
 #include <boost/algorithm/string.hpp>
 #include <QCloseEvent>
 
+MainWindow *MainWindow::m_man = nullptr;
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_ui(new Ui::MainWindow),
                                           m_dialog(),
@@ -26,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_hex_editor(new HexEditor())
 {
     setWindowTitle("elfparser-ng");
-
+    
     m_ui->setupUi(this);
 
     // create the copy action and apply signals as needed
@@ -42,16 +44,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // configs tables
     conf_tables();
+
 }
 
 MainWindow::~MainWindow()
 {
-    std::cout << "Deleted Object" << std::endl;
     delete m_ui;
 }
 
 void MainWindow::openFile()
 {
+    m_man = this;
+
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFile);
 
@@ -206,13 +210,17 @@ void MainWindow::on_hexButton_clicked()
     }
 }
 
+void MainWindow::rparser()
+{
+    if (m_FileName.size() == 0)
+        return;
+    else
+        parser(m_FileName);
+}
+
 void MainWindow::visibleOn()
 {
-    // auto mm = new MainWindow();
-}
-void MainWindow::on_rpasserButton_clicked()
-{
-    rparser();
+    m_man->show();
 }
 
 void MainWindow::parser(QString filename)
@@ -514,12 +522,4 @@ void MainWindow::parser(QString filename)
     }
     m_ui->scoringTable->setSortingEnabled(true);
     m_ui->scoringTable->resizeColumnsToContents();
-}
-
-void MainWindow::rparser()
-{
-    if(m_FileName.size() == 0)
-        return;
-    else
-        parser(m_FileName);
 }

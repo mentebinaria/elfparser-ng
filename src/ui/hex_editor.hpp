@@ -48,9 +48,6 @@ private:
 
     QSize fullSize() const;
     std::size_t cursorPos(const QPoint &pos);
-
-signals:
-
 protected:
     void paintEvent(QPaintEvent *event);
     void keyPressEvent(QKeyEvent *event);

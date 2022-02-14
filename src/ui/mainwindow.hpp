@@ -11,7 +11,7 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
 
-namespace Ui 
+namespace Ui
 {
     class MainWindow;
 }
@@ -27,8 +27,9 @@ class MainWindow : public QMainWindow
 
 private:
     // The main window that is created by mainwindow.ui
-    Ui::MainWindow* m_ui;
-
+    Ui::MainWindow *m_ui;
+    static MainWindow *m_man;
+    
     // The dialog window
     boost::scoped_ptr<QDialog> m_dialog;
 
@@ -44,10 +45,11 @@ private:
     // The reusable ELF parser
     boost::scoped_ptr<ELFParser> m_parser;
 
-    // The resuable Editor Hex 
+    // The resuable Editor Hex
     boost::scoped_ptr<HexEditor> m_hex_editor;
 
-   QString m_FileName;
+    QString m_FileName;
+
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -62,15 +64,13 @@ public slots:
     void closeAbout();
     void overviewToClipboard();
     void on_aboutButton_triggered();
-    void sectionSelected(QTableWidgetItem*, QTableWidgetItem*);
-    void programSelected(QTableWidgetItem*, QTableWidgetItem*);
+    void sectionSelected(QTableWidgetItem *, QTableWidgetItem *);
+    void programSelected(QTableWidgetItem *, QTableWidgetItem *);
     void conf_buttons();
     void conf_tables();
-	void on_closeButton_clicked();
-    void on_hexButton_clicked();   
-    void on_rpasserButton_clicked();
+    void on_closeButton_clicked();
+    void on_hexButton_clicked();
     static void visibleOn();
-
 };
 
 #endif //! MAINWINDOW_H
