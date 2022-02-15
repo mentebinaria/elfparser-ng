@@ -1,3 +1,4 @@
+#ifdef QT_GUI
 /**
  * @file hex_editor.hpp
  * @author Mente Binaria
@@ -63,3 +64,4 @@ public:
     void Clear();
     void setCallBack(void(*callBack)());
 };
+#endif

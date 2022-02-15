@@ -29,7 +29,7 @@ private:
     // The main window that is created by mainwindow.ui
     Ui::MainWindow *m_ui;
     static MainWindow *m_man;
-    
+
     // The dialog window
     boost::scoped_ptr<QDialog> m_dialog;
 
@@ -51,21 +51,18 @@ private:
     QString m_FileName;
 
 public:
-    MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-signals:
-
 public slots:
+    void sectionSelected(QTableWidgetItem*, QTableWidgetItem*);
+    void programSelected(QTableWidgetItem*, QTableWidgetItem*);
     void parser(QString filename);
     void rparser();
     void reset();
     void openFile();
-    void closeAbout();
     void overviewToClipboard();
     void on_aboutButton_triggered();
-    void sectionSelected(QTableWidgetItem *, QTableWidgetItem *);
-    void programSelected(QTableWidgetItem *, QTableWidgetItem *);
     void conf_buttons();
     void conf_tables();
     void on_closeButton_clicked();

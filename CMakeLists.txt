@@ -156,12 +156,12 @@ if (windows)
     endif()
 endif()
 
+
 # linking comp / libs
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 if (qt)
     target_link_libraries(${PROJECT_NAME}  ${Boost_LIBRARIES} Qt5::Widgets)
 endif()
-
 ####
 # Testing silliness
 ####
@@ -259,7 +259,7 @@ else()
         endif()
         SET(CPACK_SET_DESTDIR ON)
         SET(CPACK_GENERATOR "DEB")
-        SET(CPACK_PACKAGE_DESCRIPTION "elfparser")
+        SET(CPACK_PACKAGE_DESCRIPTION "elfparser-ng")
         SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Binary static analysis tool")
         SET(CPACK_PACKAGE_VENDOR "${PROJECT_VENDOR}")
         SET(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")

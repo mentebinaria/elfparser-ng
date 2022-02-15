@@ -598,6 +598,9 @@
              <property name="readOnly">
               <bool>true</bool>
              </property>
+             <property name="plainText">
+              <string/>
+             </property>
             </widget>
            </item>
           </layout>
@@ -806,12 +809,44 @@
    <slot>rparser()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>116</x>
-     <y>315</y>
+     <x>279</x>
+     <y>326</y>
     </hint>
     <hint type="destinationlabel">
      <x>309</x>
      <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sectionsTable</sender>
+   <signal>currentItemChanged(QTableWidgetItem*,QTableWidgetItem*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>sectionSelected(QTableWidgetItem*,QTableWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>484</x>
+     <y>273</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>programsTable</sender>
+   <signal>currentItemChanged(QTableWidgetItem*,QTableWidgetItem*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>programSelected(QTableWidgetItem*,QTableWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>508</x>
+     <y>227</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>473</x>
+     <y>373</y>
     </hint>
    </hints>
   </connection>

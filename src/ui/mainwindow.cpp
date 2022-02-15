@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_hex_editor(new HexEditor())
 {
     setWindowTitle("elfparser-ng");
-    
+
     m_ui->setupUi(this);
 
     // create the copy action and apply signals as needed
@@ -44,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // configs tables
     conf_tables();
-
 }
 
 MainWindow::~MainWindow()
@@ -65,30 +64,6 @@ void MainWindow::openFile()
 
     m_FileName = dialog.selectedFiles().at(0);
     parser(m_FileName);
-}
-
-void MainWindow::overviewToClipboard()
-{
-    QItemSelectionModel *selected = m_ui->overviewTable->selectionModel();
-    if (selected->hasSelection())
-    {
-        BOOST_FOREACH (const QModelIndex &index, selected->selectedRows())
-            QApplication::clipboard()->setText(m_ui->overviewTable->item(index.row(), 0)->text());
-    }
-}
-
-void MainWindow::sectionSelected(QTableWidgetItem *p_first, QTableWidgetItem *p_second)
-{
-    QTableWidgetItem *selected = m_ui->sectionsTable->item(p_first->row(), 5);
-    std::string details(m_parser->getSegments().printSegment(boost::lexical_cast<boost::uint64_t>(selected->text().toStdString())));
-    m_ui->sectionInfo->setPlainText(QString(details.c_str()));
-}
-
-void MainWindow::programSelected(QTableWidgetItem *p_first, QTableWidgetItem *p_second)
-{
-    QTableWidgetItem *selected = m_ui->programsTable->item(p_first->row(), 1);
-    std::string details(m_parser->getSegments().printSegment(boost::lexical_cast<boost::uint64_t>(selected->text().toStdString())));
-    m_ui->programsInfo->setPlainText(QString(details.c_str()));
 }
 
 void MainWindow::reset()
@@ -148,10 +123,9 @@ void MainWindow::conf_tables()
 
     // capabilities
     m_ui->capabilitiesTree->horizontalScrollBar();
-}
 
-void MainWindow::closeAbout()
-{
+    // sections
+    m_ui->sectionsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 void MainWindow::on_closeButton_clicked()
@@ -160,27 +134,6 @@ void MainWindow::on_closeButton_clicked()
     if (close == QMessageBox::Yes)
         this->close();
 }
-
-void MainWindow::on_aboutButton_triggered()
-{
-    if (m_dialog == NULL)
-    {
-        m_dialog.reset(new QDialog(this));
-        Ui_About aboutUi;
-        aboutUi.setupUi(m_dialog.get());
-        QPixmap image;
-        std::string dir;
-#ifdef APPLE
-        dir.assign(QApplication::applicationDirPath().toStdString());
-        boost::replace_last(dir, "MacOS", "Resources/icon.png");
-#else
-        dir.assign("src/ui/assets/icon.png");
-#endif
-    }
-    m_dialog->showNormal();
-}
-
-#endif
 
 void MainWindow::on_hexButton_clicked()
 {
@@ -210,19 +163,6 @@ void MainWindow::on_hexButton_clicked()
     }
 }
 
-void MainWindow::rparser()
-{
-    if (m_FileName.size() == 0)
-        return;
-    else
-        parser(m_FileName);
-}
-
-void MainWindow::visibleOn()
-{
-    m_man->show();
-}
-
 void MainWindow::parser(QString filename)
 {
     reset();
@@ -230,9 +170,9 @@ void MainWindow::parser(QString filename)
 
     try
     {
-        m_hex_editor->LoadBinary(filename);
         m_parser->parse(filename.toStdString());
         m_parser->evaluate();
+        m_hex_editor->LoadBinary(filename);
     }
     catch (const std::exception &e)
     {
@@ -331,7 +271,7 @@ void MainWindow::parser(QString filename)
     boost::uint32_t i = 0;
     const std::vector<AbstractSectionHeader> &sections(m_parser->getSectionHeaders().getSections());
     m_ui->sectionsTable->setRowCount(sections.size());
-    m_ui->sectionsTable->setSortingEnabled(false);
+
     BOOST_FOREACH (const AbstractSectionHeader &section, sections)
     {
         tableItem = new IntWidgetItem(i);
@@ -523,3 +463,63 @@ void MainWindow::parser(QString filename)
     m_ui->scoringTable->setSortingEnabled(true);
     m_ui->scoringTable->resizeColumnsToContents();
 }
+
+void MainWindow::overviewToClipboard()
+{
+    QItemSelectionModel *selected = m_ui->overviewTable->selectionModel();
+    if (selected->hasSelection())
+    {
+        BOOST_FOREACH (const QModelIndex &index, selected->selectedRows())
+        {
+            QApplication::clipboard()->setText(m_ui->overviewTable->item(index.row(), 0)->text());
+        }
+    }
+}
+
+void MainWindow::sectionSelected(QTableWidgetItem *p_first, QTableWidgetItem *p_second)
+{
+    QTableWidgetItem *selected = m_ui->sectionsTable->item(p_first->row(), 5);
+    std::string details(m_parser->getSegments().printSegment(boost::lexical_cast<boost::uint64_t>(selected->text().toStdString())));
+    m_ui->sectionInfo->setPlainText(QString(details.c_str()));
+}
+
+void MainWindow::programSelected(QTableWidgetItem *p_first, QTableWidgetItem *p_second)
+{
+    QTableWidgetItem *selected = m_ui->programsTable->item(p_first->row(), 1);
+    std::string details(m_parser->getSegments().printSegment(boost::lexical_cast<boost::uint64_t>(selected->text().toStdString())));
+    m_ui->programsInfo->setPlainText(QString(details.c_str()));
+}
+
+void MainWindow::rparser()
+{
+    if (m_FileName.size() == 0)
+        return;
+    else
+        parser(m_FileName);
+}
+
+void MainWindow::visibleOn()
+{
+    m_man->show();
+}
+
+void MainWindow::on_aboutButton_triggered()
+{
+    if (m_dialog == NULL)
+    {
+        m_dialog.reset(new QDialog(this));
+        Ui_About aboutUi;
+        aboutUi.setupUi(m_dialog.get());
+        QPixmap image;
+        std::string dir;
+#ifdef APPLE
+        dir.assign(QApplication::applicationDirPath().toStdString());
+        boost::replace_last(dir, "MacOS", "Resources/icon.png");
+#else
+        dir.assign("src/ui/assets/icon.png");
+#endif
+    }
+    m_dialog->showNormal();
+}
+
+#endif
