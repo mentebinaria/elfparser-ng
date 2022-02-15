@@ -68,6 +68,8 @@ public slots:
     void on_closeButton_clicked();
     void on_hexButton_clicked();
     static void visibleOn();
+    void on_openButton2_triggered();
+
 };
 
 #endif //! MAINWINDOW_H

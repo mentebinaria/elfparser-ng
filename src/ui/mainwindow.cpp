@@ -87,6 +87,7 @@ void MainWindow::conf_buttons()
 {
     // open
     m_ui->openButton->setIcon(QIcon("../src/ui/assets/open.png"));
+    m_ui->openButton2->setIcon(QIcon("../src/ui/assets/open.png"));
 
     // reset
     m_ui->resetButton->setIcon(QIcon("../src/ui/assets/reset.png"));
@@ -192,7 +193,7 @@ void MainWindow::parser(QString filename)
     QTableWidgetItem *tableItem = new QTableWidgetItem(QString(m_parser->getFilename().c_str()));
     m_ui->overviewTable->setItem(0, 0, tableItem);
     m_tableItems.push_back(tableItem);
-    tableItem = new QTableWidgetItem(QString(boost::lexical_cast<std::string>(m_parser->getFileSize()).c_str()));
+    tableItem = new QTableWidgetItem(QString(boost::lexical_cast<std::string>(m_parser->getFileSize()).c_str()) + " Bytes");
     m_ui->overviewTable->setItem(1, 0, tableItem);
     m_tableItems.push_back(tableItem);
     tableItem = new QTableWidgetItem(QString(m_parser->getMD5().c_str()));
@@ -522,4 +523,9 @@ void MainWindow::on_aboutButton_triggered()
     m_dialog->showNormal();
 }
 
+void MainWindow::on_openButton2_triggered()
+{
+    openFile();
+}
 #endif
+

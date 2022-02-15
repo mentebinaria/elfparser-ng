@@ -173,7 +173,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="overviewTab">
        <property name="sizePolicy">
@@ -758,11 +758,23 @@
     </property>
     <addaction name="aboutButton"/>
    </widget>
+   <widget class="QMenu" name="menufile">
+    <property name="title">
+     <string>file</string>
+    </property>
+    <addaction name="openButton2"/>
+   </widget>
+   <addaction name="menufile"/>
    <addaction name="menuabout"/>
   </widget>
   <action name="aboutButton">
    <property name="text">
     <string>about</string>
+   </property>
+  </action>
+  <action name="openButton2">
+   <property name="text">
+    <string>open</string>
    </property>
   </action>
  </widget>
