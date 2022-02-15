@@ -151,7 +151,7 @@ void ELFParser::evaluate()
     regexScan();
     findELF();
 
-    for (auto it : m_capabilities)
+    for (auto &it : m_capabilities)
     {
         switch (it.first)
         {
@@ -218,7 +218,7 @@ void ELFParser::evaluate()
         }
     }
 
-    for (auto it : m_reasons)
+    for (auto &it : m_reasons)
         m_score += it.first;
 }
 
@@ -250,14 +250,14 @@ const DynamicSection &ELFParser::getDynamicSection() const
 void ELFParser::printReasons() const
 {
     std::cout << "---- Scoring Reasons ----" << std::endl;
-    for (auto it : m_reasons)
+    for (auto &it : m_reasons)
         std::cout << it.first << " . " << it.second << std::endl;
 }
 
 void ELFParser::printCapabilities() const
 {
     std::cout << "---- Detected Capabilities ----" << std::endl;
-    for (auto it : m_capabilities)
+    for (auto &it : m_capabilities)
     {
         switch (it.first)
         {
@@ -359,7 +359,7 @@ void ELFParser::regexScan()
         boost::cmatch m;
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, pattern))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_ipAddress].insert(x);
             }
@@ -371,7 +371,7 @@ void ELFParser::regexScan()
         start = m_mapped_file.data();
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, urlPattern))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_url].insert(x);
             }
@@ -383,7 +383,7 @@ void ELFParser::regexScan()
         start = m_mapped_file.data();
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, shellPattern))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_shell].insert(x);
             }
@@ -395,7 +395,7 @@ void ELFParser::regexScan()
         start = m_mapped_file.data();
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, urlRequest))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_http].insert(x);
             }
@@ -407,7 +407,7 @@ void ELFParser::regexScan()
         start = m_mapped_file.data();
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, filePaths))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_filePath].insert(x);
             }
