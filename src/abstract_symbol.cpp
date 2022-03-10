@@ -13,44 +13,52 @@
 
 std::string getSymBinding(boost::uint8_t p_info)
 {
-    std::string str;
-    switch ((p_info >> 4) & 0x0f)
+    const std::string bind_str = boost::lexical_cast<std::string>((p_info >> 4) & 0x0f);
+
+    const std::string str = [&]()
     {
-    case elf::symbol::k_local:
-        str = "STB_LOCAL";
-    case elf::symbol::k_global:
-        str = "STB_GLOBAL";
-    case elf::symbol::k_weak:
-        str = "STB_WEAK";
-    default:
-        str = boost::lexical_cast<std::string>((p_info >> 4) & 0x0f);
-    }
+        switch ((p_info >> 4) & 0x0f)
+        {
+        case elf::symbol::k_local:
+            return "STB_LOCAL";
+        case elf::symbol::k_global:
+            return "STB_GLOBAL";
+        case elf::symbol::k_weak:
+            return "STB_WEAK";
+        default:
+            return bind_str.c_str();
+        }
+    }();
+
     return str;
 }
 
 std::string getSymType(boost::uint8_t p_info)
 {
-    std::string str;
-    switch (p_info & 0x0f)
-    {
-    case elf::symbol::k_notype:
-        str = "STT_NOTYPE";
-    case elf::symbol::k_object:
-        str = "STT_OBJECT";
-    case elf::symbol::k_function:
-        str = "STT_FUNC";
-    case elf::symbol::k_section:
-        str = "STT_SECTION";
-    case elf::symbol::k_file:
-        str = "STT_FILE";
-    case elf::symbol::k_common:
-        str = "STT_COMMON";
-    case elf::symbol::k_tls:
-        str = "STT_TLS";
-    default:
-        str = boost::lexical_cast<std::string>(p_info & 0x0f);
-    }
-
+    const std::string p_info_str = boost::lexical_cast<std::string>(p_info & 0x0f);
+    const std::string str = [&]()
+    { 
+        switch (p_info & 0x0f)
+        {
+            case elf::symbol::k_notype:
+                return "STT_NOTYPE";
+            case elf::symbol::k_object:
+                return "STT_OBJECT";
+            case elf::symbol::k_function:
+                return "STT_FUNC";
+            case elf::symbol::k_section:
+                return "STT_SECTION";
+            case elf::symbol::k_file:
+                return "STT_FILE";
+            case elf::symbol::k_common:
+                return "STT_COMMON";
+            case elf::symbol::k_tls:
+                return "STT_TLS";
+            default:
+                return p_info_str.c_str();
+        }
+    }();
+    
     return str;
 }
 

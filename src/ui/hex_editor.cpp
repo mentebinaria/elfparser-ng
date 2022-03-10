@@ -1,3 +1,5 @@
+#ifdef QT_GUI
+
 #include <QSize>
 #include <QPaintEvent>
 #include <QKeyEvent>
@@ -51,7 +53,6 @@ HexEditor::HexEditor(QWidget *parent) : QAbstractScrollArea(parent)
     // window config
     setMinimumWidth(m_posAscii + (MIN_BYTES_LINE * m_charWidth));
     setBackgroundRole(QPalette::Dark);
-    setWindowIcon(QIcon("../src/ui/assets/hex.png"));
 }
 
 /**
@@ -523,3 +524,5 @@ void HexEditor::setCallBack(void(*callBack)())
 {
     callback = callBack;
 }
+
+#endif // !QT_GUI

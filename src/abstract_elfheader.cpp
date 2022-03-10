@@ -58,33 +58,29 @@ std::string AbstractElfHeader::getMagic() const
 
 std::string AbstractElfHeader::getType() const
 {
-    std::string type_str;
     boost::uint16_t type = 0;
     if (m_is64)
         type = ((isLE())) ? m_header64->m_type : ntohs(m_header64->m_type);
     else
         type = ((isLE())) ? m_header32->m_type : ntohs(m_header32->m_type);
 
-    switch (type)
+    const std::string type_str =[&](){
+    switch(type)
     {
-    case elf::k_etnone:
-        type_str = "ET_NONE";
-        break;
-    case elf::k_etrel:
-        type_str = "ET_REL";
-        break;
-    case elf::k_etexec:
-        type_str = "ET_EXEC";
-        break;
-    case elf::k_etdyn:
-        type_str = "ET_DYN";
-        break;
-    case elf::k_etcore:
-        type_str = "ET_CORE";
-        break;
-    default:
-        type_str = "UNKNOWN";
-    }
+        case elf::k_etnone:
+            return "ET_NONE";
+        case elf::k_etrel:
+            return "ET_REL";
+        case elf::k_etexec:
+            return "ET_EXEC";
+        case elf::k_etdyn:
+            return "ET_DYN";
+        case elf::k_etcore:
+            return "ET_CORE";
+        default:
+            return "UNKNOWN";
+        }
+    }();
 
     return type_str;
 }
@@ -281,55 +277,50 @@ bool AbstractElfHeader::isLE() const
 
 std::string AbstractElfHeader::getMachine() const
 {
-    std::string machine_str;
     boost::uint16_t machine = m_is64 ? m_header64->m_machine : m_header32->m_machine;
     if (!(isLE()))
         machine = ntohs(machine);
 
-    switch (machine)
-    {
-    case elf::k_em386:
-        machine_str = "x86";
-        break;
-    case elf::k_emARM:
-        machine_str = "ARM";
-        break;
-    case elf::k_emMIPS:
-        machine_str = "MIPS";
-    case elf::k_emPPC:
-        machine_str = "PowerPC";
-        break;
-    case elf::k_emx8664:
-        machine_str = "x86_64";
-        break;
-    case elf::k_emnone:
-        machine_str = "None";
-        break;
-    default:
-        machine_str = "Unknown";
-    }
+    const std::string machine_str = [&](){
+        switch (machine)
+        {
+        case elf::k_em386:
+            return "x86";
+        case elf::k_emARM:
+            return "ARM";
+        case elf::k_emMIPS:
+            return "MIPS";
+        case elf::k_emPPC:
+            return "PowerPC";
+        case elf::k_emx8664:
+            return "x86_64";
+        case elf::k_emnone:
+            return "None";
+        default:
+            return "Unknown";
+        }
+    }();
+
     return machine_str;
 }
 
 std::string AbstractElfHeader::getEncoding() const
 {
     boost::uint8_t encoding = m_header64 != NULL ? m_header64->m_encoding : m_header32->m_encoding;
-    std::string str;
-    switch (encoding)
-    {
-    case 0:
-        str = "Invalid";
-        break;
-    case 1:
-        str = "Little Endian";
-        break;
-    case 2:
-        str = "Big Endian";
-        break;
-    default:
-        str = "Unknown";
-        break;
-    }
+    const std::string str = [&](){
+        switch (encoding)
+        {
+        case 0:
+            return "Invalid";
+        case 1:
+            return "Little Endian";
+        case 2:
+            return "Big Endian";
+        default:
+            return "Unknown";
+        }
+    }();
+
     return str;
 }
 

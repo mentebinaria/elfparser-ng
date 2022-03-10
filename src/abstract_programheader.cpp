@@ -93,53 +93,43 @@ std::string AbstractProgramHeader::getFlagsString() const
 
 std::string AbstractProgramHeader::getName() const
 {
-    std::stringstream str;
-    switch (getType())
+    const std::string type_str  =  std::to_string(getType());
+    const std::string str = [&]()
     {
-    case elf::k_pnull:
-        str << "PT_NULL";
-        break;
-    case elf::k_pload:
-        str << "PT_LOAD";
-        break;
-    case elf::k_pdynamic:
-        str << "PT_DYNAMIC";
-        break;
-    case elf::k_pinterp:
-        str << "PT_INTERP";
-        break;
-    case elf::k_pnote:
-        str << "PT_NOTE";
-        break;
-    case elf::k_pshlib:
-        str << "PT_SHLIB";
-        break;
-    case elf::k_pphdr:
-        str << "PT_PHDR";
-        break;
-    case elf::k_ptls:
-        str << "PT_TLS";
-        break;
-    case elf::k_gnuEh:
-        str << "GNU_EH_FRAME";
-        break;
-    case elf::k_gnuStack:
-        str << "GNU_STACK";
-        break;
-    case elf::k_gnuRelRo:
-        str << "GNU_RELRO";
-        break;
-    case elf::k_reginfo:
-        str << "REGINFO";
-        break;
-    case elf::k_exidx:
-        str << "EXIDX";
-        break;
-    default:
-        str << "0x" << std::hex << getType();
+        switch (getType())
+        {
+            case elf::k_pnull:
+                return "PT_NULL";
+            case elf::k_pload:
+                return "PT_LOAD";
+            case elf::k_pdynamic:
+                return "PT_DYNAMIC";
+            case elf::k_pinterp:
+                return "PT_INTERP";
+            case elf::k_pnote:
+                return "PT_NOTE";
+            case elf::k_pshlib:
+                return "PT_SHLIB";
+            case elf::k_pphdr:
+                return "PT_PHDR";
+            case elf::k_ptls:
+                return "PT_TLS";
+            case elf::k_gnuEh:
+                return "GNU_EH_FRAME";
+            case elf::k_gnuStack:
+                return "GNU_STACK";
+            case elf::k_gnuRelRo:
+                return "GNU_RELRO";
+            case elf::k_reginfo:
+                return "REGINFO";
+            case elf::k_exidx:
+                return "EXIDX";
+            default:
+                return type_str.c_str();
+        }
+    }();
 
-    }
-    return str.str();
+    return str;
 }
 
 boost::uint32_t AbstractProgramHeader::getType() const
