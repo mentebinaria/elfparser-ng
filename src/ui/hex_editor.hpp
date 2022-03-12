@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include <QPainter>
 #include <QByteArray>
 #include <QAbstractScrollArea>
 #include <QScrollBar>
@@ -38,6 +39,7 @@ private:
         m_bytesPerLine,
         m_statusExitWin;
     void (*callback)();
+    QPainter painter;
 
     void confScrollBar();
     void updatePositions();
@@ -64,4 +66,5 @@ public:
     void Clear();
     void setCallBack(void(*callBack)());
 };
+
 #endif

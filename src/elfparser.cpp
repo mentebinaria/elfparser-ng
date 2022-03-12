@@ -151,7 +151,7 @@ void ELFParser::evaluate()
     regexScan();
     findELF();
 
-    for (auto &it : m_capabilities)
+    for (auto it : m_capabilities)
     {
         switch (it.first)
         {

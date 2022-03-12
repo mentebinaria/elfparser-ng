@@ -12,6 +12,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QMessageBox>
+#include <iostream>
 
 #include "hex_editor.hpp"
 
@@ -22,11 +23,15 @@
 #define ADR_LENGTH 10
 #define ASCII_HEX 16
 #define UPDATE viewport()->update();
+#define START_PAINT 30
 
 #define CHAR_VALID(caracter) ((caracter < 0x20) || (caracter > 0x7e)) ? caracter = '.' : caracter;
-#define SET_BACKGROUND_MARK(pos)                   \
-    if (pos >= m_selectBegin && pos < m_selectEnd) \
-        painter.setBackground(QBrush(QColor(10, 122, 122))), painter.setBackgroundMode(Qt::OpaqueMode);
+#define SET_BACKGROUND_MARK(pos)                    \
+    if (pos >= m_selectBegin && pos < m_selectEnd){ \
+        painter.setBackground(QBrush(Qt::black));   \
+		painter.setBackgroundMode(Qt::OpaqueMode);  \
+	}
+
 
 /**
  * @brief Construct a new Editor Hex:: Editor Hex object
@@ -35,15 +40,11 @@
  */
 HexEditor::HexEditor(QWidget *parent) : QAbstractScrollArea(parent)
 {
+	setFont(QFont("Courier", 14));
     // initialize members class
-#if QT_VERSION >= 0x051100
-    m_charWidth = fontMetrics().width(QLatin1Char('9'));
-#else
-    m_charWidth = fontMetrics().horizontalAdvance(QLatin1Char('9'));
-#endif
-
+	m_charWidth = 0;
     m_BufferHex = nullptr;
-    m_cursorPos = 0;
+    m_cursorPos = START_PAINT;
     m_charHeight = fontMetrics().height();
     m_posAddr = 0;
     m_posHex = ADR_LENGTH * m_charWidth + ADR_HEX;
@@ -51,7 +52,7 @@ HexEditor::HexEditor(QWidget *parent) : QAbstractScrollArea(parent)
     m_bytesPerLine = MIN_BYTES_LINE;
 
     // window config
-    setMinimumWidth(m_posAscii + (MIN_BYTES_LINE * m_charWidth));
+    setMinimumWidth(900);
     setBackgroundRole(QPalette::Dark);
 }
 
@@ -84,7 +85,7 @@ void HexEditor::paintEvent(QPaintEvent *event)
     for (int lineIdx = firstLineIdx, yPos = m_charHeight; lineIdx < lastLineIdx; lineIdx += 1, yPos += m_charHeight)
     {
         // ascii position
-        for (int xPosAscii = m_posAscii, i = 0; ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < ScrollBuffer.size() && (i < m_bytesPerLine); i++, xPosAscii += m_charWidth)
+		for (int xPosAscii = m_posAscii, i = 0; ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < ScrollBuffer.size() && (i < m_bytesPerLine); i++, xPosAscii += m_charWidth)
         {
             char caracter = ScrollBuffer[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
             CHAR_VALID(caracter);
@@ -92,7 +93,7 @@ void HexEditor::paintEvent(QPaintEvent *event)
             int pos = ((lineIdx * m_bytesPerLine + i) * 2);
             SET_BACKGROUND_MARK(pos);
 
-            painter.drawText(xPosAscii, yPos, QString(caracter));
+            painter.drawText(xPosAscii, yPos + START_PAINT, QString(caracter));
 
             painter.setBackground(painter.brush());
             painter.setBackgroundMode(Qt::OpaqueMode);
@@ -105,22 +106,49 @@ void HexEditor::paintEvent(QPaintEvent *event)
             SET_BACKGROUND_MARK(pos);
 
             QString val = QString::number((ScrollBuffer.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF0) >> 4, 16);
-            painter.drawText(xPos, yPos, val);
+            painter.drawText(xPos, yPos + START_PAINT, val);
 
             val = QString::number((ScrollBuffer.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF), 16);
-            painter.drawText(xPos + m_charWidth, yPos, val);
+            painter.drawText(xPos + m_charWidth, yPos + START_PAINT, val);
 
             painter.setBackground(painter.brush());
             painter.setBackgroundMode(Qt::OpaqueMode);
         }
+
         // address offset
         QString address = QString("%1").arg(lineIdx * m_bytesPerLine, 10, 16, QChar('0'));
-        painter.drawText(m_posAddr, yPos, address);
-    }
+        painter.drawText(m_posAddr, yPos + START_PAINT, address);
+
+		UPDATE
+
+		// line offset
+		QRect rec(1, 1, 230, 15);
+		painter.drawRect(rec);
+
+		// paint cursor
+		int x = (m_cursorPos % (2 * m_bytesPerLine));
+		int y = m_cursorPos / (2 * m_bytesPerLine);
+		int cursorX = (((x / 2) * 3) + (x % 2)) * m_charWidth + m_posHex;
+		int cursorY = y * m_charHeight + 4;
+		painter.fillRect(cursorX + START_PAINT, cursorY + START_PAINT, 2, m_charHeight, this->palette().color(QPalette::WindowText));
+		y -= firstLineIdx;
+
+		// offset cursor position
+		QString offset = QString("%1").arg(cursorX, 10, 16, QChar('0'));
+
+		if(offset < ScrollBuffer.size())
+		painter.drawText(rec, "Offset : 0x" + offset);
+
+		if(offset == "fffffffffffffffe") // invalid offset
+		{
+			painter.drawText(rec, "Offset : invalid     ");
+			painter.setBackground(Qt::red);
+		}
+	}
 }
 
 /**
- * @brief will treat it as copy, select, select all, etc.
+ * @brief will treat it as copy, select, select all, position cursor, etc...
  *
  * @param event
  */
@@ -346,6 +374,12 @@ void HexEditor::confScrollBar()
 
 void HexEditor::updatePositions()
 {
+	#if QT_VERSION >= 0x051100
+	    m_charWidth = fontMetrics().width(QLatin1Char('9'));
+	#else
+	    m_charWidth = fontMetrics().horizontalAdvance(QLatin1Char('9'));
+	#endif
+
     int serviceSymbolsWidth = ADR_LENGTH * m_charWidth + ADR_HEX + ASCII_HEX;
 
     m_bytesPerLine = (width() - serviceSymbolsWidth) / (4 * m_charWidth) - 1; // 4 symbols per byte

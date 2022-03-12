@@ -528,4 +528,3 @@ void MainWindow::on_openButton2_triggered()
     openFile();
 }
 #endif
-

@@ -49,9 +49,6 @@ private:
     // he binaries score
     boost::uint32_t m_score;
 
-    // he object that editor hex bin
-    //HexEditor m_HexEditor;
-
     // he object that parses the elf header
     AbstractElfHeader m_elfHeader;
 
@@ -84,7 +81,7 @@ private:
 
     // he ptr vector to hold the search engine values
     boost::ptr_vector<SearchValue> m_searchValues;
-    
+
 public:
 
     // oes nothing except default initialization of all members
@@ -157,6 +154,6 @@ public:
     // return a string indicating the malware family
     std::string getFamily() const;
 
-}; 
+};
 
 #endif
