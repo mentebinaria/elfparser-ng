@@ -52,8 +52,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile()
 {
-    m_man = this;
-
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFile);
 
@@ -486,11 +484,6 @@ void MainWindow::rparser()
         return;
     else
         parser(m_FileName);
-}
-
-void MainWindow::visibleOn()
-{
-    m_man->show();
 }
 
 void MainWindow::on_aboutButton_triggered()
