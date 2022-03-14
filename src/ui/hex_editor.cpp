@@ -547,16 +547,4 @@ void HexEditor::Clear()
     UPDATE
 }
 
-void HexEditor::closeEvent(QCloseEvent *ce)
-{
-    setVisible(false);
-    callback();
-    ce->ignore();
-}
-
-void HexEditor::setCallBack(void(*callBack)())
-{
-    callback = callBack;
-}
-
 #endif // !QT_GUI

@@ -38,7 +38,6 @@ private:
         m_cursorPos,
         m_bytesPerLine,
         m_statusExitWin;
-    void (*callback)();
     QPainter painter;
 
     void confScrollBar();
@@ -56,7 +55,6 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
-    void closeEvent(QCloseEvent* ce);    
 
 public:
     HexEditor(QWidget *parent = nullptr);
@@ -64,7 +62,6 @@ public:
     int LoadBinary(const QString &__fpath);
     int CallDialog();
     void Clear();
-    void setCallBack(void(*callBack)());
 };
 
 #endif

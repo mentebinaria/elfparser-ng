@@ -16,7 +16,6 @@
 #include <boost/algorithm/string.hpp>
 #include <QCloseEvent>
 
-MainWindow *MainWindow::m_man = nullptr;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_ui(new Ui::MainWindow),
@@ -140,17 +139,7 @@ void MainWindow::on_hexButton_clicked()
 {
     try
     {
-        QMessageBox::StandardButton HexEditor = QMessageBox::question(this, "Hex Editor", "Open Hex Editor ?", QMessageBox::Yes | QMessageBox::No);
-        if (HexEditor == QMessageBox::Yes)
-        {
-            int call = m_hex_editor->CallDialog();
-            if (call == FULL)
-            {
-                hide();
-                void (*ptr)() = visibleOn;
-                m_hex_editor->setCallBack(*ptr);
-            }
-        }
+		m_hex_editor->CallDialog();
     }
     catch (const std::exception &e)
     {

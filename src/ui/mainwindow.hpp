@@ -28,7 +28,6 @@ class MainWindow : public QMainWindow
 private:
     // The main window that is created by mainwindow.ui
     Ui::MainWindow *m_ui;
-    static MainWindow *m_man;
 
     // The dialog window
     boost::scoped_ptr<QDialog> m_dialog;
