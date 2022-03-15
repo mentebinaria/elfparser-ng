@@ -38,7 +38,7 @@ else()
                 set(CMAKE_CXX_FLAGS "-O2 /EHsc")
             endif()
         else()
-            set(CMAKE_CXX_FLAGS "-O2 -Werror -Wall -fno-stack-protector -march=native")
+            set(CMAKE_CXX_FLAGS "-O2 -fno-stack-protector -march=native")
         endif()
     endif()
 endif()
@@ -84,7 +84,7 @@ if (qt)
 
     # let QT generate files
     qt5_wrap_ui(UI_HEADERS src/ui/mainwindow.ui src/ui/about.ui)
-    set(EXTRA_SOURCES src/ui/mainwindow.cpp src/ui/hex_editor.cpp)
+    set(EXTRA_SOURCES src/ui/mainwindow.cpp src/ui/QHexView.cpp)
     set(EXTRA_SOURCES ${EXTRA_SOURCES} ${UI_HEADERS})
 
     if (APPLE)
@@ -204,7 +204,7 @@ if (test)
                     lib/hash-lib/sha256.cpp
                     lib/hash-lib/md5.cpp
                     src/tests/ls_tests.cpp
-                    src/tests/tiny_tests.cpp                   
+                    src/tests/tiny_tests.cpp
                     )
 
     target_link_libraries(${PROJECT_NAME}_test gtest gtest_main ${Boost_LIBRARIES})

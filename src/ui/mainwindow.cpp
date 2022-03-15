@@ -6,7 +6,6 @@
 #include "../elfparser.hpp"
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
-#include "hex_editor.hpp"
 
 #include <QAbstractScrollArea>
 #include <QClipboard>
@@ -24,7 +23,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_treeItems(),
                                           m_copyAction(),
                                           m_parser(),
-                                          m_hex_editor(new HexEditor())
+                                          m_HexEditor(new QHexView),
+										  m_splitter(new QSplitter),
+										  m_layout(new QVBoxLayout)
 {
     setWindowTitle("elfparser-ng");
 
@@ -43,6 +44,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // configs tables
     conf_tables();
+
+
+	// hex editor splitted
+	m_splitter->addWidget(m_HexEditor);
+	m_layout->addWidget(m_splitter);
+	m_ui->HexTab->setLayout(m_layout);
 }
 
 MainWindow::~MainWindow()
@@ -68,7 +75,7 @@ void MainWindow::reset()
     m_tableItems.clear();
     m_treeItems.clear();
     m_parser.reset();
-    m_hex_editor->Clear();
+    //m_hex_editor->Clear();
     m_ui->overviewTable->clearContents();
     m_ui->headerTable->clearContents();
     m_ui->sectionsTable->clearContents();
@@ -94,9 +101,6 @@ void MainWindow::conf_buttons()
 
     // about
     m_ui->aboutButton->setIcon(QIcon("../src/ui/assets/about.png"));
-
-    // hex editor
-    m_ui->hexButton->setIcon(QIcon("../src/ui/assets/hex.png"));
 
     // rpasser
     m_ui->rpasserButton->setIcon(QIcon("../src/ui/assets/rpasser.png"));
@@ -133,24 +137,6 @@ void MainWindow::on_closeButton_clicked()
         this->close();
 }
 
-void MainWindow::on_hexButton_clicked()
-{
-    try
-    {
-		m_hex_editor->CallDialog();
-    }
-    catch (const std::exception &e)
-    {
-        std::string errorMessage("Loading Error: ");
-        errorMessage.append(e.what());
-
-        QMessageBox msgBox;
-        msgBox.setText(errorMessage.c_str());
-        msgBox.exec();
-        return;
-    }
-}
-
 void MainWindow::parser(QString filename)
 {
     reset();
@@ -158,9 +144,15 @@ void MainWindow::parser(QString filename)
 
     try
     {
-        m_parser->parse(filename.toStdString());
+		QFile file(filename);
+		if(file.open(QIODevice::ReadOnly))
+		{
+			QByteArray bytes = file.readAll();
+			m_HexEditor->setData(new QHexView::DataStorageArray(bytes));
+		}
+
+		m_parser->parse(filename.toStdString());
         m_parser->evaluate();
-        m_hex_editor->LoadBinary(filename);
     }
     catch (const std::exception &e)
     {

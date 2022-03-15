@@ -10,13 +10,17 @@
 #include <QMainWindow>
 #include <boost/scoped_ptr.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
+#include <QSplitter>
+#include <QVBoxLayout>
+#include <QWidget>
+
+#include "QHexView.hpp"
 
 namespace Ui
 {
     class MainWindow;
 }
 
-class HexEditor;
 class ELFParser;
 class QTableWidgetItem;
 class QTreeWidgetItem;
@@ -45,8 +49,12 @@ private:
     boost::scoped_ptr<ELFParser> m_parser;
 
     // The resuable Editor Hex
-    boost::scoped_ptr<HexEditor> m_hex_editor;
+	QHexView *m_HexEditor;
 
+	// split window
+	QSplitter *m_splitter;
+	QVBoxLayout *m_layout;
+	// path name
     QString m_FileName;
 
 public:
@@ -65,7 +73,7 @@ public slots:
     void conf_buttons();
     void conf_tables();
     void on_closeButton_clicked();
-    void on_hexButton_clicked();
+    //void on_hexButton_clicked();
     void on_openButton2_triggered();
 
 };
