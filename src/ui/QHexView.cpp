@@ -11,7 +11,7 @@
 
 // config colors
 #define COLOR_SELECTION 80, 250, 123, 0xff
-#define COLOR_ADDRESS 189, 147, 249, 0xff
+#define COLOR_ADDRESS 68, 71, 90, 0xff
 
 // config lines
 #define MIN_HEXCHARS_IN_LINE 47
