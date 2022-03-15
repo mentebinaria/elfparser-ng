@@ -1,3 +1,11 @@
+/**
+* @file QHexView.cpp
+* @author VitorMob 2022
+* @date 15 Mar 2022
+* @copyright 2022 VitorMob, 2015 virinext
+* @brief simple hex view / editor
+*/
+
 #ifndef Q_HEX_VIEWER_H_
 #define Q_HEX_VIEWER_H_
 
@@ -57,14 +65,13 @@ class QHexView: public QAbstractScrollArea
 		void mouseMoveEvent(QMouseEvent *event);
 		void mousePressEvent(QMouseEvent *event);
 	private:
-		QMutex                m_dataMtx;
-		DataStorage          *m_pdata;
+		QMutex        m_dataMtx;
+		DataStorage  *m_pdata;
 		int           m_posAddr;
 		int           m_posHex;
 		int           m_posAscii;
 		int           m_charWidth;
 		int           m_charHeight;
-
 
 		int           m_selectBegin;
 		int           m_selectEnd;

@@ -13,7 +13,7 @@
 #define CHAR_VALID(caracter) ((caracter < 0x20) || (caracter > 0x7e)) ? caracter = '.' : caracter;
 #define SET_BACKGROUND_MARK(pos)                    \
     if (pos >= m_selectBegin && pos < m_selectEnd){ \
-		painter.setBackground(QBrush(QColor(0x6d, 0x9e, 0xff, 0xff)));			\
+		painter.setBackground(QBrush(QColor(0x6d, 0x9e, 0xff, 0xff))); \
 		painter.setBackgroundMode(Qt::OpaqueMode);  \
 	}
 
@@ -31,21 +31,10 @@ m_pdata(NULL)
 {
 	setFont(QFont("Courier", 13));
 
-#if QT_VERSION >= 0x051100
-    m_charWidth = fontMetrics().width(QLatin1Char('9'));
-#else
-    m_charWidth = fontMetrics().horizontalAdvance(QLatin1Char('9'));
-#endif
-
-	m_charHeight = fontMetrics().height();
-
 	m_posAddr = 0;
 	m_posHex = ADR_LENGTH * m_charWidth + GAP_ADR_HEX;
 	m_posAscii = m_posHex + MIN_HEXCHARS_IN_LINE * m_charWidth + GAP_HEX_ASCII;
 	m_bytesPerLine = MIN_BYTES_PER_LINE;
-
-	setMinimumWidth(800);
-	setMaximumWidth(800);
 }
 
 
@@ -117,11 +106,7 @@ QSize QHexView::fullSize() const
 
 void QHexView::updatePositions()
 {
-#if QT_VERSION >= 0x051100
 	m_charWidth = fontMetrics().horizontalAdvance(QLatin1Char('9'));
-#else
-	m_charWidth = fontMetrics().width(QLatin1Char('9'));
-#endif
 	m_charHeight = fontMetrics().height();
 
 	int serviceSymbolsWidth = ADR_LENGTH * m_charWidth + GAP_ADR_HEX + GAP_HEX_ASCII;

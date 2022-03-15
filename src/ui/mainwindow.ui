@@ -139,8 +139,8 @@
       <widget class="QWidget" name="HexTab">
        <property name="maximumSize">
         <size>
-         <width>500</width>
-         <height>500</height>
+         <width>1000</width>
+         <height>1000</height>
         </size>
        </property>
        <attribute name="title">
@@ -764,6 +764,7 @@
      <string>file</string>
     </property>
     <addaction name="openButton2"/>
+    <addaction name="gotoOffsetButton"/>
    </widget>
    <addaction name="menufile"/>
    <addaction name="menuabout"/>
@@ -776,6 +777,11 @@
   <action name="openButton2">
    <property name="text">
     <string>open</string>
+   </property>
+  </action>
+  <action name="gotoOffsetButton">
+   <property name="text">
+    <string>Go to offset hex</string>
    </property>
   </action>
  </widget>

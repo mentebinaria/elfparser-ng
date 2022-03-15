@@ -7,6 +7,7 @@
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
 
+#include <QInputDialog>
 #include <QAbstractScrollArea>
 #include <QClipboard>
 #include <iostream>
@@ -75,7 +76,7 @@ void MainWindow::reset()
     m_tableItems.clear();
     m_treeItems.clear();
     m_parser.reset();
-    //m_hex_editor->Clear();
+    m_HexEditor->clear();
     m_ui->overviewTable->clearContents();
     m_ui->headerTable->clearContents();
     m_ui->sectionsTable->clearContents();
@@ -104,6 +105,9 @@ void MainWindow::conf_buttons()
 
     // rpasser
     m_ui->rpasserButton->setIcon(QIcon("../src/ui/assets/rpasser.png"));
+
+	// goto hex
+	m_ui->gotoOffsetButton->setIcon(QIcon("../src/ui/assets/goto.png"));
 }
 
 void MainWindow::conf_tables()
@@ -501,4 +505,15 @@ void MainWindow::on_openButton2_triggered()
 {
     openFile();
 }
+
+void MainWindow::on_gotoOffsetButton_triggered()
+{
+	bool done;
+	int offset = QInputDialog::getInt(0, "Offset", "Offset:", 0, 0, 2147483647, 1, &done);
+
+	if(done)
+		m_HexEditor->showFromOffset(offset);
+
+}
+
 #endif

@@ -54,6 +54,7 @@ private:
 	// split window
 	QSplitter *m_splitter;
 	QVBoxLayout *m_layout;
+
 	// path name
     QString m_FileName;
 
@@ -70,10 +71,10 @@ public slots:
     void openFile();
     void overviewToClipboard();
     void on_aboutButton_triggered();
+	void on_gotoOffsetButton_triggered();
     void conf_buttons();
     void conf_tables();
     void on_closeButton_clicked();
-    //void on_hexButton_clicked();
     void on_openButton2_triggered();
 
 };
