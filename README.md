@@ -19,7 +19,7 @@ ELF Parser can be compiled on Windows, OS X, or Linux (demangling and unit tests
 
 
 >To compile windows, just go to [CMakeFiles](CMakeLists.txt), change `windows` to `on`
-![Windows](assets/compiler_windows.png) install `cmake` create archive `build` enter archive 
+![Windows](assets/compiler_windows.png) install `cmake` create archive `build` enter archive
 execute command `cmake ..`, Open Visual Studio 2019 command `ctrl+f5`
 
 ## Compile Targets
@@ -36,13 +36,13 @@ sudo apt-get install libboost-all-dev
 ```
 
 [Qt5](https://www.qt.io/download-open-source)
-``` 
-sudo apt-get install build-essential qtcreator qt5-default  qtdeclarative5-dev 
+```
+sudo apt-get install build-essential qtcreator qt5-default  qtdeclarative5-dev
 ```
 ## Features
 features that elf parser currently has
 
-* Elf Header 
+* Elf Header
 * Program Header
 * Section Headers
 * Dynamic Section
@@ -56,5 +56,4 @@ features that elf parser currently has
 
 ## Screenshots
 
-![Img](assets/img-screen.jpg)
-
+![Img](assets/elfparser-ng.png)
