@@ -9,25 +9,31 @@
 
 #include <stdexcept>
 
-#define UPDATE viewport()->update();
-#define CHAR_VALID(caracter) ((caracter < 0x20) || (caracter > 0x7e)) ? caracter = '.' : caracter;
-#define SET_BACKGROUND_MARK(pos)                    \
-    if (pos >= m_selectBegin && pos < m_selectEnd){ \
-		painter.setBackground(QBrush(QColor(0x6d, 0x9e, 0xff, 0xff))); \
-		painter.setBackgroundMode(Qt::OpaqueMode);  \
-	}
+// config colors
+#define COLOR_SELECTION 80, 250, 123, 0xff
+#define COLOR_ADDRESS 189, 147, 249, 0xff
 
-
+// config lines
 #define MIN_HEXCHARS_IN_LINE 47
 #define GAP_ADR_HEX  10
 #define GAP_HEX_ASCII  16
 #define MIN_BYTES_PER_LINE  16
 #define ADR_LENGTH  10
 
+// update
+#define UPDATE viewport()->update();
+// valid character table ascii
+#define CHAR_VALID(caracter) ((caracter < 0x20) || (caracter > 0x7e)) ? caracter = '.' : caracter;
+// mark selection
+#define SET_BACKGROUND_MARK(pos)                    \
+    if (pos >= m_selectBegin && pos < m_selectEnd){ \
+		painter.setBackground(QBrush(QColor(COLOR_SELECTION))); \
+		painter.setBackgroundMode(Qt::OpaqueMode);  \
+	}
 
 QHexView::QHexView(QWidget *parent):
 QAbstractScrollArea(parent),
-m_pdata(NULL)
+m_pdata(nullptr)
 {
 	setFont(QFont("Courier", 13));
 
@@ -44,13 +50,14 @@ QHexView::~QHexView()
 		delete m_pdata;
 }
 
+// set byte array data
 void QHexView::setData(QHexView::DataStorage *pData)
 {
 	QMutexLocker lock(&m_dataMtx);
 
 	verticalScrollBar()->setValue(0);
-	if(m_pdata)
-		delete m_pdata;
+	if(m_pdata) delete m_pdata;
+
 	m_pdata = pData;
 	m_cursorPos = 0;
 	resetSelection(0);
@@ -81,8 +88,9 @@ void QHexView::clear()
 	if (m_pdata)
 	{
 		delete m_pdata;
-		m_pdata = NULL;
+		m_pdata = nullptr;
 	}
+
 	verticalScrollBar()->setValue(0);
 
 	UPDATE;
@@ -124,40 +132,33 @@ void QHexView::paintEvent(QPaintEvent *event)
 
 	if(!m_pdata)
 		return;
+
 	QPainter painter(viewport());
 
 	updatePositions();
-
-	QSize areaSize = viewport()->size();
-	QSize  widgetSize = fullSize();
-	verticalScrollBar()->setPageStep(areaSize.height() / m_charHeight);
-	verticalScrollBar()->setRange(0, (widgetSize.height() - areaSize.height()) / m_charHeight + 1);
+	confScrollBar();
 
 	int firstLineIdx = verticalScrollBar() -> value();
+	int lastLineIdx = firstLineIdx + viewport()->size().height() / m_charHeight;
 
-	int lastLineIdx = firstLineIdx + areaSize.height() / m_charHeight;
-    if(lastLineIdx > m_pdata->size() / m_bytesPerLine)
+	if(lastLineIdx > m_pdata->size() / m_bytesPerLine)
 	{
 		lastLineIdx = m_pdata->size() / m_bytesPerLine;
 		if(m_pdata->size() % m_bytesPerLine)
 			lastLineIdx++;
 	}
 
-	painter.fillRect(event->rect(), this->palette().color(QPalette::Base));
-
-	QColor addressAreaColor = QColor(0xd4, 0xd4, 0xd4, 0xff);
-	painter.fillRect(QRect(m_posAddr, event->rect().top(), m_posHex - GAP_ADR_HEX + 2 , height()), addressAreaColor);
-
+	QColor addressAreaColor = QColor(COLOR_ADDRESS);
 	int linePos = m_posAscii - (GAP_HEX_ASCII / 2);
+	int yPosStart = m_charHeight;
+	QBrush def = painter.brush();
+
+	painter.fillRect(event->rect(), this->palette().color(QPalette::Base));
+	painter.fillRect(QRect(m_posAddr, event->rect().top(), m_posHex - GAP_ADR_HEX + 2 , height()), addressAreaColor);
 	painter.setPen(Qt::gray);
-
 	painter.drawLine(linePos, event->rect().top(), linePos, height());
-
 	painter.setPen(Qt::black);
 
-	int yPosStart = m_charHeight;
-
-	QBrush def = painter.brush();
     QByteArray data = m_pdata->getData(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
 
 	for (int lineIdx = firstLineIdx, yPos = yPosStart;  lineIdx < lastLineIdx; lineIdx += 1, yPos += m_charHeight)
@@ -165,13 +166,13 @@ void QHexView::paintEvent(QPaintEvent *event)
 		// ascii position
 		for (int xPosAscii = m_posAscii, i=0; ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < data.size() && (i < m_bytesPerLine); i++, xPosAscii += m_charWidth)
 		{
-			char caracter = data[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
-            CHAR_VALID(caracter);
+			char character = data[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
+            CHAR_VALID(character);
 
             int pos = ((lineIdx * m_bytesPerLine + i) * 2);
             SET_BACKGROUND_MARK(pos);
 
-            painter.drawText(xPosAscii, yPos, QString(caracter));
+            painter.drawText(xPosAscii, yPos, QString(character));
 
             painter.setBackground(painter.brush());
             painter.setBackgroundMode(Qt::OpaqueMode);
@@ -188,7 +189,7 @@ void QHexView::paintEvent(QPaintEvent *event)
 
 			if((pos+1) >= m_selectBegin && (pos+1) < m_selectEnd)
 			{
-				painter.setBackground(QBrush(QColor(0x6d, 0x9e, 0xff, 0xff)));
+				painter.setBackground(QBrush(QColor(COLOR_SELECTION)));
 				painter.setBackgroundMode(Qt::OpaqueMode);
 			}
 			else
@@ -551,7 +552,14 @@ void QHexView::ensureVisible()
 		verticalScrollBar() -> setValue(cursorY - areaSize.height() / m_charHeight + 1);
 }
 
+void QHexView::confScrollBar()
+{
+	QSize areaSize = viewport()->size();
+	QSize  widgetSize = fullSize();
+	verticalScrollBar()->setPageStep(areaSize.height() / m_charHeight);
+	verticalScrollBar()->setRange(0, (widgetSize.height() - areaSize.height()) / m_charHeight + 1);
 
+}
 
 QHexView::DataStorageArray::DataStorageArray(const QByteArray &arr)
 {

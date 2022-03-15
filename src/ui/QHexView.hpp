@@ -87,6 +87,7 @@ class QHexView: public QAbstractScrollArea
 		void ensureVisible();
 		void setCursorPos(int pos);
 		int  cursorPos(const QPoint &position);
+		void confScrollBar();
 };
 
 #endif
