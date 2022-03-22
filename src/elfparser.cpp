@@ -458,13 +458,16 @@ void ELFParser::findELF()
     }
 }
 
-double getEntropy() {
+double ELFParser::getEntropy()
+{
 	unsigned int counted_bytes[256] = {};
 	std::streamsize total_length = 0;
+
 	double entropy = 0.;
     double temp;
 
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < 256; i++)
+	{
         temp = static_cast<double>(counted_bytes[i]) / total_length;
 
         if (temp > 0.)

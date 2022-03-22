@@ -42,6 +42,7 @@ m_pdata(nullptr)
 	m_posHex = ADR_LENGTH * m_charWidth + GAP_ADR_HEX;
 	m_posAscii = m_posHex + MIN_HEXCHARS_IN_LINE * m_charWidth + GAP_HEX_ASCII;
 	m_bytesPerLine = MIN_BYTES_PER_LINE;
+	setMinimumWidth(500);
 }
 
 

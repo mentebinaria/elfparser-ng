@@ -146,6 +146,8 @@ void MainWindow::parser(QString filename)
 
     // LCD display
     m_ui->scoreDisplay->display(static_cast<int>(m_parser->getScore()));
+	// Set entropy status load
+	m_ui->EntropyP->setValue(m_parser->getEntropy());
 
     // Overview table
     QTableWidgetItem *tableItem = new QTableWidgetItem(QString(m_parser->getFilename().c_str()));
@@ -166,6 +168,13 @@ void MainWindow::parser(QString filename)
     tableItem = new QTableWidgetItem(QString(m_parser->getFamily().c_str()));
     m_ui->overviewTable->setItem(5, 0, tableItem);
     m_tableItems.push_back(tableItem);
+	if(m_parser->getEntropy() < 7)
+		tableItem = new QTableWidgetItem(QString("Not package"));
+	else
+		tableItem = new QTableWidgetItem(QString("Binary package"));
+    m_ui->overviewTable->setItem(6, 0, tableItem);
+    m_tableItems.push_back(tableItem);
+
 
     // elf header view
     tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getMagic().c_str()));
@@ -424,6 +433,7 @@ void MainWindow::parser(QString filename)
         m_tableItems.push_back(tableItem);
         ++i;
     }
+
     m_ui->scoringTable->setSortingEnabled(true);
     m_ui->scoringTable->resizeColumnsToContents();
 }
@@ -477,6 +487,7 @@ void  MainWindow::on_resetButton_triggered()
     m_ui->scoreDisplay->display(0);
     m_ui->sectionInfo->clear();
     m_ui->programsInfo->clear();
+	m_ui->EntropyP->setValue(0);
 }
 
 
