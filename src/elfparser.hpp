@@ -12,21 +12,14 @@
 #include "datastructures/search_value.hpp"
 
 #include <map>
-#include <set>
 #include <utility>
 #include <vector>
 #include <string>
 #include <boost/cstdint.hpp>
 #include <boost/iostreams/device/mapped_file.hpp>
-#include <regex>
-#include <fstream>
-#include <sstream>
 #include <iostream>
-#include <stdexcept>
-#include <boost/regex.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
-#include <iomanip>
 
 class SearchValue;
 class HexEditor;
@@ -153,6 +146,9 @@ public:
 
     // return a string indicating the malware family
     std::string getFamily() const;
+
+	// calc entropy
+	double getEntropy();
 
 };
 

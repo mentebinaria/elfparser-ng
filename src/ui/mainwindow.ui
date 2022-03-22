@@ -19,6 +19,12 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>500</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>elfparser-ng</string>
   </property>
@@ -36,8 +42,8 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="1">
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
      <widget class="QTabWidget" name="mainTabs">
       <property name="enabled">
        <bool>true</bool>
@@ -46,7 +52,13 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>6</number>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>false</bool>
       </property>
       <property name="movable">
        <bool>true</bool>
@@ -66,86 +78,141 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QTableWidget" name="overviewTable">
-          <property name="contextMenuPolicy">
-           <enum>Qt::ActionsContextMenu</enum>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="showDropIndicator" stdset="0">
-           <bool>false</bool>
-          </property>
-          <property name="dragDropOverwriteMode">
-           <bool>false</bool>
-          </property>
-          <property name="alternatingRowColors">
-           <bool>true</bool>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
-          </property>
-          <property name="columnCount">
-           <number>1</number>
-          </property>
-          <attribute name="horizontalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <row>
-           <property name="text">
-            <string>Filename</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>Size</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>md5</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>sha1</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>sha256</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>Family</string>
-           </property>
-          </row>
-          <column>
-           <property name="text">
-            <string/>
-           </property>
-          </column>
-         </widget>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QLabel" name="labelEntropy">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Entropy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="EntropyP">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="overviewTable">
+            <property name="contextMenuPolicy">
+             <enum>Qt::ActionsContextMenu</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+            </property>
+            <property name="autoScroll">
+             <bool>true</bool>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="showDropIndicator" stdset="0">
+             <bool>false</bool>
+            </property>
+            <property name="dragEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="dragDropOverwriteMode">
+             <bool>false</bool>
+            </property>
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="columnCount">
+             <number>1</number>
+            </property>
+            <attribute name="horizontalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+            <row>
+             <property name="text">
+              <string>Filename</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>Size</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>md5</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>sha1</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>sha256</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>Family</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>Packed</string>
+             </property>
+            </row>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <item row="5" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="background">
+              <brush brushstyle="NoBrush">
+               <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </property>
+             <property name="flags">
+              <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled|ItemIsAutoTristate</set>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="HexTab">
-       <property name="maximumSize">
-        <size>
-         <width>1000</width>
-         <height>1000</height>
-        </size>
-       </property>
-       <attribute name="title">
-        <string>Hex</string>
-       </attribute>
       </widget>
       <widget class="QWidget" name="headerTab">
        <property name="sizePolicy">
@@ -578,168 +645,103 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="HexTab">
+       <property name="maximumSize">
+        <size>
+         <width>10000</width>
+         <height>10000</height>
+        </size>
+       </property>
+       <attribute name="title">
+        <string>Hex</string>
+       </attribute>
+      </widget>
       <widget class="QWidget" name="scoringTab">
        <attribute name="title">
         <string>Scoring</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
-         <widget class="QTableWidget" name="scoringTable">
-          <property name="maximumSize">
-           <size>
-            <width>10000</width>
-            <height>10000</height>
-           </size>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="showDropIndicator" stdset="0">
-           <bool>false</bool>
-          </property>
-          <property name="dragDropOverwriteMode">
-           <bool>false</bool>
-          </property>
-          <property name="alternatingRowColors">
-           <bool>true</bool>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
-          </property>
-          <property name="sortingEnabled">
-           <bool>false</bool>
-          </property>
-          <property name="columnCount">
-           <number>2</number>
-          </property>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Score</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Reason</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QFrame" name="leftFrame">
-      <property name="minimumSize">
-       <size>
-        <width>300</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QGroupBox" name="scoreBox">
-         <property name="title">
-          <string>Score</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QLCDNumber" name="scoreDisplay">
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="1" alignment="Qt::AlignTop">
+           <widget class="QTableWidget" name="scoringTable">
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>60</height>
+              <height>10000</height>
              </size>
             </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="controlsBox">
-         <property name="title">
-          <string>Controls</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="1" column="1">
-           <widget class="QPushButton" name="closeButton">
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="text">
-             <string>Close</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="openButton">
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="text">
-             <string>Open</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Utils</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="1">
-           <widget class="QPushButton" name="resetButton">
             <property name="maximumSize">
              <size>
-              <width>120</width>
-              <height>16777215</height>
+              <width>10000</width>
+              <height>10000</height>
              </size>
             </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
             </property>
-            <property name="text">
-             <string>Reset</string>
+            <property name="showDropIndicator" stdset="0">
+             <bool>false</bool>
             </property>
+            <property name="dragDropOverwriteMode">
+             <bool>false</bool>
+            </property>
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="sortingEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="columnCount">
+             <number>2</number>
+            </property>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Score</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Reason</string>
+             </property>
+            </column>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="rpasserButton">
-            <property name="text">
-             <string>Rpasser</string>
+          <item row="0" column="0" alignment="Qt::AlignTop">
+           <widget class="QGroupBox" name="scoreBox">
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
             </property>
+            <property name="title">
+             <string>Score</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item alignment="Qt::AlignTop">
+              <widget class="QLCDNumber" name="scoreDisplay">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>70</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="leftFrameSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -755,15 +757,18 @@
    </property>
    <widget class="QMenu" name="menuabout">
     <property name="title">
-     <string>help</string>
+     <string>Help</string>
     </property>
     <addaction name="aboutButton"/>
    </widget>
    <widget class="QMenu" name="menufile">
     <property name="title">
-     <string>file</string>
+     <string>File</string>
     </property>
-    <addaction name="openButton2"/>
+    <addaction name="openButton"/>
+    <addaction name="reparseButton"/>
+    <addaction name="resetButton"/>
+    <addaction name="separator"/>
     <addaction name="gotoOffsetButton"/>
    </widget>
    <addaction name="menufile"/>
@@ -774,14 +779,24 @@
     <string>about</string>
    </property>
   </action>
-  <action name="openButton2">
+  <action name="openButton">
    <property name="text">
     <string>open</string>
    </property>
   </action>
+  <action name="reparseButton">
+   <property name="text">
+    <string>Reparse</string>
+   </property>
+  </action>
+  <action name="resetButton">
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </action>
   <action name="gotoOffsetButton">
    <property name="text">
-    <string>Go to offset hex</string>
+    <string>Go to Offset Hex</string>
    </property>
   </action>
  </widget>
@@ -789,54 +804,6 @@
   <include location="icons.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>resetButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>reset()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>282</x>
-     <y>285</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>311</x>
-     <y>260</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>openFile()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>124</x>
-     <y>209</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>147</x>
-     <y>230</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rpasserButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>rparser()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>279</x>
-     <y>326</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>309</x>
-     <y>150</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>sectionsTable</sender>
    <signal>currentItemChanged(QTableWidgetItem*,QTableWidgetItem*)</signal>

@@ -3,6 +3,17 @@
 #include "../lib/hash-lib/sha256.hpp"
 #include "../lib/hash-lib/sha1.hpp"
 
+#include <sstream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+#include <regex>
+#include <set>
+#include <stdexcept>
+#include <boost/regex.hpp>
+
+
+
 std::size_t findFileSize(const std::string &p_file)
 {
     std::ifstream in(p_file.c_str(), std::ios::binary | std::ios::ate);
@@ -151,7 +162,7 @@ void ELFParser::evaluate()
     regexScan();
     findELF();
 
-    for (auto it : m_capabilities)
+    for (auto &it : m_capabilities)
     {
         switch (it.first)
         {
@@ -445,4 +456,22 @@ void ELFParser::findELF()
         {
         }
     }
+}
+
+double getEntropy() {
+	unsigned int counted_bytes[256] = {};
+	std::streamsize total_length = 0;
+	double entropy = 0.;
+    double temp;
+
+    for (int i = 0; i < 256; i++) {
+        temp = static_cast<double>(counted_bytes[i]) / total_length;
+
+        if (temp > 0.)
+		{
+            entropy += temp * fabs(log2(temp));
+        }
+    }
+
+    return entropy;
 }

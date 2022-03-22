@@ -10,8 +10,9 @@
 #include <stdexcept>
 
 // config colors
-#define COLOR_SELECTION 80, 250, 123, 0xff
+#define COLOR_SELECTION 98, 114, 164, 0xff
 #define COLOR_ADDRESS 68, 71, 90, 0xff
+#define COLOR_CHARACTERS Qt::white
 
 // config lines
 #define MIN_HEXCHARS_IN_LINE 47
@@ -76,7 +77,7 @@ void QHexView::showFromOffset(int offset)
 
 		int cursorY = m_cursorPos / (2 * m_bytesPerLine);
 
-		verticalScrollBar() -> setValue(cursorY);
+		verticalScrollBar()->setValue(cursorY);
 		UPDATE
 	}
 }
@@ -161,6 +162,7 @@ void QHexView::paintEvent(QPaintEvent *event)
 
     QByteArray data = m_pdata->getData(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
 
+	painter.setPen(COLOR_CHARACTERS); // paint white characters and binary
 	for (int lineIdx = firstLineIdx, yPos = yPosStart;  lineIdx < lastLineIdx; lineIdx += 1, yPos += m_charHeight)
 	{
 		// ascii position

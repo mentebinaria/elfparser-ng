@@ -62,21 +62,22 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
 public slots:
-    void sectionSelected(QTableWidgetItem*, QTableWidgetItem*);
+	void openFile();
+	void parser(QString filename);
+
+	void sectionSelected(QTableWidgetItem*, QTableWidgetItem*);
     void programSelected(QTableWidgetItem*, QTableWidgetItem*);
-    void parser(QString filename);
-    void rparser();
-    void reset();
-    void openFile();
+
+	void on_gotoOffsetButton_triggered();
     void overviewToClipboard();
     void on_aboutButton_triggered();
-	void on_gotoOffsetButton_triggered();
+	void on_reparseButton_triggered();
+	void on_resetButton_triggered();
     void conf_buttons();
     void conf_tables();
-    void on_closeButton_clicked();
-    void on_openButton2_triggered();
-
+    void on_openButton_triggered();
 };
 
 #endif //! MAINWINDOW_H

@@ -7,6 +7,8 @@
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
 
+#include <QCursor>
+#include <QDebug>
 #include <QInputDialog>
 #include <QAbstractScrollArea>
 #include <QClipboard>
@@ -71,42 +73,21 @@ void MainWindow::openFile()
     parser(m_FileName);
 }
 
-void MainWindow::reset()
-{
-    m_tableItems.clear();
-    m_treeItems.clear();
-    m_parser.reset();
-    m_HexEditor->clear();
-    m_ui->overviewTable->clearContents();
-    m_ui->headerTable->clearContents();
-    m_ui->sectionsTable->clearContents();
-    m_ui->programsTable->clearContents();
-    m_ui->scoringTable->clearContents();
-    m_ui->capabilitiesTree->clear();
-    m_ui->scoreDisplay->display(0);
-    m_ui->sectionInfo->clear();
-    m_ui->programsInfo->clear();
-}
-
 void MainWindow::conf_buttons()
 {
     // open
     m_ui->openButton->setIcon(QIcon("../src/ui/assets/open.png"));
-    m_ui->openButton2->setIcon(QIcon("../src/ui/assets/open.png"));
 
     // reset
     m_ui->resetButton->setIcon(QIcon("../src/ui/assets/reset.png"));
-
-    // close
-    m_ui->closeButton->setIcon(QIcon("../src/ui/assets/close.png"));
 
     // about
     m_ui->aboutButton->setIcon(QIcon("../src/ui/assets/about.png"));
 
     // rpasser
-    m_ui->rpasserButton->setIcon(QIcon("../src/ui/assets/rpasser.png"));
+    m_ui->reparseButton->setIcon(QIcon("../src/ui/assets/rpasser.png"));
 
-	// goto hex
+	// hex button
 	m_ui->gotoOffsetButton->setIcon(QIcon("../src/ui/assets/goto.png"));
 }
 
@@ -124,6 +105,7 @@ void MainWindow::conf_tables()
     // overview
     m_ui->overviewTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+
     // programs
     m_ui->programsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
@@ -134,29 +116,22 @@ void MainWindow::conf_tables()
     m_ui->sectionsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
-void MainWindow::on_closeButton_clicked()
-{
-    QMessageBox::StandardButton close = QMessageBox::question(this, "Close", "Close this Program ?", QMessageBox::Yes | QMessageBox::No);
-    if (close == QMessageBox::Yes)
-        this->close();
-}
-
 void MainWindow::parser(QString filename)
 {
-    reset();
+    on_resetButton_triggered();
     m_parser.reset(new ELFParser());
 
     try
     {
+		m_parser->parse(filename.toStdString());
+        m_parser->evaluate();
+
 		QFile file(filename);
 		if(file.open(QIODevice::ReadOnly))
 		{
 			QByteArray bytes = file.readAll();
 			m_HexEditor->setData(new QHexView::DataStorageArray(bytes));
 		}
-
-		m_parser->parse(filename.toStdString());
-        m_parser->evaluate();
     }
     catch (const std::exception &e)
     {
@@ -217,8 +192,13 @@ void MainWindow::parser(QString filename)
     tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getMachine().c_str()));
     m_ui->headerTable->setItem(7, 0, tableItem);
     m_tableItems.push_back(tableItem);
-    tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getVersion().c_str()));
-    m_ui->headerTable->setItem(8, 0, tableItem);
+	QString versionElf = QString(m_parser->getElfHeader().getVersion().c_str());
+	if(versionElf == '1')
+		tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getVersion().c_str() + QString(" (Current)")));
+	else
+		tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getVersion().c_str()));
+
+	m_ui->headerTable->setItem(8, 0, tableItem);
     m_tableItems.push_back(tableItem);
     tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getEntryPointString().c_str()));
     m_ui->headerTable->setItem(9, 0, tableItem);
@@ -232,7 +212,7 @@ void MainWindow::parser(QString filename)
     tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getFlags().c_str()));
     m_ui->headerTable->setItem(12, 0, tableItem);
     m_tableItems.push_back(tableItem);
-    tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getEHSize()));
+    tableItem = new QTableWidgetItem(QString::number(m_parser->getElfHeader().getEHSize()));
     m_ui->headerTable->setItem(13, 0, tableItem);
     m_tableItems.push_back(tableItem);
     tableItem = new QTableWidgetItem(QString(boost::lexical_cast<std::string>(m_parser->getElfHeader().getProgramSize()).c_str()));
@@ -474,13 +454,31 @@ void MainWindow::programSelected(QTableWidgetItem *p_first, QTableWidgetItem *p_
     m_ui->programsInfo->setPlainText(QString(details.c_str()));
 }
 
-void MainWindow::rparser()
+void MainWindow::on_reparseButton_triggered()
 {
     if (m_FileName.size() == 0)
         return;
     else
         parser(m_FileName);
 }
+
+void  MainWindow::on_resetButton_triggered()
+{
+	m_tableItems.clear();
+    m_treeItems.clear();
+    m_parser.reset();
+    m_HexEditor->clear();
+    m_ui->overviewTable->clearContents();
+    m_ui->headerTable->clearContents();
+    m_ui->sectionsTable->clearContents();
+    m_ui->programsTable->clearContents();
+    m_ui->scoringTable->clearContents();
+    m_ui->capabilitiesTree->clear();
+    m_ui->scoreDisplay->display(0);
+    m_ui->sectionInfo->clear();
+    m_ui->programsInfo->clear();
+}
+
 
 void MainWindow::on_aboutButton_triggered()
 {
@@ -501,7 +499,7 @@ void MainWindow::on_aboutButton_triggered()
     m_dialog->showNormal();
 }
 
-void MainWindow::on_openButton2_triggered()
+void MainWindow::on_openButton_triggered()
 {
     openFile();
 }
@@ -513,7 +511,6 @@ void MainWindow::on_gotoOffsetButton_triggered()
 
 	if(done)
 		m_HexEditor->showFromOffset(offset);
-
 }
 
 #endif
