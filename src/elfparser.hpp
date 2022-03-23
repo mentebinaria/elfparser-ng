@@ -75,6 +75,8 @@ private:
     // he ptr vector to hold the search engine values
     boost::ptr_vector<SearchValue> m_searchValues;
 
+	double m_entropy;
+
 public:
 
     // oes nothing except default initialization of all members
@@ -148,6 +150,9 @@ public:
     std::string getFamily() const;
 
 	// calc entropy
+	double calcEntropy(const unsigned int counted_bytes[256], const std::streamsize total_length);
+
+	// return a const entropy total binary
 	double getEntropy();
 
 };
