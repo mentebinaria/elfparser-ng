@@ -13,6 +13,21 @@
 #include <boost/regex.hpp>
 
 
+static double calcEntropyFunc(const unsigned int counted_bytes[256], const std::streamsize total_length)
+{
+	double entropy = 0.;
+    double temp;
+
+    for (int i = 0; i < 256; i++) {
+        temp = static_cast<double>(counted_bytes[i]) / total_length;
+
+        if (temp > 0.)
+            entropy += temp * fabs(log2(temp));
+    }
+
+    return entropy;
+}
+
 std::size_t findFileSize(const std::string &p_file)
 {
     std::ifstream in(p_file.c_str(), std::ios::binary | std::ios::ate);
@@ -119,19 +134,9 @@ void ELFParser::parse(const std::string &p_file)
 
     auto ptrDataMem = m_mapped_file.data();
 
-	// calculate entry entropy binary
-	unsigned char count;
-	unsigned int counted_bytes[256] = {};
-
-	for(std::size_t i =0; i <= m_fileSize ; i++)
-	{
-			count = static_cast<unsigned char> (ptrDataMem[i]);
-			counted_bytes[count]++;
-	}
-	m_entropy = calcEntropy(counted_bytes, m_fileSize);
-
 	// get infos elf
     m_elfHeader.setHeader(ptrDataMem, m_fileSize);
+
 
     m_programHeader.setHeaders(ptrDataMem +
                                m_elfHeader.getProgramOffset(),
@@ -142,7 +147,8 @@ void ELFParser::parse(const std::string &p_file)
 
     m_sectionHeader.setHeaders(ptrDataMem +
                                m_elfHeader.getSectionOffset(),
-                               ptrDataMem, m_fileSize,
+                               ptrDataMem,
+							   m_fileSize,
                                m_elfHeader.getSectionCount(),
 							   m_elfHeader.getSectionSize(),
                                m_elfHeader.getStringTableIndex(),
@@ -155,12 +161,17 @@ void ELFParser::parse(const std::string &p_file)
                         m_elfHeader.isLE(),
 						m_elfHeader.getType() == "ET_DYN");
 
+
     // important to do section header first since it produces more complete data
     // create "segments" based off of the section header and program header
     m_sectionHeader.extractSegments(m_segments);
     m_programHeader.extractSegments(m_segments);
     m_segments.createDynamic();
     m_segments.generateSegments();
+
+	// calculate entropy binary all
+	calcEntropy(0, m_fileSize);
+	//for(int i = 0;)
 }
 
 void ELFParser::evaluate()
@@ -476,20 +487,19 @@ void ELFParser::findELF()
     }
 }
 
-double ELFParser::calcEntropy(const unsigned int counted_bytes[256], const std::streamsize total_length)
+void ELFParser::calcEntropy(off_t p_offset, std::size_t p_fileSize)
 {
-	double entropy = 0.;
-    double temp;
+	// calculate entry entropy binary
+	unsigned char count;
+	unsigned int counted_bytes[256] = {};
 
-    for (int i = 0; i < 256; i++) {
-        temp = static_cast<double>(counted_bytes[i]) / total_length;
+	for(std::size_t i = p_offset; i <= m_fileSize ; i++)
+	{
+			count = static_cast<unsigned char> (m_mapped_file.data()[i]);
+			counted_bytes[count]++;
+	}
 
-        if (temp > 0.) {
-            entropy += temp * fabs(log2(temp));
-        }
-    }
-
-    return entropy;
+	m_entropy =  calcEntropyFunc(counted_bytes, m_fileSize);
 }
 
 double ELFParser::getEntropy()

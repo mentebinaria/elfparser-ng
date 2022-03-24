@@ -49,8 +49,8 @@ features that elf parser currently has
 * Read Only Segment
 * Debug Link Segment
 * String Table
-* Hex Editor
-
+* Hex Dump
+* Calculate Entropy
 
 ## Screenshots
 

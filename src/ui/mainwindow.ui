@@ -815,10 +815,11 @@
     <property name="title">
      <string>Window</string>
     </property>
+    <addaction name="FullScreenButton"/>
    </widget>
    <addaction name="menufile"/>
-   <addaction name="menuabout"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuabout"/>
   </widget>
   <action name="aboutButton">
    <property name="text">
@@ -843,6 +844,11 @@
   <action name="gotoOffsetButton">
    <property name="text">
     <string>Go to Offset Hex</string>
+   </property>
+  </action>
+  <action name="FullScreenButton">
+   <property name="text">
+    <string>Full Screen</string>
    </property>
   </action>
  </widget>

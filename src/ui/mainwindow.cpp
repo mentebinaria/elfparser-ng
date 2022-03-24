@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_copyAction(),
                                           m_parser(),
                                           m_HexEditor(new QHexView),
-										  m_splitter(new QSplitter),
 										  m_layout(new QVBoxLayout)
 {
     setWindowTitle("elfparser-ng");
@@ -48,10 +47,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // configs tables
     conf_tables();
 
-
-	// hex editor splitted
-	m_splitter->addWidget(m_HexEditor);
-	m_layout->addWidget(m_splitter);
+	// hex editor Tab
+	m_layout->addWidget(m_HexEditor);
 	m_ui->HexTab->setLayout(m_layout);
 }
 
@@ -89,6 +86,9 @@ void MainWindow::conf_buttons()
 
 	// hex button
 	m_ui->gotoOffsetButton->setIcon(QIcon("../src/ui/assets/goto.png"));
+
+	// full screen
+	m_ui->FullScreenButton->setIcon(QIcon("../src/ui/assets/show.png"));
 }
 
 void MainWindow::conf_tables()
@@ -247,6 +247,10 @@ void MainWindow::parser(QString filename)
 
     BOOST_FOREACH (const AbstractSectionHeader &section, sections)
     {
+		// TODO: DELETE
+		// std::cout << std::hex << section.getPhysOffset() << std::endl; // get sections name
+		// std::cout << section.getSize() << std::endl; // get sections name
+
         tableItem = new IntWidgetItem(i);
         m_ui->sectionsTable->setItem(i, 0, tableItem);
         m_tableItems.push_back(tableItem);
@@ -522,6 +526,14 @@ void MainWindow::on_gotoOffsetButton_triggered()
 
 	if(done)
 		m_HexEditor->showFromOffset(offset);
+}
+
+void MainWindow::on_FullScreenButton_triggered()
+{
+	if(isFullScreen())
+		showNormal();
+    else
+        showFullScreen();
 }
 
 #endif

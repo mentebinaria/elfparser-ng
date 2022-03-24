@@ -52,7 +52,6 @@ private:
 	QHexView *m_HexEditor;
 
 	// split window
-	QSplitter *m_splitter;
 	QVBoxLayout *m_layout;
 
 	// path name
@@ -75,6 +74,7 @@ public slots:
     void on_aboutButton_triggered();
 	void on_reparseButton_triggered();
 	void on_resetButton_triggered();
+	void on_FullScreenButton_triggered();
     void conf_buttons();
     void conf_tables();
     void on_openButton_triggered();

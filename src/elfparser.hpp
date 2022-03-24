@@ -75,8 +75,11 @@ private:
     // he ptr vector to hold the search engine values
     boost::ptr_vector<SearchValue> m_searchValues;
 
+ 	// he var entropy
 	double m_entropy;
 
+	// calc entropy general function
+	void calcEntropy(off_t p_offset, std::size_t p_fileSize);
 public:
 
     // oes nothing except default initialization of all members
@@ -148,9 +151,6 @@ public:
 
     // return a string indicating the malware family
     std::string getFamily() const;
-
-	// calc entropy
-	double calcEntropy(const unsigned int counted_bytes[256], const std::streamsize total_length);
 
 	// return a const entropy total binary
 	double getEntropy();
