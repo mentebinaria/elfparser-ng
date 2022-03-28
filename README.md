@@ -54,4 +54,10 @@ features that elf parser currently has
 
 ## Screenshots
 
+Version GUI
+
 ![Img](assets/elfparser-ng.png)
+
+Version CLI (Overview)
+
+![Img2](assets/elfparser-ng-cli.png)
