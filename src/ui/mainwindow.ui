@@ -164,11 +164,6 @@
            <string>Family</string>
           </property>
          </row>
-         <row>
-          <property name="text">
-           <string>Packed</string>
-          </property>
-         </row>
          <column>
           <property name="text">
            <string/>
@@ -224,18 +219,24 @@
           <rect>
            <x>7</x>
            <y>7</y>
-           <width>47</width>
-           <height>17</height>
+           <width>200</width>
+           <height>20</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>20</height>
+          </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>100</width>
-           <height>16777215</height>
+           <width>40</width>
+           <height>20</height>
           </size>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Entropy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Entropy : 0 (N/A)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </widget>
@@ -817,8 +818,15 @@
     </property>
     <addaction name="FullScreenButton"/>
    </widget>
+   <widget class="QMenu" name="menuEdit_2">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="EntroyLimitButton"/>
+   </widget>
    <addaction name="menufile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuEdit_2"/>
    <addaction name="menuabout"/>
   </widget>
   <action name="aboutButton">
@@ -828,27 +836,32 @@
   </action>
   <action name="openButton">
    <property name="text">
-    <string>open</string>
+    <string>open </string>
    </property>
   </action>
   <action name="reparseButton">
    <property name="text">
-    <string>Reparse</string>
+    <string>Reparse </string>
    </property>
   </action>
   <action name="resetButton">
    <property name="text">
-    <string>Reset</string>
+    <string>Reset </string>
    </property>
   </action>
   <action name="gotoOffsetButton">
    <property name="text">
-    <string>Go to Offset Hex</string>
+    <string>Go to Offset Hex </string>
    </property>
   </action>
   <action name="FullScreenButton">
    <property name="text">
     <string>Full Screen</string>
+   </property>
+  </action>
+  <action name="EntroyLimitButton">
+   <property name="text">
+    <string>Entroy Limit</string>
    </property>
   </action>
  </widget>

@@ -18,7 +18,7 @@
 
 namespace Ui
 {
-    class MainWindow;
+class MainWindow;
 }
 
 class ELFParser;
@@ -27,57 +27,61 @@ class QTreeWidgetItem;
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
-private:
-    // The main window that is created by mainwindow.ui
-    Ui::MainWindow *m_ui;
+ private:
+  // The main window that is created by mainwindow.ui
+  Ui::MainWindow *m_ui;
 
-    // The dialog window
-    boost::scoped_ptr<QDialog> m_dialog;
+  // The dialog window
+  boost::scoped_ptr<QDialog> m_dialog;
 
-    // All the allocated Table values
-    boost::ptr_vector<QTableWidgetItem> m_tableItems;
+  // All the allocated Table values
+  boost::ptr_vector<QTableWidgetItem> m_tableItems;
 
-    // All the allocated Tree values
-    boost::ptr_vector<QTreeWidgetItem> m_treeItems;
+  // All the allocated Tree values
+  boost::ptr_vector<QTreeWidgetItem> m_treeItems;
 
-    // The reusable copy action
-    boost::scoped_ptr<QAction> m_copyAction;
+  // The reusable copy action
+  boost::scoped_ptr<QAction> m_copyAction;
 
-    // The reusable ELF parser
-    boost::scoped_ptr<ELFParser> m_parser;
+  // The reusable ELF parser
+  boost::scoped_ptr<ELFParser> m_parser;
 
-    // The resuable Editor Hex
-	QHexView *m_HexEditor;
+  // The resuable Editor Hex
+  QHexView *m_HexEditor;
 
-	// split window
-	QVBoxLayout *m_layout;
+  // split window
+  QVBoxLayout *m_layout;
 
-	// path name
-    QString m_FileName;
+  // path name
+  QString m_FileName;
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+  // entropy config 
+  double m_Entropy;
+  double m_VEntropy;
+ public:
+  explicit MainWindow ( QWidget *parent = 0 );
+  ~MainWindow();
 
 
-public slots:
-	void openFile();
-	void parser(QString filename);
+ public slots:
+  void openFile();
+  void parser ( QString filename );
 
-	void sectionSelected(QTableWidgetItem*, QTableWidgetItem*);
-    void programSelected(QTableWidgetItem*, QTableWidgetItem*);
+  void sectionSelected ( QTableWidgetItem *, QTableWidgetItem * );
+  void programSelected ( QTableWidgetItem *, QTableWidgetItem * );
 
-	void on_gotoOffsetButton_triggered();
-    void overviewToClipboard();
-    void on_aboutButton_triggered();
-	void on_reparseButton_triggered();
-	void on_resetButton_triggered();
-	void on_FullScreenButton_triggered();
-    void conf_buttons();
-    void conf_tables();
-    void on_openButton_triggered();
+  void on_gotoOffsetButton_triggered();
+  void overviewToClipboard();
+  void on_aboutButton_triggered();
+  void on_reparseButton_triggered();
+  void on_resetButton_triggered();
+  void on_FullScreenButton_triggered();
+  void conf_buttons();
+  void conf_tables();
+  void on_openButton_triggered();
+  void on_EntroyLimitButton_triggered();
 };
 
 #endif //! MAINWINDOW_H
