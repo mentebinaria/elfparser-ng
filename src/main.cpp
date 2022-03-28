@@ -99,13 +99,16 @@ void do_parsing(const std::string &p_fileName, bool p_printReasons,
 
     parser.evaluate();
 
-    std::cout << p_fileName << " - Score: " << parser.getScore();
+    std::cout << "Overview : " << std::endl <<  
+    " - Score: " << parser.getScore() << std::endl << 
+    " - Entropy: " << parser.getEntropy() << std::endl;
     if (!parser.getFamily().empty())
     {
-        std::cout <<"[Family: " << parser.getFamily() << "]" << std::endl << std::endl;
-        std::cout <<"[SHA256: " << std::hex << parser.getSha256() << " ]" << std::endl;
-        std::cout <<"[SHA1:   " << std::hex << parser.getSha1()   << " ]" << std::endl;
-        std::cout <<"[MD5:    " << std::hex << parser.getMD5()    << " ]" << std::endl << std::endl;
+        std::cout <<" - Family: " << parser.getFamily() << std::endl;
+        std::cout <<" - SHA256: " << std::hex << parser.getSha256() << std::endl;
+        std::cout <<" - SHA1:   " << std::hex << parser.getSha1() << std::endl;
+        std::cout <<" - MD5:    " << std::hex << parser.getMD5() << std::endl;
+        
     }
     if (p_printReasons)
         parser.printReasons();

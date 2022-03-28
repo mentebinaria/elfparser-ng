@@ -362,6 +362,7 @@ std::string AbstractSegments::determineFamily() const
 {
     const std::set<std::string>& files(getFiles());
 
+
 	if (files.find("kaiten.c") != files.end() || files.find("kaiten2.c") != files.end())
     {
         return "ELF.Kaiten";

@@ -1,20 +1,22 @@
-import "hash" // get module for get hash malwares compare
+// import "hash" // get module for get hash malwares compare
+// import "elf" // parser elf
 
-rule Kaiten : Malware
+rule Family_Kaiten
 {
-	meta:
-	   description = "Binary analysis for possible kaiten family malware"
+    meta:
+        author = "VitorMob"
+        description = "Kaiten Malware / Bot-Net "
+        malpedia_version = "1.0"
+        malpedia_license = "CC BY-NC-SA 4.0"
+        malpedia_sharing = "TLP:WHITE"
 
 	strings:
-		$name1 = "kaiten.c" nocase wide ascii
-		$name2 = "kaiten2.c" nocase wide ascii
+		$s0 = "/etc/rc.d/rc.local"
+		$s1 = "/etc/rc.conf"
+		$s2 = "hackzilla" nocase wide ascii // requests in Mozilla http 1.0
+		$s3 = "IpwndSamsung" nocase wide ascii // create new process, cmdline(IpwndSamsung)
 
 
-    condition:
-		$name1 or $name2 or
-		// compare hashs compare hash with potential malware kaiten
-		hash.md5(0,filesize) == "ee07542f7dba6a60342424faf92af201" or // md5
-		hash.sha1(0,filesize) == "966f44a6f36f80f2807fcd7f461aa3d52e77bc81" or // sha1
-		hash.sha256(0, filesize) == "305901aa920493695729132cfd20cbddc9db2cf861071450a646c6a07b4a50f3"  // sha256
-
+	condition:
+        $s0 and $s1 or $s2 or $s3
 }
