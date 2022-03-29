@@ -1,63 +1,47 @@
 # elfparser-ng
 
-![Icon](src/ui/icon_72529.png)
+Multiplatform CLI and GUI tool to show information about ELF files.
 
-Multiplatform CLI and GUI tool to show information about ELF files
-This project is a tentative to keep [elfparser](https://github.com/jacob-baines/elfparser) alive. Plans include update it and add new features.
+![gui](assets/elfparser-ng.png)
+![cli](assets/elfparser-ng-cli.png)
 
-> [License](LICENSE)
+This project aims to keep the great [elfparser](https://github.com/jacob-baines/elfparser) alive. Plans include updating and adding new features to it.
 
-> Made in C++ lang
 ## What problem are you trying to solve?
-I was looking for ELF based malware on https://malwr.com and couldn't help but notice how little analysis gets done on them. More surprising, to me, is that even well known malware like Kaiten gets flagged by very few AV (https://malwr.com/analysis/NThiZTU0MWUwZGI2NDAzYWI5YWU2ZjkzNTJmYTNjZTY/). ELF Parser attempts to move ELF malware analysis forward by quickly providing basic information and static analysis of the binary. The end goal of ELF Parser is to indicate to the analyst if it thinks the binary is malicious / dangerous and if so why.
 
-## Help
+Keep one of the few multiplatform graphical tool to parse ELF files up to date and improve it with new features.
 
-ELF Parser can be compiled on Windows, OS X, or Linux (demangling and unit tests don't work on Windows) Compiling on Linux goes like this:
+## Features
+
+* Parse ELF headers and segments.
+* Show symbols.
+* Hex Dump.
+* Calculate file's entropy.
+
+## Installing
+
+You can just download a pre-compiled release from the [Releases](https://github.com/mentebinaria/elfparser-ng/releases) section and use it.
+
+## Building
+
+If you want to build elfparser-ng yourself, here's an useful tutorial:
 
 [![asciicast](https://asciinema.org/a/444072.svg)](https://asciinema.org/a/444072)
 
+To build on Windows, set the `option(windows "Enable Windows build." OFF` to `ON` in [CMakeFiles](CMakeLists.txt) file. Then, download and install CMake - and all the dependencies - and compile it using Visual Studio.
 
->To compile windows, just go to [CMakeFiles](CMakeLists.txt), change `windows` to `on`
-![Windows](assets/compiler_windows.png) install `cmake` create archive `build` enter archive
-execute command `cmake ..`, Open Visual Studio 2019 command `ctrl+f5`
+### Compile Targets
 
-## Compile Targets
 ELF Parser has a number of compilation targets that can be configured by CMakeLists.txt. The targets are:
+
 * Unit tests
 * CLI build
 * GUI build
 
-## Dependencies
+### Dependencies
 
-[boost C++](http://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
+[Boost](http://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
 > sudo apt-get install libboost-all-dev
-
 
 [Qt5](https://www.qt.io/download-open-source)
 > sudo apt-get install build-essential qtcreator qt5-default  qtdeclarative5-dev
-
-## Features
-features that elf parser currently has
-
-* Elf Header
-* Program Header
-* Section Headers
-* Dynamic Section
-* Symbols
-* Note Segment
-* Read Only Segment
-* Debug Link Segment
-* String Table
-* Hex Dump
-* Calculate Entropy
-
-## Screenshots
-
-Version GUI
-
-![Img](assets/elfparser-ng.png)
-
-Version CLI (Overview)
-
-![Img2](assets/elfparser-ng-cli.png)
