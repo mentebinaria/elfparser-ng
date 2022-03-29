@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.0)
 # Options
 option(test "Build all tests." OFF)
 option(debug "Build with debug flags." OFF)
-option(qt "Build with QT GUI." ON)
-option(windows "Enabled windows build." OFF)
+option(qt "Build with Qt GUI." ON)
+option(windows "Enable Windows build." OFF)
 
 #define project
 if (qt)
@@ -19,8 +19,8 @@ set(PROJECT_VERSION_MINOR "6")
 set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION_COUNT 3)
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-set(PROJECT_VENDOR " elfparser-ng (c) 2021 Mente Binária //  elfparser  (c) 2014-2021 Jacob Baines")
-set(PROJECT_COPYRIGHT_YEAR "2020")
+set(PROJECT_VENDOR " elfparser-ng (c) 2021-2022 Mente Binária // elfparser (c) 2014 Jacob Baines")
+set(PROJECT_COPYRIGHT_YEAR "2022")
 set(PROJECT_DOMAIN_FIRST "elfparser-ng")
 set(PROJECT_DOMAIN "${PROJECT_DOMAIN_FIRST}.${PROJECT_DOMAIN_SECOND}")
 
