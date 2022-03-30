@@ -80,30 +80,30 @@ void MainWindow::conf_buttons()
 {
   // open
   m_ui->openButton->setIcon ( QIcon ( "../src/ui/assets/open.png" ) );
-  m_ui->openButton->setShortcut(QKeySequence("Ctrl+O"));
+  m_ui->openButton->setShortcut ( QKeySequence ( "Ctrl+O" ) );
 
   // reset
   m_ui->resetButton->setIcon ( QIcon ( "../src/ui/assets/reset.png" ) );
-  m_ui->resetButton->setShortcut(QKeySequence("Ctrl+K"));
+  m_ui->resetButton->setShortcut ( QKeySequence ( "Ctrl+K" ) );
 
   // about
   m_ui->aboutButton->setIcon ( QIcon ( "../src/ui/assets/about.png" ) );
-  
+
 
   // rpasser
   m_ui->reparseButton->setIcon ( QIcon ( "../src/ui/assets/rpasser.png" ) );
-  m_ui->reparseButton->setShortcut(QKeySequence("Ctrl+R")); 
+  m_ui->reparseButton->setShortcut ( QKeySequence ( "Ctrl+R" ) );
 
   // hex button
   m_ui->gotoOffsetButton->setIcon ( QIcon ( "../src/ui/assets/goto.png" ) );
-  m_ui->gotoOffsetButton->setShortcut(QKeySequence("Ctrl+J"));
+  m_ui->gotoOffsetButton->setShortcut ( QKeySequence ( "Ctrl+J" ) );
 
   // full screen
   m_ui->FullScreenButton->setIcon ( QIcon ( "../src/ui/assets/show.png" ) );
-  m_ui->FullScreenButton->setShortcut(QKeySequence("F11"));
+  m_ui->FullScreenButton->setShortcut ( QKeySequence ( "F11" ) );
 
   // edit entropy limit
-  m_ui->EntroyLimitButton->setIcon( QIcon ("../src/ui/assets/edit.png") );
+  m_ui->EntroyLimitButton->setIcon ( QIcon ( "../src/ui/assets/edit.png" ) );
 }
 
 void MainWindow::conf_tables()
@@ -163,10 +163,15 @@ void MainWindow::parser ( QString filename )
   // LCD display
   m_ui->scoreDisplay->display ( static_cast<int> ( m_parser->getScore() ) );
   // Set entropy status load
-  m_VEntropy = m_parser->getEntropy(); 
+  m_VEntropy = m_parser->getEntropy();
   m_ui->EntropyP->setValue ( m_VEntropy );
-  m_ui->EntropyP->setMaximum( m_Entropy );
-  QString entropyStr = QString::number(m_VEntropy);
+  m_ui->EntropyP->setMaximum ( m_Entropy );
+
+  if ( m_Entropy < m_VEntropy )
+    m_ui->EntropyP->setValue ( m_Entropy );
+
+  QString entropyStr = QString::number ( m_VEntropy );
+
   if ( m_VEntropy <= m_Entropy )
     m_ui->labelEntropy->setText ( "Entropy : " + entropyStr + " (Not Packed)" );
   else
@@ -588,7 +593,7 @@ void MainWindow::on_EntroyLimitButton_triggered()
 
   if ( done )
     m_Entropy = setEntropy;
-     
+
 }
 
 #endif
