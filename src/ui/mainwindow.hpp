@@ -14,7 +14,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include "QHexView.hpp"
+#include "QHexView-ng.hpp"
 
 namespace Ui
 {

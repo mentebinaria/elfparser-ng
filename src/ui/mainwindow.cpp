@@ -141,13 +141,7 @@ void MainWindow::parser ( QString filename )
     m_parser->parse ( filename.toStdString() );
     m_parser->evaluate();
 
-    QFile file ( filename );
-
-    if ( file.open ( QIODevice::ReadOnly ) )
-    {
-      QByteArray bytes = file.readAll();
-      m_HexEditor->setData ( new QHexView::DataStorageArray ( bytes ) );
-    }
+    m_HexEditor->loadFile ( filename );
   }
   catch ( const std::exception &e )
   {
