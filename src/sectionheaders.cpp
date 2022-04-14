@@ -6,10 +6,9 @@
 #include <sstream>
 #include <iostream>
 
-SectionHeaders::SectionHeaders()
+SectionHeaders::SectionHeaders() :  m_totalSize(0),
+    								m_stringIndex(0)
 {
-    m_totalSize = 0;
-    m_stringIndex = 0;
 }
 
 SectionHeaders::~SectionHeaders()

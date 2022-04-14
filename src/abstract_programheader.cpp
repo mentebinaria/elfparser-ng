@@ -125,7 +125,7 @@ std::string AbstractProgramHeader::getName() const
             case elf::k_exidx:
                 return "EXIDX";
             default:
-                return type_str.c_str();
+                return std::move(type_str.c_str());
         }
     }();
 

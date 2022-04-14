@@ -39,7 +39,7 @@ private:
     AbstractElfHeader &operator=(const AbstractElfHeader &p_rhs);
 
     // indicates if the binary is 64 bit or not
-    bool m_is64;
+    bool m_is64 : 1;
 
     // stores the file size due to true.asm silliness
     boost::uint32_t m_fileSize;

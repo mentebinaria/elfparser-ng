@@ -1,6 +1,6 @@
 #ifdef QT_GUI
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+
+#pragma once 
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -76,13 +76,16 @@ class MainWindow : public QMainWindow
   void overviewToClipboard();
   void on_aboutButton_triggered();
   void on_reparseButton_triggered();
-  void on_resetButton_triggered();
   void on_FullScreenButton_triggered();
   void conf_buttons();
   void conf_tables();
   void on_openButton_triggered();
   void on_EntroyLimitButton_triggered();
+  void on_reportButton_triggered();
+  void on_contactsButton_triggered();
+  void on_newButton_triggered();
+  void on_helpButton_triggered();
+
 };
 
-#endif //! MAINWINDOW_H
 #endif //! QT_GUI

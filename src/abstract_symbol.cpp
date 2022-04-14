@@ -26,7 +26,7 @@ std::string getSymBinding(boost::uint8_t p_info)
         case elf::symbol::k_weak:
             return "STB_WEAK";
         default:
-            return bind_str.c_str();
+            return std::move(bind_str.c_str());
         }
     }();
 
@@ -55,7 +55,7 @@ std::string getSymType(boost::uint8_t p_info)
             case elf::symbol::k_tls:
                 return "STT_TLS";
             default:
-                return p_info_str.c_str();
+                return std::move(p_info_str.c_str());
         }
     }();
     
@@ -79,13 +79,12 @@ AbstractSymbol::AbstractSymbol(const char *p_data, boost::uint32_t p_offset,
     m_name.assign(value.str());
 }
 
-AbstractSymbol::AbstractSymbol(const AbstractSymbol &p_rhs)
+AbstractSymbol::AbstractSymbol(const AbstractSymbol &p_rhs) :   m_symbol32(p_rhs.m_symbol32),
+    m_symbol64(p_rhs.m_symbol64),
+    m_name (p_rhs.m_name),
+    m_is64 (p_rhs.m_is64),
+    m_isLE (p_rhs.m_isLE)
 {
-    m_symbol32 = p_rhs.m_symbol32;
-    m_symbol64 = p_rhs.m_symbol64;
-    m_name = p_rhs.m_name;
-    m_is64 = p_rhs.m_is64;
-    m_isLE = p_rhs.m_isLE;
 }
 
 AbstractSymbol::~AbstractSymbol()

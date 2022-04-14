@@ -52,11 +52,31 @@
        <property name="enabled">
         <bool>true</bool>
        </property>
+       <property name="font">
+        <font>
+         <kerning>false</kerning>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
        <property name="tabPosition">
         <enum>QTabWidget::North</enum>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <property name="documentMode">
         <bool>true</bool>
@@ -78,167 +98,127 @@
          </sizepolicy>
         </property>
         <attribute name="title">
-         <string>Overview</string>
+         <string notr="true">Overview</string>
         </attribute>
-        <widget class="QTableWidget" name="overviewTable">
-         <property name="geometry">
-          <rect>
-           <x>7</x>
-           <y>62</y>
-           <width>10000</width>
-           <height>10000</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="contextMenuPolicy">
-          <enum>Qt::ActionsContextMenu</enum>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="sizeAdjustPolicy">
-          <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
-         </property>
-         <property name="autoScroll">
-          <bool>true</bool>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <property name="showDropIndicator" stdset="0">
-          <bool>false</bool>
-         </property>
-         <property name="dragEnabled">
-          <bool>false</bool>
-         </property>
-         <property name="dragDropOverwriteMode">
-          <bool>false</bool>
-         </property>
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::SingleSelection</enum>
-         </property>
-         <property name="columnCount">
-          <number>1</number>
-         </property>
-         <attribute name="horizontalHeaderVisible">
-          <bool>false</bool>
-         </attribute>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
-         </attribute>
-         <row>
-          <property name="text">
-           <string>Filename</string>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>Size</string>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>md5</string>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>sha1</string>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>sha256</string>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>Family</string>
-          </property>
-         </row>
-         <column>
-          <property name="text">
-           <string/>
-          </property>
-         </column>
-         <item row="5" column="0">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="background">
-           <brush brushstyle="NoBrush">
-            <color alpha="255">
-             <red>0</red>
-             <green>0</green>
-             <blue>0</blue>
-            </color>
-           </brush>
-          </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled|ItemIsAutoTristate</set>
-          </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QTableWidget" name="overviewTable">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>1280</width>
+             <height>720</height>
+            </size>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::ActionsContextMenu</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+           </property>
+           <property name="autoScroll">
+            <bool>true</bool>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="showDropIndicator" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="dragEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="dragDropOverwriteMode">
+            <bool>false</bool>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <property name="columnCount">
+            <number>1</number>
+           </property>
+           <attribute name="horizontalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <row>
+            <property name="text">
+             <string>Filename</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>Size</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>MD5</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>SHA-1</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>SHA-256</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>Family</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>Entropy</string>
+            </property>
+           </row>
+           <column>
+            <property name="text">
+             <string/>
+            </property>
+           </column>
+           <item row="5" column="0">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="background">
+             <brush brushstyle="NoBrush">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </property>
+            <property name="flags">
+             <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled|ItemIsAutoTristate</set>
+            </property>
+           </item>
+          </widget>
          </item>
-        </widget>
-        <widget class="QProgressBar" name="EntropyP">
-         <property name="geometry">
-          <rect>
-           <x>7</x>
-           <y>30</y>
-           <width>91</width>
-           <height>26</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="maximum">
-          <number>7</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-        </widget>
-        <widget class="QLabel" name="labelEntropy">
-         <property name="geometry">
-          <rect>
-           <x>7</x>
-           <y>7</y>
-           <width>200</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>200</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Entropy : 0 (N/A)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
+        </layout>
        </widget>
        <widget class="QWidget" name="headerTab">
         <property name="sizePolicy">
@@ -377,7 +357,7 @@
        </widget>
        <widget class="QWidget" name="sectionsTab">
         <attribute name="title">
-         <string>SHeaders</string>
+         <string>Sections</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
@@ -495,7 +475,7 @@
        </widget>
        <widget class="QWidget" name="programsTab">
         <attribute name="title">
-         <string>PHeaders</string>
+         <string>Segmentos</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
@@ -771,6 +751,14 @@
          <height>200</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <stylestrategy>PreferDefault</stylestrategy>
+        </font>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <property name="movable">
         <bool>true</bool>
        </property>
@@ -800,6 +788,11 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="contactsButton"/>
+    <addaction name="helpButton"/>
+    <addaction name="separator"/>
+    <addaction name="reportButton"/>
+    <addaction name="separator"/>
     <addaction name="aboutButton"/>
    </widget>
    <widget class="QMenu" name="menufile">
@@ -808,45 +801,41 @@
     </property>
     <addaction name="openButton"/>
     <addaction name="reparseButton"/>
-    <addaction name="resetButton"/>
     <addaction name="separator"/>
-    <addaction name="gotoOffsetButton"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Window</string>
     </property>
     <addaction name="FullScreenButton"/>
+    <addaction name="newButton"/>
    </widget>
    <widget class="QMenu" name="menuEdit_2">
     <property name="title">
      <string>Edit</string>
     </property>
     <addaction name="EntroyLimitButton"/>
+    <addaction name="separator"/>
+    <addaction name="gotoOffsetButton"/>
    </widget>
    <addaction name="menufile"/>
-   <addaction name="menuEdit"/>
    <addaction name="menuEdit_2"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuabout"/>
   </widget>
   <action name="aboutButton">
    <property name="text">
-    <string>about</string>
+    <string>About</string>
    </property>
   </action>
   <action name="openButton">
    <property name="text">
-    <string>open </string>
+    <string>Open </string>
    </property>
   </action>
   <action name="reparseButton">
    <property name="text">
-    <string>Reparse </string>
-   </property>
-  </action>
-  <action name="resetButton">
-   <property name="text">
-    <string>Reset </string>
+    <string>Reload</string>
    </property>
   </action>
   <action name="gotoOffsetButton">
@@ -864,6 +853,26 @@
     <string>Entroy Limit</string>
    </property>
   </action>
+  <action name="helpButton">
+   <property name="text">
+    <string>Quick Help</string>
+   </property>
+  </action>
+  <action name="contactsButton">
+   <property name="text">
+    <string>Contacts</string>
+   </property>
+  </action>
+  <action name="reportButton">
+   <property name="text">
+    <string>Report Bug...</string>
+   </property>
+  </action>
+  <action name="newButton">
+   <property name="text">
+    <string>New Window</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="icons.qrc"/>
@@ -876,8 +885,8 @@
    <slot>sectionSelected(QTableWidgetItem*,QTableWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>484</x>
-     <y>273</y>
+     <x>93</x>
+     <y>111</y>
     </hint>
     <hint type="destinationlabel">
      <x>551</x>
@@ -892,8 +901,8 @@
    <slot>programSelected(QTableWidgetItem*,QTableWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>508</x>
-     <y>227</y>
+     <x>93</x>
+     <y>111</y>
     </hint>
     <hint type="destinationlabel">
      <x>473</x>

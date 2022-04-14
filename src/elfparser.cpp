@@ -15,7 +15,8 @@
 
 static double calcEntropyFunc(const unsigned int counted_bytes[256], const std::streamsize total_length)
 {
-	double entropy = 0.;
+    double entropy = 0.;
+        
     double temp;
 
     for (int i = 0; i < 256; i++) {
@@ -43,10 +44,11 @@ std::size_t findFileSize(const std::string &p_file)
     return return_value;
 }
 
-ELFParser::ELFParser()
+ELFParser::ELFParser() : m_entropy(0),
+    m_score(0),
+    m_fileSize(0)
 {
-    m_score = 0,
-    m_fileSize = 0,
+    
     m_searchValues.push_back(new SearchValue("UPX!", elf::k_packed, "UPX signature found"));
     m_searchValues.push_back(new SearchValue("the UPX Team. All Rights Reserved", elf::k_packed, "UPX copyright string found"));
     m_searchValues.push_back(new SearchValue("PRIVMSG ", elf::k_irc, "IRC command PRIVMSG found"));

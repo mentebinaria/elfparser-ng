@@ -8,10 +8,9 @@
 #include <arpa/inet.h>
 #endif
 
-InitArray::InitArray(const std::string& p_name)
+InitArray::InitArray(const std::string& p_name) :     m_name(p_name),
+    m_offset(0)
 {
-    m_name = p_name;
-    m_offset = 0;
 }
 
 InitArray::~InitArray()

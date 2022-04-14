@@ -4,3 +4,4 @@ build
 *.user*
 .gitignore
 .*
+*elfparser*

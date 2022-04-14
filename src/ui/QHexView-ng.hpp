@@ -6,8 +6,9 @@
 * @brief simple hex view / editor
 */
 
-#ifndef Q_HEX_VIEWER_H_
-#define Q_HEX_VIEWER_H_
+#ifdef QT_GUI
+
+#pragma once
 
 #include <QAbstractScrollArea>
 #include <QByteArray>
@@ -20,6 +21,9 @@
 // config colors
 #define COLOR_SELECTION 98, 114, 164, 0xff
 #define COLOR_ADDRESS 68, 71, 90, 0xff
+#if _WIN32 || _WIN64
+  #define COLOR_CHARACTERS Qt::black
+#endif
 #define COLOR_CHARACTERS Qt::white
 
 // config lines
@@ -33,48 +37,48 @@
 class QHexView: public QAbstractScrollArea
 
 {
-	Q_OBJECT
-	public:
-		QHexView(QWidget *parent = 0);
-		~QHexView();
+  Q_OBJECT
+ public:
+  QHexView ( QWidget *parent = 0 );
+  ~QHexView();
 
 
-	protected:
-		void paintEvent(QPaintEvent *event);
-		void keyPressEvent(QKeyEvent *event);
-		void mouseMoveEvent(QMouseEvent *event);
-		void mousePressEvent(QMouseEvent *event);
+ protected:
+  void paintEvent ( QPaintEvent *event );
+  void keyPressEvent ( QKeyEvent *event );
+  void mouseMoveEvent ( QMouseEvent *event );
+  void mousePressEvent ( QMouseEvent *event );
 
-	private:
-		QByteArray  m_pdata;
+ private:
+  QByteArray  m_pdata;
 
-		int m_posAddr,
-			m_posHex,
-			m_posAscii,
-			m_charWidth,
-			m_charHeight,
-			m_selectBegin,
-			m_selectEnd,
-			m_selectInit,
-			m_cursorPos,
-			m_bytesPerLine;
+  int m_posAddr,
+      m_posHex,
+      m_posAscii,
+      m_charWidth,
+      m_charHeight,
+      m_selectBegin,
+      m_selectEnd,
+      m_selectInit,
+      m_cursorPos,
+      m_bytesPerLine;
 
-		QSize fullSize() const;
-		void updatePositions();
-		void resetSelection();
-		void resetSelection(int pos);
-		void setSelection(int pos);
-		void ensureVisible();
-		void setCursorPos(int pos);
-		int  cursorPos(const QPoint &position);
-		void confScrollBar();
-		QByteArray getData(int position, int length);
+  QSize fullSize() const;
+  void updatePositions();
+  void resetSelection();
+  void resetSelection ( int pos );
+  void setSelection ( int pos );
+  void ensureVisible();
+  void setCursorPos ( int pos );
+  int  cursorPos ( const QPoint &position );
+  void confScrollBar();
+  QByteArray getData ( int position, int length );
 
-	public slots:
-		int loadFile(QString p_file);
-		void clear();
-		void showFromOffset(int offset);
-		void setSelected(int offset, int length);
+ public slots:
+  int loadFile ( QString p_file );
+  void clear();
+  void showFromOffset ( int offset );
+  void setSelected ( int offset, int length );
 };
 
 #endif

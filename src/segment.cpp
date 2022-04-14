@@ -4,17 +4,17 @@
 #include <iostream>
 
 Segment::Segment(const std::string &p_name, const std::string &p_type, boost::uint64_t p_physOffset, boost::uint64_t p_virtAddress,
-                 boost::uint64_t p_size, boost::uint32_t p_link, bool p_executable, bool p_writable, bool p_isDynamic)
+                 boost::uint64_t p_size, boost::uint32_t p_link, bool p_executable, bool p_writable, bool p_isDynamic) : m_name(p_name),
+    m_type(p_type),
+    m_physOffset(p_physOffset),
+    m_virtAddress(p_virtAddress),
+    m_size(p_size),
+    m_link(p_link),
+    m_executable(p_executable),
+    m_writable(p_writable),
+    m_isDynamic(p_isDynamic)
 {
-    m_name = p_name;
-    m_type = p_type;
-    m_physOffset = p_physOffset;
-    m_virtAddress = p_virtAddress;
-    m_size = p_size;
-    m_link = p_link;
-    m_executable = p_executable;
-    m_writable = p_writable;
-    m_isDynamic = p_isDynamic;
+
 }
 
 Segment::~Segment()

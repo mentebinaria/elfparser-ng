@@ -2,11 +2,14 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 #include "ui_about.h"
+#include "ui_contacts.h"
 #include "inttablewidget.hpp"
 #include "../elfparser.hpp"
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
 
+#include <QDesktopServices>
+#include <signal.h>
 #include <QCursor>
 #include <QDebug>
 #include <QInputDialog>
@@ -27,7 +30,8 @@ MainWindow::MainWindow ( QWidget *parent ) : QMainWindow ( parent ),
   m_copyAction(),
   m_parser(),
   m_HexEditor ( new QHexView ),
-  m_layout ( new QVBoxLayout )
+  m_layout ( new QVBoxLayout ),
+  m_Entropy ( 7.0 )
 {
   setWindowTitle ( "elfparser-ng" );
 
@@ -51,8 +55,6 @@ MainWindow::MainWindow ( QWidget *parent ) : QMainWindow ( parent ),
   m_layout->addWidget ( m_HexEditor );
   m_ui->HexTab->setLayout ( m_layout );
 
-  // default entropy config
-  m_Entropy = 7.0;
 }
 
 MainWindow::~MainWindow()
@@ -82,13 +84,8 @@ void MainWindow::conf_buttons()
   m_ui->openButton->setIcon ( QIcon ( "../src/ui/assets/open.png" ) );
   m_ui->openButton->setShortcut ( QKeySequence ( "Ctrl+O" ) );
 
-  // reset
-  m_ui->resetButton->setIcon ( QIcon ( "../src/ui/assets/reset.png" ) );
-  m_ui->resetButton->setShortcut ( QKeySequence ( "Ctrl+K" ) );
-
   // about
   m_ui->aboutButton->setIcon ( QIcon ( "../src/ui/assets/about.png" ) );
-
 
   // rpasser
   m_ui->reparseButton->setIcon ( QIcon ( "../src/ui/assets/rpasser.png" ) );
@@ -96,7 +93,7 @@ void MainWindow::conf_buttons()
 
   // hex button
   m_ui->gotoOffsetButton->setIcon ( QIcon ( "../src/ui/assets/goto.png" ) );
-  m_ui->gotoOffsetButton->setShortcut ( QKeySequence ( "Ctrl+J" ) );
+  m_ui->gotoOffsetButton->setShortcut ( QKeySequence ( "Ctrl+G" ) );
 
   // full screen
   m_ui->FullScreenButton->setIcon ( QIcon ( "../src/ui/assets/show.png" ) );
@@ -104,6 +101,18 @@ void MainWindow::conf_buttons()
 
   // edit entropy limit
   m_ui->EntroyLimitButton->setIcon ( QIcon ( "../src/ui/assets/edit.png" ) );
+
+  // bug button
+  m_ui->reportButton->setIcon ( QIcon ( "../src/ui/assets/bug.png" ) );
+
+  // new window
+  m_ui->newButton->setIcon ( QIcon ( "../src/ui/assets/new.png" ) );
+
+  // help button
+  m_ui->helpButton->setIcon ( QIcon ( "../src/ui/assets/help.png" ) );
+
+  // contacts
+  m_ui->contactsButton->setIcon ( QIcon ( "../src/ui/assets/contacts.png" ) );
 }
 
 void MainWindow::conf_tables()
@@ -113,7 +122,8 @@ void MainWindow::conf_tables()
 
   // symbols
   m_ui->symbolsTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
-
+  m_ui->symbolsTable->setShowGrid ( false );
+  m_ui->symbolsTable->verticalHeader()->setVisible ( false );
   // header
   m_ui->headerTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
 
@@ -131,9 +141,24 @@ void MainWindow::conf_tables()
   m_ui->sectionsTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
 }
 
+
+// TODO: signal error handle
 void MainWindow::parser ( QString filename )
 {
-  on_resetButton_triggered();
+  // reset
+  m_HexEditor->clear();
+  m_tableItems.clear();
+  m_treeItems.clear();
+  m_parser.reset();
+  m_ui->overviewTable->clearContents();
+  m_ui->headerTable->clearContents();
+  m_ui->sectionsTable->clearContents();
+  m_ui->programsTable->clearContents();
+  m_ui->scoringTable->clearContents();
+  m_ui->capabilitiesTree->clear();
+  m_ui->scoreDisplay->display ( 0 );
+  m_ui->sectionInfo->clear();
+  m_ui->programsInfo->clear();
   m_parser.reset ( new ELFParser() );
 
   try
@@ -154,22 +179,10 @@ void MainWindow::parser ( QString filename )
     return;
   }
 
+  setWindowTitle ( "elfparser-ng " + QString ( "- " ) + filename );
+
   // LCD display
   m_ui->scoreDisplay->display ( static_cast<int> ( m_parser->getScore() ) );
-  // Set entropy status load
-  m_VEntropy = m_parser->getEntropy();
-  m_ui->EntropyP->setValue ( m_VEntropy );
-  m_ui->EntropyP->setMaximum ( m_Entropy );
-
-  if ( m_Entropy < m_VEntropy )
-    m_ui->EntropyP->setValue ( m_Entropy );
-
-  QString entropyStr = QString::number ( m_VEntropy );
-
-  if ( m_VEntropy <= m_Entropy )
-    m_ui->labelEntropy->setText ( "Entropy : " + entropyStr + " (Not Packed)" );
-  else
-    m_ui->labelEntropy->setText ( "Entropy : " + entropyStr + " (Packed)" );
 
   // Overview table
   QTableWidgetItem *tableItem = new QTableWidgetItem ( QString ( m_parser->getFilename().c_str() ) );
@@ -190,7 +203,18 @@ void MainWindow::parser ( QString filename )
   tableItem = new QTableWidgetItem ( QString ( m_parser->getFamily().c_str() ) );
   m_ui->overviewTable->setItem ( 5, 0, tableItem );
   m_tableItems.push_back ( tableItem );
+  m_VEntropy = m_parser->getEntropy();
 
+  if ( m_VEntropy < m_Entropy )
+  {
+    tableItem = new QTableWidgetItem (  QString::number ( m_VEntropy ) + " (Not Packed)" );
+    m_ui->overviewTable->setItem ( 6, 0, tableItem );
+  }
+  else
+  {
+    tableItem = new QTableWidgetItem (  QString::number ( m_VEntropy ) + " (Packed)" );
+    m_ui->overviewTable->setItem ( 6, 0, tableItem );
+  }
 
   // elf header view
   tableItem = new QTableWidgetItem ( QString ( m_parser->getElfHeader().getMagic().c_str() ) );
@@ -264,10 +288,6 @@ void MainWindow::parser ( QString filename )
 
   BOOST_FOREACH ( const AbstractSectionHeader & section, sections )
   {
-    // TODO: DELETE
-    // std::cout << std::hex << section.getPhysOffset() << std::endl; // get sections name
-    // std::cout << section.getSize() << std::endl; // get sections name
-
     tableItem = new IntWidgetItem ( i );
     m_ui->sectionsTable->setItem ( i, 0, tableItem );
     m_tableItems.push_back ( tableItem );
@@ -299,10 +319,10 @@ void MainWindow::parser ( QString filename )
   m_ui->sectionsTable->resizeColumnsToContents();
 
   // program headers table
-  i = 0;
   const std::vector<AbstractProgramHeader> &programs ( m_parser->getProgramHeaders().getProgramHeaders() );
   m_ui->programsTable->setRowCount ( programs.size() );
   m_ui->programsTable->setSortingEnabled ( false );
+  i = 0;
   BOOST_FOREACH ( const AbstractProgramHeader & program, programs )
   {
     tableItem = new QTableWidgetItem ( QString ( program.getName().c_str() ) );
@@ -333,10 +353,10 @@ void MainWindow::parser ( QString filename )
   m_ui->programsTable->resizeColumnsToContents();
 
   // symbols
-  i = 0;
   const std::vector<AbstractSymbol> &allSymbols ( m_parser->getSegments().getAllSymbols() );
   m_ui->symbolsTable->setRowCount ( allSymbols.size() );
   m_ui->symbolsTable->setSortingEnabled ( false );
+  i = 0;
   BOOST_FOREACH ( const AbstractSymbol & symbol, allSymbols )
   {
     tableItem = new QTableWidgetItem ( QString ( symbol.getTypeName().c_str() ) );
@@ -519,45 +539,6 @@ void MainWindow::on_reparseButton_triggered()
     parser ( m_FileName );
 }
 
-void  MainWindow::on_resetButton_triggered()
-{
-  m_tableItems.clear();
-  m_treeItems.clear();
-  m_parser.reset();
-  m_HexEditor->clear();
-  m_ui->overviewTable->clearContents();
-  m_ui->headerTable->clearContents();
-  m_ui->sectionsTable->clearContents();
-  m_ui->programsTable->clearContents();
-  m_ui->scoringTable->clearContents();
-  m_ui->capabilitiesTree->clear();
-  m_ui->scoreDisplay->display ( 0 );
-  m_ui->sectionInfo->clear();
-  m_ui->programsInfo->clear();
-  m_ui->EntropyP->setValue ( 0 );
-}
-
-
-void MainWindow::on_aboutButton_triggered()
-{
-  if ( m_dialog == NULL )
-  {
-    m_dialog.reset ( new QDialog ( this ) );
-    Ui_About aboutUi;
-    aboutUi.setupUi ( m_dialog.get() );
-    QPixmap image;
-    std::string dir;
-#ifdef APPLE
-    dir.assign ( QApplication::applicationDirPath().toStdString() );
-    boost::replace_last ( dir, "MacOS", "Resources/icon.png" );
-#else
-    dir.assign ( "src/ui/assets/icon.png" );
-#endif
-  }
-
-  m_dialog->showNormal();
-}
-
 void MainWindow::on_openButton_triggered()
 {
   openFile();
@@ -566,7 +547,7 @@ void MainWindow::on_openButton_triggered()
 void MainWindow::on_gotoOffsetButton_triggered()
 {
   bool done;
-  int offset = QInputDialog::getInt ( 0, "Jmp Offset", "Offset:", 0, 0, 2147483647, 1, &done );
+  int offset = QInputDialog::getInt ( 0, "Go to offset", "Offset:", 0, 0, 2147483647, 1, &done );
 
   if ( done )
     m_HexEditor->showFromOffset ( offset );
@@ -588,6 +569,41 @@ void MainWindow::on_EntroyLimitButton_triggered()
   if ( done )
     m_Entropy = setEntropy;
 
+}
+
+void MainWindow::on_helpButton_triggered()
+{
+  QDesktopServices::openUrl ( QUrl ( "https://github.com/mentebinaria/elfparser-ng/wiki/Quick-Help" ) );
+}
+
+void MainWindow::on_reportButton_triggered()
+{
+  QDesktopServices::openUrl ( QUrl ( "https://github.com/mentebinaria/elfparser-ng/issues" ) );
+}
+
+void MainWindow::on_newButton_triggered()
+{
+  auto newWin = new MainWindow();
+  newWin->setAttribute ( Qt::WA_DeleteOnClose );
+  newWin->show();
+}
+
+void MainWindow::on_contactsButton_triggered()
+{
+  m_dialog.reset ( new QDialog ( this ) );
+  Ui_Contacts aboutUi;
+  aboutUi.setupUi ( m_dialog.get() );
+
+  m_dialog->exec();
+}
+
+void MainWindow::on_aboutButton_triggered()
+{
+  m_dialog.reset ( new QDialog ( this ) );
+  Ui_About aboutUi;
+  aboutUi.setupUi ( m_dialog.get() );
+
+  m_dialog->exec();
 }
 
 #endif
