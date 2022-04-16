@@ -9,9 +9,7 @@
 #include "../abstract_programheader.hpp"
 
 #include <QDesktopServices>
-#include <signal.h>
 #include <QCursor>
-#include <QDebug>
 #include <QInputDialog>
 #include <QAbstractScrollArea>
 #include <QClipboard>
@@ -34,7 +32,11 @@ MainWindow::MainWindow ( QWidget *parent ) : QMainWindow ( parent ),
   m_Entropy ( 7.0 )
 {
   setWindowTitle ( "elfparser-ng" );
-
+#if _WIN64 || _WIN32
+ setWindowIcon ( QIcon("..\\..\\src\\ui\\assets\\bug.png") );
+#else
+  setWindowIcon ( QIcon("../src/ui/assets/bug.png") );
+#endif
   m_ui->setupUi ( this );
 
   // create the copy action and apply signals as needed
