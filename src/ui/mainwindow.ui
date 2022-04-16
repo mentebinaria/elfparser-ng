@@ -475,7 +475,7 @@
        </widget>
        <widget class="QWidget" name="programsTab">
         <attribute name="title">
-         <string>Segmentos</string>
+         <string>Segments</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
@@ -781,7 +781,7 @@
      <x>0</x>
      <y>0</y>
      <width>947</width>
-     <height>28</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuabout">

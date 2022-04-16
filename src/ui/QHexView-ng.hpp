@@ -23,8 +23,9 @@
 #define COLOR_ADDRESS 68, 71, 90, 0xff
 #if _WIN32 || _WIN64
   #define COLOR_CHARACTERS Qt::black
+#else
+  #define COLOR_CHARACTERS Qt::white
 #endif
-#define COLOR_CHARACTERS Qt::white
 
 // config lines
 #define MIN_HEXCHARS_IN_LINE 47

@@ -9,6 +9,7 @@
 #include <QScrollBar>
 #include <QSize>
 #include <stdexcept>
+#include <QtGlobal>
 
 // update
 #define UPDATE viewport()->update();
@@ -81,7 +82,7 @@ void QHexView::showFromOffset ( int offset )
 {
   if ( offset < m_pdata.size() )
   {
-    //updatePositions();
+    updatePositions();
 
     setCursorPos ( offset * 2 );
 
@@ -118,7 +119,12 @@ QSize QHexView::fullSize() const
 
 void QHexView::updatePositions()
 {
-  m_charWidth = fontMetrics().horizontalAdvance ( QLatin1Char ( '9' ) );
+#if QT_VERSION >= 0x50f03
+  m_charWidth = fontMetrics().horizontalAdvance(QLatin1Char('9'));
+#else
+  m_charWidth = fontMetrics().width(QLatin1Char('9'));
+#endif
+
   m_charHeight = fontMetrics().height();
 
   int serviceSymbolsWidth = ADR_LENGTH * m_charWidth + GAP_ADR_HEX + GAP_HEX_ASCII;

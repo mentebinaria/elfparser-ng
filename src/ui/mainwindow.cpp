@@ -80,6 +80,42 @@ void MainWindow::openFile()
 
 void MainWindow::conf_buttons()
 {
+#if _WIN32 || _WIN64
+   // open
+  m_ui->openButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\open.png" ) );
+  m_ui->openButton->setShortcut ( QKeySequence ( "Ctrl+O" ) );
+
+  // about
+  m_ui->aboutButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\about.png" ) );
+
+  // rpasser
+  m_ui->reparseButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\rpasser.png" ) );
+  m_ui->reparseButton->setShortcut ( QKeySequence ( "Ctrl+R" ) );
+
+  // hex button
+  m_ui->gotoOffsetButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\goto.png" ) );
+  m_ui->gotoOffsetButton->setShortcut ( QKeySequence ( "Ctrl+G" ) );
+
+  // full screen
+  m_ui->FullScreenButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\show.png" ) );
+  m_ui->FullScreenButton->setShortcut ( QKeySequence ( "F11" ) );
+
+  // edit entropy limit
+    m_ui->EntroyLimitButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\edit.png" ) );
+
+  // bug button
+  m_ui->reportButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\bug.png" ) );
+
+  // new window
+  m_ui->newButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\new.png" ) );
+
+  // help button
+  m_ui->helpButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\help.png" ) );
+
+  // contacts
+  m_ui->contactsButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\contacts.png" ) );
+
+#else
   // open
   m_ui->openButton->setIcon ( QIcon ( "../src/ui/assets/open.png" ) );
   m_ui->openButton->setShortcut ( QKeySequence ( "Ctrl+O" ) );
@@ -113,6 +149,8 @@ void MainWindow::conf_buttons()
 
   // contacts
   m_ui->contactsButton->setIcon ( QIcon ( "../src/ui/assets/contacts.png" ) );
+
+#endif
 }
 
 void MainWindow::conf_tables()
@@ -243,7 +281,7 @@ void MainWindow::parser ( QString filename )
   m_tableItems.push_back ( tableItem );
   QString versionElf = QString ( m_parser->getElfHeader().getVersion().c_str() );
 
-  if ( versionElf == '1' )
+  if ( versionElf == "1" )
     tableItem = new QTableWidgetItem ( QString ( m_parser->getElfHeader().getVersion().c_str() + QString ( " (Current)" ) ) );
   else
     tableItem = new QTableWidgetItem ( QString ( m_parser->getElfHeader().getVersion().c_str() ) );

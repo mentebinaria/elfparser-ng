@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
 option(test "Build all tests." OFF)
 option(debug "Build with debug flags." OFF)
 option(qt "Build with Qt GUI." ON)
-option(windows "Enable Windows build." OFF)
+option(windows "Enable Windows build." ON)
 
 #define project
 if (qt)
@@ -94,7 +94,7 @@ if (qt)
     endif()
 
     # add a resource
-    qt5_add_resources(RESOURCE_ADDED "${CMAKE_SOURCE_DIR}/src/ui/icons.qrc")
+    # qt5_add_resources(RESOURCE_ADDED "${CMAKE_SOURCE_DIR}/src/ui/icons.qrc")
 endif()
 
 # compilation units
