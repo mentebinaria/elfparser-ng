@@ -8,6 +8,7 @@
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
 
+#include <QInputDialog>
 #include <QDesktopServices>
 #include <QCursor>
 #include <QInputDialog>
@@ -33,9 +34,9 @@ MainWindow::MainWindow ( QWidget *parent ) : QMainWindow ( parent ),
 {
   setWindowTitle ( "elfparser-ng" );
 #if _WIN64 || _WIN32
- setWindowIcon ( QIcon("..\\..\\src\\ui\\assets\\bug.png") );
+  setWindowIcon ( QIcon ( "..\\..\\assets\\bug.png" ) );
 #else
-  setWindowIcon ( QIcon("../src/ui/assets/bug.png") );
+  setWindowIcon ( QIcon ( "../src/ui/assets/bug.png" ) );
 #endif
   m_ui->setupUi ( this );
 
@@ -83,39 +84,39 @@ void MainWindow::openFile()
 void MainWindow::conf_buttons()
 {
 #if _WIN32 || _WIN64
-   // open
-  m_ui->openButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\open.png" ) );
+  // open
+  m_ui->openButton->setIcon ( QIcon ( "..\\..\\assets\\open.png" ) );
   m_ui->openButton->setShortcut ( QKeySequence ( "Ctrl+O" ) );
 
   // about
-  m_ui->aboutButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\about.png" ) );
+  m_ui->aboutButton->setIcon ( QIcon ( "..\\..\\assets\\about.png" ) );
 
   // rpasser
-  m_ui->reparseButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\rpasser.png" ) );
+  m_ui->reparseButton->setIcon ( QIcon ( "..\\..\\assets\\rpasser.png" ) );
   m_ui->reparseButton->setShortcut ( QKeySequence ( "Ctrl+R" ) );
 
   // hex button
-  m_ui->gotoOffsetButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\goto.png" ) );
+  m_ui->gotoOffsetButton->setIcon ( QIcon ( "..\\..\\assets\\goto.png" ) );
   m_ui->gotoOffsetButton->setShortcut ( QKeySequence ( "Ctrl+G" ) );
 
   // full screen
-  m_ui->FullScreenButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\show.png" ) );
+  m_ui->FullScreenButton->setIcon ( QIcon ( "..\\..\\assets\\show.png" ) );
   m_ui->FullScreenButton->setShortcut ( QKeySequence ( "F11" ) );
 
   // edit entropy limit
-    m_ui->EntroyLimitButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\edit.png" ) );
+  m_ui->EntroyLimitButton->setIcon ( QIcon ( "..\\..\\assets\\edit.png" ) );
 
   // bug button
-  m_ui->reportButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\bug.png" ) );
+  m_ui->reportButton->setIcon ( QIcon ( "..\\..\\assets\\bug.png" ) );
 
   // new window
-  m_ui->newButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\new.png" ) );
+  m_ui->newButton->setIcon ( QIcon ( "..\\..\\assets\\new.png" ) );
 
   // help button
-  m_ui->helpButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\help.png" ) );
+  m_ui->helpButton->setIcon ( QIcon ( "..\\..\\assets\\help.png" ) );
 
   // contacts
-  m_ui->contactsButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\contacts.png" ) );
+  m_ui->contactsButton->setIcon ( QIcon ( "..\\..\\assets\\contacts.png" ) );
 
 #else
   // open
@@ -586,11 +587,18 @@ void MainWindow::on_openButton_triggered()
 
 void MainWindow::on_gotoOffsetButton_triggered()
 {
-  bool done;
-  int offset = QInputDialog::getInt ( 0, "Go to offset", "Offset:", 0, 0, 2147483647, 1, &done );
+  if ( m_FileName.size() == 0 )
+    return;
 
-  if ( done )
-    m_HexEditor->showFromOffset ( offset );
+  bool done;
+  QString offset = QInputDialog::getText ( this, tr ( "Go to offset" ),
+                   tr ( "offset:" ), QLineEdit::Normal,
+                   nullptr, &done );
+
+  if ( done && offset[0] == '0' && offset[1] == 'x' )
+    m_HexEditor->showFromOffset ( offset.toInt ( nullptr, 16 ) );
+  else
+    m_HexEditor->showFromOffset ( offset.toInt ( nullptr ) );
 }
 
 void MainWindow::on_FullScreenButton_triggered()

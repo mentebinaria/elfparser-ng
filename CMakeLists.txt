@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
 option(test "Build all tests." OFF)
 option(debug "Build with debug flags." OFF)
 option(qt "Build with Qt GUI." ON)
-option(windows "Enable Windows build." ON)
+option(windows "Enable Windows build." OFF)
 
 #define project
 if (qt)
@@ -26,7 +26,7 @@ set(PROJECT_DOMAIN "${PROJECT_DOMAIN_FIRST}.${PROJECT_DOMAIN_SECOND}")
 
 # compiler flags
 if (debug)
-  set(CMAKE_CXX_FLAGS "-g -DDBUG")
+  set(CMAKE_CXX_FLAGS "-g -DDEBUG")
 else()
     if (APPLE)
         set(CMAKE_CXX_FLAGS "-O2 -fno-stack-protector -march=native")
