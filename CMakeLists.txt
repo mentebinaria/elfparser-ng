@@ -83,7 +83,7 @@ if (qt)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
     # let QT generate files
-    qt5_wrap_ui(UI_HEADERS src/ui/mainwindow.ui src/ui/about.ui src/ui/contacts.ui)
+    qt5_wrap_ui(UI_HEADERS src/ui/mainwindow.ui  src/ui/about.ui)
     set(EXTRA_SOURCES src/ui/mainwindow.cpp src/ui/QHexView-ng.cpp)
     set(EXTRA_SOURCES ${EXTRA_SOURCES} ${UI_HEADERS})
 

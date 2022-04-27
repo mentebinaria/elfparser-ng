@@ -14,16 +14,21 @@
 #include <QByteArray>
 #include <QFile>
 
-// config font
-#define FONT "Courier"
-#define SIZE_FONT 13
 
 // config colors
-#define COLOR_SELECTION 98, 114, 164, 0xff
-#define COLOR_ADDRESS 68, 71, 90, 0xff
 #if _WIN32 || _WIN64
+  // config font
+  #define FONT "Courier"
+  #define SIZE_FONT 10
   #define COLOR_CHARACTERS Qt::black
+  #define COLOR_SELECTION 98, 114, 164, 0xff
+  #define COLOR_ADDRESS 240, 240, 240, 0xff
 #else
+  // config font
+  #define FONT "Courier"
+  #define SIZE_FONT 12
+  #define COLOR_SELECTION 98, 114, 164, 0xff
+  #define COLOR_ADDRESS 30, 30, 30, 0xff
   #define COLOR_CHARACTERS Qt::white
 #endif
 
@@ -40,7 +45,7 @@ class QHexView: public QAbstractScrollArea
 {
   Q_OBJECT
  public:
-  QHexView ( QWidget *parent = 0 );
+  QHexView ( QWidget *parent = nullptr );
   ~QHexView();
 
 

@@ -373,10 +373,25 @@
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
              <widget class="QTableWidget" name="sectionsTable">
+              <property name="font">
+               <font>
+                <stylestrategy>PreferDefault</stylestrategy>
+                <kerning>false</kerning>
+               </font>
+              </property>
+              <property name="autoFillBackground">
+               <bool>true</bool>
+              </property>
               <property name="editTriggers">
                <set>QAbstractItemView::NoEditTriggers</set>
               </property>
               <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="dragEnabled">
+               <bool>false</bool>
+              </property>
+              <property name="dragDropOverwriteMode">
                <bool>false</bool>
               </property>
               <property name="alternatingRowColors">
@@ -392,7 +407,7 @@
                <bool>true</bool>
               </property>
               <attribute name="horizontalHeaderCascadingSectionResizes">
-               <bool>false</bool>
+               <bool>true</bool>
               </attribute>
               <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
                <bool>true</bool>
@@ -491,8 +506,17 @@
            <layout class="QVBoxLayout" name="verticalLayout_7">
             <item>
              <widget class="QTableWidget" name="programsTable">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
+              </property>
               <property name="editTriggers">
                <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="defaultDropAction">
+               <enum>Qt::MoveAction</enum>
               </property>
               <property name="alternatingRowColors">
                <bool>true</bool>
@@ -764,6 +788,9 @@
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
        <property name="movable">
         <bool>true</bool>
        </property>
@@ -786,14 +813,13 @@
      <x>0</x>
      <y>0</y>
      <width>947</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuabout">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="contactsButton"/>
     <addaction name="helpButton"/>
     <addaction name="separator"/>
     <addaction name="reportButton"/>
@@ -845,7 +871,7 @@
   </action>
   <action name="gotoOffsetButton">
    <property name="text">
-    <string>Go to Offset Hex </string>
+    <string>Goto... </string>
    </property>
   </action>
   <action name="FullScreenButton">
@@ -855,17 +881,12 @@
   </action>
   <action name="EntroyLimitButton">
    <property name="text">
-    <string>Entroy Limit</string>
+    <string>Entropy threshold</string>
    </property>
   </action>
   <action name="helpButton">
    <property name="text">
     <string>Quick Help</string>
-   </property>
-  </action>
-  <action name="contactsButton">
-   <property name="text">
-    <string>Contacts</string>
    </property>
   </action>
   <action name="reportButton">

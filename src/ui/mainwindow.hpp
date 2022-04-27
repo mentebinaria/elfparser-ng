@@ -82,7 +82,6 @@ class MainWindow : public QMainWindow
   void on_openButton_triggered();
   void on_EntroyLimitButton_triggered();
   void on_reportButton_triggered();
-  void on_contactsButton_triggered();
   void on_newButton_triggered();
   void on_helpButton_triggered();
 

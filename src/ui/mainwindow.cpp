@@ -2,7 +2,6 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 #include "ui_about.h"
-#include "ui_contacts.h"
 #include "inttablewidget.hpp"
 #include "../elfparser.hpp"
 #include "../abstract_sectionheader.hpp"
@@ -34,7 +33,7 @@ MainWindow::MainWindow ( QWidget *parent ) : QMainWindow ( parent ),
 {
   setWindowTitle ( "elfparser-ng" );
 #if _WIN64 || _WIN32
-  setWindowIcon ( QIcon ( "..\\..\\assets\\bug.png" ) );
+  setWindowIcon ( QIcon ( "..\\..\\src\\ui\\assets\\bug.png" ) );
 #else
   setWindowIcon ( QIcon ( "../src/ui/assets/bug.png" ) );
 #endif
@@ -85,46 +84,37 @@ void MainWindow::conf_buttons()
 {
 #if _WIN32 || _WIN64
   // open
-  m_ui->openButton->setIcon ( QIcon ( "..\\..\\assets\\open.png" ) );
+  m_ui->openButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\open.png" ) );
   m_ui->openButton->setShortcut ( QKeySequence ( "Ctrl+O" ) );
 
-  // about
-  m_ui->aboutButton->setIcon ( QIcon ( "..\\..\\assets\\about.png" ) );
-
   // rpasser
-  m_ui->reparseButton->setIcon ( QIcon ( "..\\..\\assets\\rpasser.png" ) );
+  m_ui->reparseButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\rpasser.png" ) );
   m_ui->reparseButton->setShortcut ( QKeySequence ( "Ctrl+R" ) );
 
   // hex button
-  m_ui->gotoOffsetButton->setIcon ( QIcon ( "..\\..\\assets\\goto.png" ) );
+  m_ui->gotoOffsetButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\goto.png" ) );
   m_ui->gotoOffsetButton->setShortcut ( QKeySequence ( "Ctrl+G" ) );
 
   // full screen
-  m_ui->FullScreenButton->setIcon ( QIcon ( "..\\..\\assets\\show.png" ) );
+  m_ui->FullScreenButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\show.png" ) );
   m_ui->FullScreenButton->setShortcut ( QKeySequence ( "F11" ) );
 
   // edit entropy limit
-  m_ui->EntroyLimitButton->setIcon ( QIcon ( "..\\..\\assets\\edit.png" ) );
+  m_ui->EntroyLimitButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\edit.png" ) );
 
   // bug button
-  m_ui->reportButton->setIcon ( QIcon ( "..\\..\\assets\\bug.png" ) );
+  m_ui->reportButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\bug.png" ) );
 
   // new window
-  m_ui->newButton->setIcon ( QIcon ( "..\\..\\assets\\new.png" ) );
+  m_ui->newButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\new.png" ) );
 
   // help button
-  m_ui->helpButton->setIcon ( QIcon ( "..\\..\\assets\\help.png" ) );
-
-  // contacts
-  m_ui->contactsButton->setIcon ( QIcon ( "..\\..\\assets\\contacts.png" ) );
+  m_ui->helpButton->setIcon ( QIcon ( "..\\..\\src\\ui\\assets\\help.png" ) );
 
 #else
   // open
   m_ui->openButton->setIcon ( QIcon ( "../src/ui/assets/open.png" ) );
   m_ui->openButton->setShortcut ( QKeySequence ( "Ctrl+O" ) );
-
-  // about
-  m_ui->aboutButton->setIcon ( QIcon ( "../src/ui/assets/about.png" ) );
 
   // rpasser
   m_ui->reparseButton->setIcon ( QIcon ( "../src/ui/assets/rpasser.png" ) );
@@ -150,8 +140,6 @@ void MainWindow::conf_buttons()
   // help button
   m_ui->helpButton->setIcon ( QIcon ( "../src/ui/assets/help.png" ) );
 
-  // contacts
-  m_ui->contactsButton->setIcon ( QIcon ( "../src/ui/assets/contacts.png" ) );
 
 #endif
 }
@@ -163,23 +151,21 @@ void MainWindow::conf_tables()
 
   // symbols
   m_ui->symbolsTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
-  m_ui->symbolsTable->setShowGrid ( false );
-  m_ui->symbolsTable->verticalHeader()->setVisible ( false );
+  
   // header
   m_ui->headerTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
 
   // overview
   m_ui->overviewTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
 
-
   // programs
-  m_ui->programsTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
+  //m_ui->programsTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
 
   // capabilities
   m_ui->capabilitiesTree->horizontalScrollBar();
 
   // sections
-  m_ui->sectionsTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
+  //m_ui->sectionsTable->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch );
 }
 
 
@@ -591,8 +577,8 @@ void MainWindow::on_gotoOffsetButton_triggered()
     return;
 
   bool done;
-  QString offset = QInputDialog::getText ( this, tr ( "Go to offset" ),
-                   tr ( "offset:" ), QLineEdit::Normal,
+  QString offset = QInputDialog::getText ( this, tr ( "Goto..." ),
+                   tr ( "Offset (0x for hexadecimal):" ), QLineEdit::Normal,
                    nullptr, &done );
 
   if ( done && offset[0] == '0' && offset[1] == 'x' )
@@ -612,7 +598,7 @@ void MainWindow::on_FullScreenButton_triggered()
 void MainWindow::on_EntroyLimitButton_triggered()
 {
   bool done;
-  int setEntropy = QInputDialog::getInt ( 0, "Entropy Limit", "Limit :", 7, 0, 2147483647, 1, &done );
+  double setEntropy = QInputDialog::getDouble ( 0, "Entropy threshold", "Threshold (default 7.0):", m_Entropy, 0, 8, 2, &done );
 
   if ( done )
     m_Entropy = setEntropy;
@@ -634,15 +620,6 @@ void MainWindow::on_newButton_triggered()
   auto newWin = new MainWindow();
   newWin->setAttribute ( Qt::WA_DeleteOnClose );
   newWin->show();
-}
-
-void MainWindow::on_contactsButton_triggered()
-{
-  m_dialog.reset ( new QDialog ( this ) );
-  Ui_Contacts aboutUi;
-  aboutUi.setupUi ( m_dialog.get() );
-
-  m_dialog->exec();
 }
 
 void MainWindow::on_aboutButton_triggered()
