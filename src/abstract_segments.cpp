@@ -233,7 +233,7 @@ void AbstractSegments::generateSegments()
             }
             else
             {
-                m_types.push_back(new StringTableSegment(m_data, 
+                m_types.push_back(new StringTableSegment(m_data,
                     m_sections[link].getPhysOffset(), m_sections[link].getSize(), elf::k_strtab));
                 m_offsets.insert(m_data + m_sections[link].getPhysOffset());
             }
@@ -335,14 +335,14 @@ void AbstractSegments::evaluate(std::vector<std::pair<boost::int32_t, std::strin
 
 std::vector<AbstractSymbol> AbstractSegments::getAllSymbols() const
 {
-    std::vector<AbstractSymbol> symbols(m_dynSymbols.getSymbols());
+	std::vector<AbstractSymbol> symbols(m_dynSymbols.getSymbols());
     BOOST_FOREACH(const Symbols& other, m_otherSymbols)
     {
         const std::vector<AbstractSymbol>& others(other.getSymbols());
         BOOST_FOREACH(const AbstractSymbol& newSymbols, others)
         {
             symbols.push_back(newSymbols);
-        }
+		}
     }
 
     return symbols;
@@ -361,7 +361,9 @@ const Symbols& AbstractSegments::getDynamicSymbols() const
 std::string AbstractSegments::determineFamily() const
 {
     const std::set<std::string>& files(getFiles());
-    if (files.find("kaiten.c") != files.end() || files.find("kaiten2.c") != files.end())
+
+
+	if (files.find("kaiten.c") != files.end() || files.find("kaiten2.c") != files.end())
     {
         return "ELF.Kaiten";
     }

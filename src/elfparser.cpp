@@ -1,4 +1,33 @@
 #include "elfparser.hpp"
+#include "../lib/hash-lib/md5.hpp"
+#include "../lib/hash-lib/sha256.hpp"
+#include "../lib/hash-lib/sha1.hpp"
+
+#include <sstream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+#include <regex>
+#include <set>
+#include <stdexcept>
+#include <boost/regex.hpp>
+
+
+static double calcEntropyFunc(const unsigned int counted_bytes[256], const std::streamsize total_length)
+{
+    double entropy = 0.;
+        
+    double temp;
+
+    for (int i = 0; i < 256; i++) {
+        temp = static_cast<double>(counted_bytes[i]) / total_length;
+
+        if (temp > 0.)
+            entropy += temp * fabs(log2(temp));
+    }
+
+    return entropy;
+}
 
 std::size_t findFileSize(const std::string &p_file)
 {
@@ -8,17 +37,18 @@ std::size_t findFileSize(const std::string &p_file)
 
     if (!in.good())
         throw std::runtime_error("Error opening " + p_file);
-    
+
     std::size_t return_value = in.tellg();
     in.close();
 
     return return_value;
 }
 
-ELFParser::ELFParser()
+ELFParser::ELFParser() : m_entropy(0),
+    m_score(0),
+    m_fileSize(0)
 {
-    m_score = 0,
-    m_fileSize = 0,
+    
     m_searchValues.push_back(new SearchValue("UPX!", elf::k_packed, "UPX signature found"));
     m_searchValues.push_back(new SearchValue("the UPX Team. All Rights Reserved", elf::k_packed, "UPX copyright string found"));
     m_searchValues.push_back(new SearchValue("PRIVMSG ", elf::k_irc, "IRC command PRIVMSG found"));
@@ -92,34 +122,47 @@ const std::vector<std::pair<boost::int32_t, std::string>> &ELFParser::getReasons
 
 void ELFParser::parse(const std::string &p_file)
 {
-    m_fileSize = findFileSize(p_file);
-    m_mapped_file.open(p_file, m_fileSize);
+    m_fileSize = findFileSize(p_file); // get size of file
+    m_mapped_file.open(p_file, m_fileSize); // map elf in memory
 
     if (!m_mapped_file.is_open())
         throw std::runtime_error("Failed to memory map the file.");
-    
+
     else if (p_file.empty())
         throw std::runtime_error("Parser given an empty file name.");
-    
+
     else
         m_filename.assign(p_file);
 
-    m_elfHeader.setHeader(m_mapped_file.data(), m_fileSize);
-    
-    m_programHeader.setHeaders(m_mapped_file.data() +
+    auto ptrDataMem = m_mapped_file.data();
+
+	// get infos elf
+    m_elfHeader.setHeader(ptrDataMem, m_fileSize);
+
+
+    m_programHeader.setHeaders(ptrDataMem +
                                m_elfHeader.getProgramOffset(),
                                m_elfHeader.getProgramCount(),
-                               m_elfHeader.getProgramSize(), m_elfHeader.is64(), m_elfHeader.isLE());
-    
-    m_sectionHeader.setHeaders(m_mapped_file.data() +
+                               m_elfHeader.getProgramSize(),
+							   m_elfHeader.is64(),
+							   m_elfHeader.isLE());
+
+    m_sectionHeader.setHeaders(ptrDataMem +
                                m_elfHeader.getSectionOffset(),
-                               m_mapped_file.data(), m_fileSize,
-                               m_elfHeader.getSectionCount(), m_elfHeader.getSectionSize(),
-                               m_elfHeader.getStringTableIndex(), m_elfHeader.is64(), m_elfHeader.isLE(),
+                               ptrDataMem,
+							   m_fileSize,
+                               m_elfHeader.getSectionCount(),
+							   m_elfHeader.getSectionSize(),
+                               m_elfHeader.getStringTableIndex(),
+							   m_elfHeader.is64(),
+							   m_elfHeader.isLE(),
                                m_capabilities);
-    
-    m_segments.setStart(m_mapped_file.data(), m_fileSize, m_elfHeader.is64(),
-                        m_elfHeader.isLE(), m_elfHeader.getType() == "ET_DYN");
+
+    m_segments.setStart(ptrDataMem,
+					    m_fileSize, m_elfHeader.is64(),
+                        m_elfHeader.isLE(),
+						m_elfHeader.getType() == "ET_DYN");
+
 
     // important to do section header first since it produces more complete data
     // create "segments" based off of the section header and program header
@@ -127,6 +170,10 @@ void ELFParser::parse(const std::string &p_file)
     m_programHeader.extractSegments(m_segments);
     m_segments.createDynamic();
     m_segments.generateSegments();
+
+	// calculate entropy binary all
+	calcEntropy(0, m_fileSize);
+	//for(int i = 0;)
 }
 
 void ELFParser::evaluate()
@@ -146,7 +193,7 @@ void ELFParser::evaluate()
     regexScan();
     findELF();
 
-    for (auto it : m_capabilities)
+    for (auto &it : m_capabilities)
     {
         switch (it.first)
         {
@@ -213,7 +260,7 @@ void ELFParser::evaluate()
         }
     }
 
-    for (auto it : m_reasons)
+    for (auto &it : m_reasons)
         m_score += it.first;
 }
 
@@ -245,14 +292,14 @@ const DynamicSection &ELFParser::getDynamicSection() const
 void ELFParser::printReasons() const
 {
     std::cout << "---- Scoring Reasons ----" << std::endl;
-    for (auto it : m_reasons)
+    for (auto &it : m_reasons)
         std::cout << it.first << " . " << it.second << std::endl;
 }
 
 void ELFParser::printCapabilities() const
 {
     std::cout << "---- Detected Capabilities ----" << std::endl;
-    for (auto it : m_capabilities)
+    for (auto &it : m_capabilities)
     {
         switch (it.first)
         {
@@ -354,7 +401,7 @@ void ELFParser::regexScan()
         boost::cmatch m;
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, pattern))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_ipAddress].insert(x);
             }
@@ -366,7 +413,7 @@ void ELFParser::regexScan()
         start = m_mapped_file.data();
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, urlPattern))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_url].insert(x);
             }
@@ -378,7 +425,7 @@ void ELFParser::regexScan()
         start = m_mapped_file.data();
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, shellPattern))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_shell].insert(x);
             }
@@ -390,7 +437,7 @@ void ELFParser::regexScan()
         start = m_mapped_file.data();
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, urlRequest))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_http].insert(x);
             }
@@ -402,7 +449,7 @@ void ELFParser::regexScan()
         start = m_mapped_file.data();
         while (boost::regex_search(start, m_mapped_file.data() + m_fileSize, m, filePaths))
         {
-            for (auto x : m)
+            for (auto &x : m)
             {
                 m_capabilities[elf::k_filePath].insert(x);
             }
@@ -437,6 +484,27 @@ void ELFParser::findELF()
             }
         }
         catch (std::exception &e)
-        {  }
+        {
+        }
     }
+}
+
+void ELFParser::calcEntropy(off_t p_offset, std::size_t p_fileSize)
+{
+	// calculate entry entropy binary
+	unsigned char count;
+	unsigned int counted_bytes[256] = {};
+
+	for(std::size_t i = p_offset; i <= m_fileSize ; i++)
+	{
+			count = static_cast<unsigned char> (m_mapped_file.data()[i]);
+			counted_bytes[count]++;
+	}
+
+	m_entropy =  calcEntropyFunc(counted_bytes, m_fileSize);
+}
+
+double ELFParser::getEntropy()
+{
+    return m_entropy;
 }

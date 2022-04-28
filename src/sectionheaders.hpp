@@ -27,7 +27,7 @@ private:
     std::vector<AbstractSectionHeader> m_sectionHeaders;
 
     //! Total size of the binary
-    boost::uint32_t m_totalSize;
+    boost::uint64_t m_totalSize;
 
     //! The index of the strings in the sections
     boost::uint32_t m_stringIndex;
@@ -52,13 +52,13 @@ public:
      *  p_isLE indicates if the binary is LE or BE
      *  p_reasons scoring reasons
      */
-    void setHeaders(const char *p_data, const char *p_start,
-                    boost::uint64_t p_total_size, boost::uint16_t p_count,
-                    boost::uint16_t p_size, std::size_t p_stringIndex,
-                    bool p_is64, bool p_isLE,
-                    std::map<elf::Capabilties, std::set<std::string>> &p_capabilities);
+   void setHeaders(const char* p_data, const char* p_start,
+                                boost::uint64_t p_total_size, boost::uint16_t p_count,
+                                boost::uint32_t p_size, std::uint32_t p_stringIndex,
+                                bool p_is64, bool p_isLE,
+                                std::map<elf::Capabilties, std::set<std::string> >& p_capabilities);
 
-    /*!
+   /*!
      * passes section header information into AbstractSegments for segment creation
      * p_segments the segment object we'll pass info to
      */

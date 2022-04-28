@@ -17,7 +17,7 @@ StringTableSegment::StringTableSegment(const char* start,
     m_start(start + p_offset)
 {
     const char* import_function = start + p_offset + 1;
-    for (unsigned int i = 0; i < p_size; )
+    for (size_t i = 0; i < p_size; )
     {
         std::size_t length = strlen(import_function);
         if ((i + length) > p_size)

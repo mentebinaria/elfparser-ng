@@ -8,31 +8,21 @@
 #include "programheaders.hpp"
 #include "structures/capabilities.hpp"
 #include "datastructures/search_tree.hpp"
-#include "elfparser.hpp"
 #include "structures/elfheader.hpp"
 #include "datastructures/search_value.hpp"
-#include "../lib/hash-lib/md5.hpp"
-#include "../lib/hash-lib/sha256.hpp"
-#include "../lib/hash-lib/sha1.hpp"
 
 #include <map>
-#include <set>
 #include <utility>
 #include <vector>
 #include <string>
 #include <boost/cstdint.hpp>
 #include <boost/iostreams/device/mapped_file.hpp>
-#include <regex>
-#include <fstream>
-#include <sstream>
 #include <iostream>
-#include <stdexcept>
-#include <boost/regex.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
-#include <iomanip>
 
 class SearchValue;
+class HexEditor;
 
 /* parses an ELF binary and computes a score that indicates how malicious
  * or dangerous the binary is. A lot of good information on parsing
@@ -84,7 +74,12 @@ private:
 
     // he ptr vector to hold the search engine values
     boost::ptr_vector<SearchValue> m_searchValues;
-    
+
+ 	// he var entropy
+	double m_entropy;
+
+	// calc entropy general function
+	void calcEntropy(off_t p_offset, std::size_t p_fileSize);
 public:
 
     // oes nothing except default initialization of all members
@@ -151,11 +146,14 @@ public:
     // return a const reference to the abstract semgnents
     const AbstractSegments& getSegments() const;
 
-    // eturn a const reference to the dynamic section
+    // return a const reference to the dynamic section
     const DynamicSection& getDynamicSection() const;
 
     // return a string indicating the malware family
     std::string getFamily() const;
+
+	// return a const entropy total binary
+	double getEntropy();
 
 };
 

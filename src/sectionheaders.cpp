@@ -6,10 +6,9 @@
 #include <sstream>
 #include <iostream>
 
-SectionHeaders::SectionHeaders()
+SectionHeaders::SectionHeaders() :  m_totalSize(0),
+    								m_stringIndex(0)
 {
-    m_totalSize = 0;
-    m_stringIndex = 0;
 }
 
 SectionHeaders::~SectionHeaders()
@@ -17,7 +16,7 @@ SectionHeaders::~SectionHeaders()
 
 void SectionHeaders::setHeaders(const char* p_data, const char* p_start,
                                 boost::uint64_t p_total_size, boost::uint16_t p_count,
-                                boost::uint16_t p_size, std::size_t p_stringIndex,
+                                boost::uint32_t p_size, std::uint32_t p_stringIndex,
                                 bool p_is64, bool p_isLE,
                                 std::map<elf::Capabilties, std::set<std::string> >& p_capabilities)
 {

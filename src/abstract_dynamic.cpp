@@ -1,17 +1,15 @@
 #include "abstract_dynamic.hpp"
 #include "structures/dynamicstruct.hpp"
 
-AbstractDynamicEntry::AbstractDynamicEntry(boost::uint64_t p_tag, boost::uint64_t p_value)
+AbstractDynamicEntry::AbstractDynamicEntry(boost::uint64_t p_tag, boost::uint64_t p_value)  :  m_tag(p_tag), m_value(p_value)
 {
-    m_tag = p_tag;
-    m_value = p_value;
 }
 
-AbstractDynamicEntry::AbstractDynamicEntry(const AbstractDynamicEntry &p_rhs)
+AbstractDynamicEntry::AbstractDynamicEntry(const AbstractDynamicEntry &p_rhs) :m_tag(p_rhs.m_tag),
+    m_value(p_rhs.m_value),
+    m_stringValue(p_rhs.m_stringValue)
 {
-    m_tag = p_rhs.m_tag;
-    m_value = p_rhs.m_value;
-    m_stringValue = p_rhs.m_stringValue;
+
 }
 
 AbstractDynamicEntry::~AbstractDynamicEntry()

@@ -31,11 +31,17 @@ namespace elf
     enum elf_machine
     {
         k_emnone = 0,
+        k_emM32,
+        k_emSPARC,
         k_em386 = 3,
         k_emMIPS = 8,
+        k_emSPARC32PLUS = 18,
         k_emPPC = 20,
+        k_emPPC64,
         k_emARM = 40,
+        
         k_emx8664 = 62
+        
     };
 
     #pragma pack(push, 1)

@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>301</height>
+    <width>650</width>
+    <height>316</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>650</width>
-    <height>300</height>
+    <height>316</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>700</width>
-    <height>600</height>
+    <width>650</width>
+    <height>316</height>
    </size>
   </property>
   <property name="baseSize">
@@ -29,11 +29,17 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>About</string>
+   <string>About </string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item alignment="Qt::AlignHCenter">
     <widget class="QFrame" name="frame_2">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>270</height>
+      </size>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -41,16 +47,16 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
+      <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
        <widget class="QGroupBox" name="creditsBox">
         <property name="title">
          <string>Attribution</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
+         <item alignment="Qt::AlignHCenter">
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Icon:&lt;/span&gt; by iconsmind.com licensed using the &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/us/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0082fa;&quot;&gt;CC BY 3.0&lt;/span&gt;&lt;/a&gt; license&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Hashing:&lt;/span&gt; by Stephan Brumme licensed using the zlib license&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;UI:&lt;/span&gt; Qt is licensed using the LGPL&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; color:#727272;&quot;&gt;Icon:&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt; by iconsmind.com licensed using the &lt;/span&gt;&lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/us/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#000000;&quot;&gt;CC BY 3.0&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt; license&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#727272;&quot;&gt;Hashing:&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt; by Stephan Brumme licensed using the zlib license&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#727272;&quot;&gt;UI: &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;Qt is licensed using the LGPL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -59,6 +65,12 @@
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>170</height>
+         </size>
+        </property>
         <property name="title">
          <string>Version</string>
         </property>
@@ -69,9 +81,10 @@
             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Version&lt;/span&gt;: &lt;span style=&quot; color:#ffffff;&quot;&gt;1.5.0&lt;/span&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;License: &lt;/span&gt;&lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/us/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0082fa;&quot;&gt;CC BY-NC-SA 3.0 US&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Release Date: &lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;22&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;10/2021&lt;/span&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Copyright: &lt;/span&gt;&lt;span style=&quot; font-family:'Droid Sans Mono','monospace','monospace','Droid Sans Fallback'; text-decoration: underline; color:#fafafa;&quot;&gt;elfparser-ng (c) 2021 Mente Binária &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Droid Sans Mono','monospace','monospace','Droid Sans Fallback'; text-decoration: underline; color:#fafafa;&quot;&gt;elfparser (c) 2014-2021 Jacob Baines&lt;/span&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#727272;&quot;&gt;License: &lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#000000;&quot;&gt;GPLv3 &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#727272;&quot;&gt;Version:&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#000000;&quot;&gt; 1.6.0 &lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#727272;&quot;&gt;Release Date:&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#000000;&quot;&gt; 22/10/2022&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#727272;&quot;&gt;Copyright:&lt;/span&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#000000;&quot;&gt; elfparser-ng (c) 2022 Mente Binária, &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Fira Code'; font-size:8pt; font-weight:600; color:#000000;&quot;&gt;elfparser (c) 2015 Jacob Baines&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -107,58 +120,11 @@ p, li { white-space: pre-wrap; }
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
-      <item>
-       <widget class="QGroupBox" name="versionBox">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="title">
-         <string>Report</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC';&quot;&gt;if you want to report a bug or &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC';&quot;&gt;feature acess this link&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC';&quot;/&gt;&lt;a href=&quot;https://github.com/mentebinaria/elfparser-ng/issues&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans CJK SC'; text-decoration: underline; color:#0082fa;&quot;&gt;elfparser-ng/issues&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="closeButton">
-        <property name="text">
-         <string>Close</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <layout class="QVBoxLayout" name="verticalLayout_5"/>
     </widget>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>closeButton</sender>
-   <signal>clicked()</signal>
-   <receiver>About</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>111</x>
-     <y>291</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>337</x>
-     <y>161</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
