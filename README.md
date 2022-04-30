@@ -20,15 +20,15 @@ You can download a pre-compiled release from the [Releases](https://github.com/m
 
 ### Main window
 
-![main](assets/elfparser-ng-gui-windows.png)
+![main](assets/gui-win-main.png)
 
 ### Segments
 
-![segments](assets/elfparser-ng-segments.png)
+![segments](assets/gui-win-segments.png)
 
 ### Capabilities
 
-![capabilities](assets/elfparser-ng-capabilities.png)
+![capabilities](assets/gui-win-capabilities.png)
 
 ## Building
 
