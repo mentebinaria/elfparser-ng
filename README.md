@@ -1,26 +1,34 @@
 # elfparser-ng
 
-Multiplatform CLI and GUI tool to show information about ELF files.
-
-![gui](assets/elfparser-ng.png)
-![cli](assets/elfparser-ng-cli.png)
-
-This project aims to keep the great [elfparser](https://github.com/jacob-baines/elfparser) alive. Plans include updating and adding new features to it.
-
-## What problem are you trying to solve?
-
-Keep one of the few multiplatform graphical tool to parse ELF files up to date and improve it with new features.
+Multiplatform command-line and graphical tool to analyze (suspicious) ELF files. This is an authorized, maintained fork of the great [ELF Parser](https://elfparser.com).
 
 ## Features
 
-* Parse ELF headers and segments.
-* Show symbols.
+* File hashes (MD5, SHA-1, and SHA-256).
+* File entropy.
+* ELF headers, sections and segments parsing.
+* ELF symbols.
 * Hex Dump.
-* Calculate file's entropy.
+* Capabilities detection.
+* Scoring system.
 
 ## Installing
 
-You can just download a pre-compiled release from the [Releases](https://github.com/mentebinaria/elfparser-ng/releases) section and use it.
+You can download a pre-compiled release from the [Releases](https://github.com/mentebinaria/elfparser-ng/releases) section and use it.
+
+## Screnshots
+
+### Main window
+
+![main](assets/gui-win-main.png)
+
+### Segments
+
+![segments](assets/gui-win-segments.png)
+
+### Capabilities
+
+![capabilities](assets/gui-win-capabilities.png)
 
 ## Building
 
@@ -32,7 +40,7 @@ To build on Windows, set the `option(windows "Enable Windows build." OFF` to `ON
 
 ### Compile Targets
 
-ELF Parser has a number of compilation targets that can be configured by CMakeLists.txt. The targets are:
+elfparser-ng has a number of compilation targets configurable in `CMakeLists.txt` file:
 
 * Unit tests
 * CLI build
@@ -40,8 +48,10 @@ ELF Parser has a number of compilation targets that can be configured by CMakeLi
 
 ### Dependencies
 
-[Boost](http://robots.uc3m.es/installation-guides/install-boost.html#install-boost-windows)
-> sudo apt-get install libboost-all-dev
+* Boost
+* Qt5
 
-[Qt5](https://www.qt.io/download-open-source)
-> sudo apt-get install build-essential qtcreator qt5-default  qtdeclarative5-dev
+In Debian-based Linux distros, you can install them with:
+
+    apt-get install libboost-all-dev build-essential \ 
+                    qtcreator qt5-default qtdeclarative5-dev
