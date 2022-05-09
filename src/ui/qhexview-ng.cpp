@@ -1,6 +1,5 @@
 #ifdef QT_GUI
 
-
 #include "qhexview-ng.hpp"
 
 #include <QApplication>
@@ -80,6 +79,7 @@ void QHexView::showFromOffset(int offset)
     updatePositions();
 
     setCursorPos(offset * 2);
+    setSelected(offset, 1);
 
     int cursorY = m_cursorPos / (2 * m_bytesPerLine);
 
@@ -203,7 +203,7 @@ void QHexView::paintEvent(QPaintEvent *event)
     painter.drawText(m_posAddr, yPos, address);
 
     UPDATE
-    
+
     // cursor drawn
     if (hasFocus())
     {
@@ -407,7 +407,7 @@ void QHexView::keyPressEvent(QKeyEvent *event)
       int copyOffset = 0;
 
       QByteArray data = m_pdata.mid(m_selectBegin / 2,
-                                (m_selectEnd - m_selectBegin) / 2 + 2);
+                                    (m_selectEnd - m_selectBegin) / 2 + 2);
 
       if (m_selectBegin % 2)
       {
@@ -537,6 +537,9 @@ void QHexView::setSelection(int pos)
 
 void QHexView::setSelected(int offset, int length)
 {
+  int cursorY = m_cursorPos / (2 * m_bytesPerLine);
+  verticalScrollBar()->setValue(cursorY);
+  
   m_selectInit = m_selectBegin = offset * 2;
   m_selectEnd = m_selectBegin + length * 2;
   UPDATE;

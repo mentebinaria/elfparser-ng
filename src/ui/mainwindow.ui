@@ -843,7 +843,7 @@
             <item>
              <widget class="QLabel" name="Offset_label">
               <property name="text">
-               <string>Offset 0</string>
+               <string>Offset 0x0</string>
               </property>
              </widget>
             </item>
