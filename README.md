@@ -53,4 +53,5 @@ elfparser-ng has a number of compilation targets configurable in `CMakeLists.txt
 
 In Debian-based Linux distros, you can install them with:
 
-    apt-get install libboost-all-dev build-essential qtcreator qt5-default qtdeclarative5-dev
+    apt-get install libboost-all-dev build-essential \ 
+                    qtcreator qt5-default qtdeclarative5-dev
