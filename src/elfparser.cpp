@@ -12,7 +12,6 @@
 #include <stdexcept>
 #include <boost/regex.hpp>
 
-
 static double calcEntropyFunc(const unsigned int counted_bytes[256], const std::streamsize total_length)
 {
     double entropy = 0.;

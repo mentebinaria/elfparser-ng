@@ -14,7 +14,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include "QHexView-ng.hpp"
+#include "qhexview-ng.hpp"
 
 namespace Ui
 {
@@ -84,7 +84,7 @@ class MainWindow : public QMainWindow
   void on_reportButton_triggered();
   void on_newButton_triggered();
   void on_helpButton_triggered();
-
+  void on_headerTable_cellDoubleClicked(int row, int column);
 };
 
 #endif //! QT_GUI

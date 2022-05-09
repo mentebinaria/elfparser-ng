@@ -14,6 +14,9 @@ else()
 endif()
 
 # project variables
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 set(PROJECT_VERSION_MAJOR "1")
 set(PROJECT_VERSION_MINOR "6")
 set(PROJECT_VERSION_PATCH "0")
@@ -46,7 +49,7 @@ endif()
 #package locations
 set(CMAKE_MODULE_PATH ${${PROJECT_NAME}_SOURCE_DIR}/CMake)
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.46 COMPONENTS program_options iostreams system filesystem regex REQUIRED)
+find_package(Boost 1.46.0 COMPONENTS program_options iostreams system filesystem regex REQUIRED)
 
 # includes
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
@@ -84,7 +87,7 @@ if (qt)
 
     # let QT generate files
     qt5_wrap_ui(UI_HEADERS src/ui/mainwindow.ui  src/ui/about.ui)
-    set(EXTRA_SOURCES src/ui/mainwindow.cpp src/ui/QHexView-ng.cpp)
+    set(EXTRA_SOURCES src/ui/mainwindow.cpp src/ui/qhexview-ng.cpp)
     set(EXTRA_SOURCES ${EXTRA_SOURCES} ${UI_HEADERS})
 
     if (APPLE)

@@ -187,6 +187,9 @@ void MainWindow::parser ( QString filename )
   m_ui->sectionInfo->clear();
   m_ui->programsInfo->clear();
   m_parser.reset ( new ELFParser() );
+  m_ui->sizeFile_label->setText("Total 0 Bytes ");
+  setWindowTitle ( "elfparser-ng");
+
 
   try
   {
@@ -215,8 +218,12 @@ void MainWindow::parser ( QString filename )
   QTableWidgetItem *tableItem = new QTableWidgetItem ( QString ( m_parser->getFilename().c_str() ) );
   m_ui->overviewTable->setItem ( 0, 0, tableItem );
   m_tableItems.push_back ( tableItem );
-  tableItem = new QTableWidgetItem ( QString ( boost::lexical_cast<std::string> ( m_parser->getFileSize() ).c_str() ) + " Bytes" );
+
+  QString sizeFile_str =  QString::number( m_parser->getFileSize() );
+  tableItem = new QTableWidgetItem ( sizeFile_str + " Bytes" );
   m_ui->overviewTable->setItem ( 1, 0, tableItem );
+  m_ui->sizeFile_label->setText("Total " + sizeFile_str + " Bytes");
+
   m_tableItems.push_back ( tableItem );
   tableItem = new QTableWidgetItem ( QString ( m_parser->getMD5().c_str() ) );
   m_ui->overviewTable->setItem ( 2, 0, tableItem );
@@ -629,6 +636,20 @@ void MainWindow::on_aboutButton_triggered()
   aboutUi.setupUi ( m_dialog.get() );
 
   m_dialog->exec();
+}
+
+void MainWindow::on_headerTable_cellDoubleClicked(int row, int column)
+{
+  switch(row)
+  {
+    case 0 :
+      m_HexEditor->setSelected(0, 4);
+      break;
+
+    case 1:
+      m_HexEditor->setSelected(4, 1);
+      break;
+  }
 }
 
 #endif
