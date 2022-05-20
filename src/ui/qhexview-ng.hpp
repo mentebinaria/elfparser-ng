@@ -18,15 +18,15 @@
 // config colors
 #if _WIN32 || _WIN64
   // config font
-  #define FONT "Courier"
+  #define FONT "Consolas"
   #define SIZE_FONT 10
   #define COLOR_CHARACTERS Qt::black
   #define COLOR_SELECTION 98, 114, 164, 0xff
   #define COLOR_ADDRESS 240, 240, 240, 0xff
 #else
   // config font
-  #define FONT "Courier"
-  #define SIZE_FONT 12
+  #define FONT "Consolas"
+  #define SIZE_FONT 11
   #define COLOR_SELECTION 98, 114, 164, 0xff
   #define COLOR_ADDRESS 30, 30, 30, 0xff
   #define COLOR_CHARACTERS Qt::white
@@ -58,7 +58,7 @@ class QHexView: public QAbstractScrollArea
  private:
   QByteArray  m_pdata;
 
-  int m_posAddr,
+  unsigned int m_posAddr,
       m_posHex,
       m_posAscii,
       m_charWidth,

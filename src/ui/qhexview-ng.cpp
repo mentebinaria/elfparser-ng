@@ -151,14 +151,16 @@ void QHexView::paintEvent(QPaintEvent *event)
   int yPosStart = m_charHeight;
   QBrush def = painter.brush();
 
+  // paint background address
   painter.fillRect(event->rect(), this->palette().color(QPalette::Base));
   painter.fillRect(QRect(m_posAddr, event->rect().top(), m_posHex - GAP_ADR_HEX + 10, height()), QColor(COLOR_ADDRESS));
 
+  // paint line separate ascii
   painter.setPen(Qt::gray);
   painter.drawLine(linePos, event->rect().top(), linePos, height());
   painter.setPen(Qt::black);
 
-  QByteArray data = m_pdata.mid(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
+  const QByteArray data = m_pdata.mid(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
 
   painter.setPen(COLOR_CHARACTERS); // paint white characters and binary
 
@@ -171,11 +173,11 @@ void QHexView::paintEvent(QPaintEvent *event)
          (i < m_bytesPerLine);
          i++, xPosAscii += m_charWidth)
     {
-      char character = data[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
-      CHAR_VALID(character);
-
       int pos = ((lineIdx * m_bytesPerLine + i) * 2);
       SET_BACKGROUND_MARK(pos);
+
+      char character = data[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
+      CHAR_VALID(character);
 
       painter.drawText(xPosAscii, yPos, QString(character));
 
@@ -184,13 +186,16 @@ void QHexView::paintEvent(QPaintEvent *event)
     }
 
     // binary position
-    for (int xPos = m_posHex, i = 0; i < m_bytesPerLine && ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < data.size(); i++, xPos += 3 * m_charWidth)
+    for (int xPos = m_posHex, i = 0; i < m_bytesPerLine &&
+                                     ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < data.size();
+         i++, xPos += 3 * m_charWidth)
     {
       int pos = ((lineIdx * m_bytesPerLine + i) * 2);
       SET_BACKGROUND_MARK(pos);
 
       QString val = QString::number((data.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF0) >> 4, 16);
       painter.drawText(xPos, yPos, val);
+
       val = QString::number((data.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF), 16);
       painter.drawText(xPos + m_charWidth, yPos, val);
 
@@ -198,11 +203,9 @@ void QHexView::paintEvent(QPaintEvent *event)
       painter.setBackgroundMode(Qt::OpaqueMode);
     }
 
-    // offsets drawn
+    // offsets
     QString address = QString("%1:").arg(lineIdx * m_bytesPerLine, 10, 16, QChar('0'));
     painter.drawText(m_posAddr, yPos, address);
-
-    UPDATE
 
     // cursor drawn
     if (hasFocus())
@@ -212,7 +215,7 @@ void QHexView::paintEvent(QPaintEvent *event)
       y -= firstLineIdx;
       int cursorX = (((x / 2) * 3) + (x % 2)) * m_charWidth + m_posHex;
       int cursorY = y * m_charHeight + 4;
-      painter.fillRect(cursorX, cursorY, 2, m_charHeight, this->palette().color(QPalette::WindowText));
+      painter.fillRect(cursorX, cursorY, 2, m_charHeight, palette().color(QPalette::WindowText));
     }
   }
 }
@@ -233,7 +236,7 @@ void QHexView::keyPressEvent(QKeyEvent *event)
 
   if (event->matches(QKeySequence::MoveToPreviousChar))
   {
-    setCursorPos(m_cursorPos - +2);
+    setCursorPos(m_cursorPos - 2);
     resetSelection(m_cursorPos);
     setVisible = true;
   }
@@ -537,12 +540,13 @@ void QHexView::setSelection(int pos)
 
 void QHexView::setSelected(int offset, int length)
 {
-  int cursorY = m_cursorPos / (2 * m_bytesPerLine);
-  verticalScrollBar()->setValue(cursorY);
-  
+  UPDATE
+
   m_selectInit = m_selectBegin = offset * 2;
   m_selectEnd = m_selectBegin + length * 2;
-  UPDATE;
+
+  int cursorY = m_cursorPos / (2 * m_bytesPerLine);
+  verticalScrollBar()->setValue(cursorY);
 }
 
 void QHexView::setCursorPos(int position)
@@ -557,7 +561,7 @@ void QHexView::setCursorPos(int position)
     maxPos = m_pdata.size() * 2;
 
     if (m_pdata.size() % m_bytesPerLine)
-      maxPos += 2;
+      maxPos += 1;
   }
 
   if (position > maxPos)

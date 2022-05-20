@@ -7,6 +7,7 @@
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
 
+#include <math.h>
 #include <QInputDialog>
 #include <QDesktopServices>
 #include <QCursor>
@@ -285,7 +286,7 @@ void MainWindow::parser(QString filename)
   tableItem = new QTableWidgetItem(QString(boost::lexical_cast<std::string>(m_parser->getElfHeader().getProgramOffset()).c_str()));
   m_ui->headerTable->setItem(10, 0, tableItem);
   m_tableItems.push_back(tableItem);
-  tableItem = new QTableWidgetItem(QString(boost::lexical_cast<std::string>(m_parser->getElfHeader().getSectionOffset()).c_str()));
+  tableItem = new QTableWidgetItem(QString::number(m_parser->getElfHeader().getSectionOffset()));
   m_ui->headerTable->setItem(11, 0, tableItem);
   m_tableItems.push_back(tableItem);
   tableItem = new QTableWidgetItem(QString(m_parser->getElfHeader().getFlags().c_str()));
@@ -636,48 +637,84 @@ void MainWindow::on_headerTable_cellDoubleClicked(int row, int column)
 {
   if (m_FileName.size() == 0)
     return;
+
+  bool enconding = (m_parser->getElfHeader().getEncoding() == "Big Endian") ? true : false;
+  int lenght = 0;
+
   switch (row)
   {
-  case 0: // Mafic Elf
-    m_HexEditor->setSelected(0x0, 4);
-    m_ui->Offset_label->setText("Offset 0x0");
-    break;
-  case 1: // Class Elf
-    m_HexEditor->setSelected(0x4, 1);
-    m_ui->Offset_label->setText("Offset 0x4");
-    break;
-  case 2: // Data Encoding
-    m_HexEditor->setSelected(0x5, 1);
-    m_ui->Offset_label->setText("Offset 0x5");
-    break;
-  case 3: // Version Elf
-    m_HexEditor->setSelected(0x6, 1);
-    m_ui->Offset_label->setText("Offset 0x6");
-    break;
-  case 4: // Os Abi
-    m_HexEditor->setSelected(0x7, 1);
-    m_ui->Offset_label->setText("Offset 0x7");
-    break;
-  case 5: // Os Abi Version
-    m_HexEditor->setSelected(0x8, 1);
-    m_ui->Offset_label->setText("Offset 0x8");
-    break;
-  case 6: // Type
-    m_HexEditor->setSelected(0x9, 1);
-    m_ui->Offset_label->setText("Offset 0x9");
-    break;
-  case 7: // Machine
-    m_HexEditor->setSelected(0x10, 1);
-    m_ui->Offset_label->setText("Offset 0x10");
-    break;
-  case 8: // Machine
-    m_HexEditor->setSelected(0x11, 1);
-    m_ui->Offset_label->setText("Offset 0x11");
-    break;
-  case 9: // Entry Point
-    m_HexEditor->setSelected(0x18, m_parser->getElfHeader().getEntryPointString().size());
-    m_ui->Offset_label->setText("Offset 0x18");
-    break;
+  
+    case 0: // Mafic Elf
+      m_HexEditor->setSelected(0x0, 4);
+      m_ui->Offset_label->setText("Offset 0x0");
+      break;
+    
+    case 1: // Class Elf
+      m_HexEditor->setSelected(0x4, 1);
+      m_ui->Offset_label->setText("Offset 0x4");
+      break;
+    
+    case 2: // Data Encoding
+      m_HexEditor->setSelected(0x5, 1);
+      m_ui->Offset_label->setText("Offset 0x5");
+      break;
+    
+    case 3: // Version Elf
+      m_HexEditor->setSelected(0x6, 1);
+      m_ui->Offset_label->setText("Offset 0x6");
+      break;
+    
+    case 4: // Os Abi
+      m_HexEditor->setSelected(0x7, 1);
+      m_ui->Offset_label->setText("Offset 0x7");
+      break;
+    
+    case 5: // Os Abi Version
+      m_HexEditor->setSelected(0x8, 1);
+      m_ui->Offset_label->setText("Offset 0x8");
+      break;
+    
+    case 6: // Type
+      m_HexEditor->setSelected((enconding) ? 0x11 : 0x9, 1);
+      m_ui->Offset_label->setText("Offset 0x9");
+      break;
+    
+    case 7: // Machine
+      m_HexEditor->setSelected((enconding) ? 0x13 : 0x10, 1);
+      m_ui->Offset_label->setText("Offset 0x10");
+      break;
+    
+    case 8: // Version
+      m_HexEditor->setSelected(0x6, 1);
+      m_ui->Offset_label->setText("Offset 0x6");
+      break;
+    
+    case 9: // Entry Point
+      lenght = m_parser->getElfHeader().getEntryPointString().size() / 2;
+      m_HexEditor->setSelected(0x18, lenght);
+      m_ui->Offset_label->setText("Offset 0x18");
+      break;
+    
+    case 10: // Program Offset
+      m_HexEditor->setSelected((enconding) ? 0x1F : 0x20, 1);
+      m_ui->Offset_label->setText("Offset 0x20");
+      break;
+    
+    case 11: // Section Offset
+      lenght = log10(m_parser->getElfHeader().getProgramOffset()) + 1;
+      m_HexEditor->setSelected((enconding) ? 0x21 : 0x28, lenght);
+      m_ui->Offset_label->setText("Offset 0x28");
+      break;
+    
+    case 12: // flags
+      m_HexEditor->setSelected(0x30 + lenght, 1);
+      m_ui->Offset_label->setText("Offset 0x2c");
+      break;
+
+    case 13:
+      m_HexEditor->setSelected(0x34, 1);
+      m_ui->Offset_label->setText("Offset 0x35");
+      break;
   }
 }
 
