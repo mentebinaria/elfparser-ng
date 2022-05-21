@@ -81,7 +81,7 @@
         <enum>QTabWidget::North</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="documentMode">
         <bool>true</bool>
@@ -881,6 +881,7 @@
      <string>File</string>
     </property>
     <addaction name="openButton"/>
+    <addaction name="openProcess"/>
     <addaction name="reparseButton"/>
     <addaction name="separator"/>
    </widget>
@@ -947,6 +948,11 @@
   <action name="newButton">
    <property name="text">
     <string>New Window</string>
+   </property>
+  </action>
+  <action name="openProcess">
+   <property name="text">
+    <string>Open Process</string>
    </property>
   </action>
  </widget>

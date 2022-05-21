@@ -14,6 +14,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+#include "pswindow.hpp"
 #include "qhexview-ng.hpp"
 
 namespace Ui
@@ -60,6 +61,10 @@ class MainWindow : public QMainWindow
   // entropy config 
   double m_Entropy;
   double m_VEntropy;
+
+  // pswindow
+  PsWindow m_Pswindow;
+
  public:
   explicit MainWindow ( QWidget *parent = 0 );
   ~MainWindow();
@@ -80,6 +85,7 @@ class MainWindow : public QMainWindow
   void conf_buttons();
   void conf_tables();
   void on_openButton_triggered();
+  void on_openProcess_triggered();
   void on_EntroyLimitButton_triggered();
   void on_reportButton_triggered();
   void on_newButton_triggered();

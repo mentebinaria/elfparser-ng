@@ -86,8 +86,8 @@ if (qt)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
     # let QT generate files
-    qt5_wrap_ui(UI_HEADERS src/ui/mainwindow.ui  src/ui/about.ui)
-    set(EXTRA_SOURCES src/ui/mainwindow.cpp src/ui/qhexview-ng.cpp)
+    qt5_wrap_ui(UI_HEADERS src/ui/mainwindow.ui  src/ui/about.ui src/ui/pswindow.ui)
+    set(EXTRA_SOURCES src/ui/mainwindow.cpp src/ui/qhexview-ng.cpp src/ui/pswindow.cpp )
     set(EXTRA_SOURCES ${EXTRA_SOURCES} ${UI_HEADERS})
 
     if (APPLE)
@@ -100,6 +100,7 @@ endif()
 
 # compilation units
 add_executable(${PROJECT_NAME} ${GUI_TYPE}
+               src/ps.cpp
                src/main.cpp
                src/elfparser.cpp
                src/programheaders.cpp

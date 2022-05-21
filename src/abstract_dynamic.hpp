@@ -28,7 +28,6 @@ class AbstractDynamicEntry
         const std::string getString() const;
     
         std::string printToStdOut() const;
-
 };
 
 #endif
