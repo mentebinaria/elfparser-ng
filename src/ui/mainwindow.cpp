@@ -579,8 +579,8 @@ void MainWindow::on_openButton_triggered()
 void MainWindow::on_openProcess_triggered()
 {
   m_Pswindow.exec();
-
-  m_FileName = QString::fromStdString("/proc/" + std::to_string(m_Pswindow.getPid()) + "/exe");
+  if (std::to_string(m_Pswindow.getPid()) != "0")
+    m_FileName = QString::fromStdString("/proc/" + std::to_string(m_Pswindow.getPid()) + "/exe");
 
   if (m_FileName.size() == 0)
     return;
@@ -598,10 +598,30 @@ void MainWindow::on_gotoOffsetButton_triggered()
                                          tr("Offset (0x for hexadecimal):"), QLineEdit::Normal,
                                          nullptr, &done);
 
-  if (done && offset[0] == '0' && offset[1] == 'x')
-    m_HexEditor->showFromOffset(offset.toInt(nullptr, 16));
-  else
-    m_HexEditor->showFromOffset(offset.toInt(nullptr));
+  try
+  {
+    if (done && offset[0] == '0' && offset[1] == 'x')
+    {
+
+      int valueHex = offset.toInt(nullptr, 16);
+      m_HexEditor->showFromOffset(valueHex);
+      m_ui->Offset_label->setText("Offset  0x" + QString::number(valueHex, 16));
+    }
+    else if (done)
+    {
+      int valueDec = offset.toInt(nullptr);
+      m_HexEditor->showFromOffset(valueDec);
+      m_ui->Offset_label->setText("Offset   " + QString::number(valueDec));
+    }
+  }catch (const std::exception &e)
+  {
+    std::string errorMessage("Loading Error: ");
+    errorMessage.append(e.what());
+
+    QMessageBox msgBox;
+    msgBox.setText(errorMessage.c_str());
+    msgBox.exec();
+  }
 }
 
 void MainWindow::on_FullScreenButton_triggered()
@@ -647,7 +667,7 @@ void MainWindow::on_aboutButton_triggered()
   m_dialog->exec();
 }
 
-void MainWindow::on_headerTable_cellDoubleClicked(int row, int column)
+void MainWindow::on_headerTable_cellClicked(int row, int column)
 {
   if (m_FileName.size() == 0)
     return;
@@ -657,7 +677,6 @@ void MainWindow::on_headerTable_cellDoubleClicked(int row, int column)
 
   switch (row)
   {
-
   case 0: // Mafic Elf
     m_HexEditor->setSelected(0x0, 4);
     m_ui->Offset_label->setText("Offset 0x0");
@@ -690,17 +709,17 @@ void MainWindow::on_headerTable_cellDoubleClicked(int row, int column)
 
   case 6: // Type
     m_HexEditor->setSelected((enconding) ? 0x11 : 0x9, 1);
-    m_ui->Offset_label->setText("Offset 0x9");
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x11 : 0x9, 16));
     break;
 
   case 7: // Machine
     m_HexEditor->setSelected((enconding) ? 0x13 : 0x10, 1);
-    m_ui->Offset_label->setText("Offset 0x10");
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x13 : 0x10, 16));
     break;
 
   case 8: // Version
-    m_HexEditor->setSelected(0x6, 1);
-    m_ui->Offset_label->setText("Offset 0x6");
+    m_HexEditor->setSelected((enconding) ? 0x17 : 0x14, 1);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x17 : 0x14, 16));
     break;
 
   case 9: // Entry Point
@@ -710,25 +729,50 @@ void MainWindow::on_headerTable_cellDoubleClicked(int row, int column)
     break;
 
   case 10: // Program Offset
-    m_HexEditor->setSelected((enconding) ? 0x1F : 0x20, 1);
-    m_ui->Offset_label->setText("Offset 0x20");
+    m_HexEditor->setSelected((enconding) ? 0x1F : 0x20, 2);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x1f : 0x20, 16));
     break;
 
   case 11: // Section Offset
-    lenght = log10(m_parser->getElfHeader().getProgramOffset()) + 1;
-    m_HexEditor->setSelected((enconding) ? 0x21 : 0x28, lenght);
-    m_ui->Offset_label->setText("Offset 0x28");
+    m_HexEditor->setSelected((enconding) ? 0x21 : 0x28, 4);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x21 : 0x28, 16));
     break;
 
   case 12: // flags
-    m_HexEditor->setSelected(0x30 + lenght, 1);
-    m_ui->Offset_label->setText("Offset 0x2c");
+    m_HexEditor->setSelected((enconding) ? 0x25 : 0x2c, 4);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x25 : 0x2c, 16));
     break;
 
-  case 13:
-    m_HexEditor->setSelected(0x34, 1);
-    m_ui->Offset_label->setText("Offset 0x35");
+  case 13: // header size
+    m_HexEditor->setSelected((enconding) ? 0x29 : 0x34, 2);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x29 : 0x34, 16));
     break;
+
+  case 14: // Program entry size
+    m_HexEditor->setSelected((enconding) ? 0x2b : 0x36, 2);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x2b : 0x36, 16));
+    break;
+
+  case 15: // Program entry 
+    m_HexEditor->setSelected((enconding) ? 0x2d : 0x38, 2);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x2d : 0x38, 16));
+    break;
+
+  case 16: // Sections entry size
+    m_HexEditor->setSelected((enconding) ? 0x2f : 0x3A, 2);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x2f : 0x3A, 16));
+    break;
+
+  case 17: // Sections entry 
+    m_HexEditor->setSelected((enconding) ? 0x31 : 0x3C, 2);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x31 : 0x3C, 16));
+    break;
+
+  case 18: // Strings
+    m_HexEditor->setSelected((enconding) ? 0x33 : 0x3E, 2);
+    m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x33 : 0x3E, 16));
+    break;
+
   }
 }
 

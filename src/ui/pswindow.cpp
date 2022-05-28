@@ -26,7 +26,7 @@ PsWindow::~PsWindow()
  */
 void PsWindow::Conf_pidTable(void)
 {
-  // m_ui->pidTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  m_ui->pidTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
   m_ui->pidTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
   m_ui->pidTable->verticalHeader()->setVisible(false);
   m_ui->search->setPlaceholderText("Find");

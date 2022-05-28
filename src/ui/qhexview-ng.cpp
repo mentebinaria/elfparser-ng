@@ -74,7 +74,7 @@ void QHexView::loadFile(QString p_file)
 // search and set offset
 void QHexView::showFromOffset(int offset)
 {
-  if (offset < m_pdata.size())
+  if (offset <= m_pdata.size())
   {
     updatePositions();
 
@@ -85,7 +85,8 @@ void QHexView::showFromOffset(int offset)
 
     verticalScrollBar()->setValue(cursorY);
     UPDATE
-  }
+  }else
+    throw std::runtime_error("Offset invalid, verify offset " + std::to_string(offset));
 }
 
 // clean all
