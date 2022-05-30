@@ -8,7 +8,6 @@
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
 
-#include <math.h>
 #include <QInputDialog>
 #include <QDesktopServices>
 #include <QCursor>
@@ -602,7 +601,6 @@ void MainWindow::on_gotoOffsetButton_triggered()
   {
     if (done && offset[0] == '0' && offset[1] == 'x')
     {
-
       int valueHex = offset.toInt(nullptr, 16);
       m_HexEditor->showFromOffset(valueHex);
       m_ui->Offset_label->setText("Offset  0x" + QString::number(valueHex, 16));
@@ -772,8 +770,14 @@ void MainWindow::on_headerTable_cellClicked(int row, int column)
     m_HexEditor->setSelected((enconding) ? 0x33 : 0x3E, 2);
     m_ui->Offset_label->setText("Offset 0x" + QString::number((enconding) ? 0x33 : 0x3E, 16));
     break;
-
   }
+}
+
+void MainWindow::on_sectionsTable_cellClicked(int row, int column)
+{
+  uint offset = m_ui->sectionsTable->item ( row, 5)->text().toInt();
+  m_HexEditor->setSelected(offset, m_ui->sectionsTable->item ( row, 6)->text().toInt() );
+  m_ui->Offset_label->setText("Offset 0x" + QString::number(offset, 16));
 }
 
 #endif
