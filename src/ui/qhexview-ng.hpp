@@ -77,7 +77,6 @@ class QHexView: public QAbstractScrollArea
   void ensureVisible();
   void setCursorPos ( int pos );
   int  cursorPos ( const QPoint &position );
-  int  getCursorPos();
   void paintMark(int xpos, int ypos);
   void confScrollBar();
 
@@ -86,6 +85,8 @@ class QHexView: public QAbstractScrollArea
   void clear();
   void showFromOffset ( int offset );
   void setSelected ( int offset, int length );
+  unsigned int  getCursorPos();
+ 
 };
 
 #endif

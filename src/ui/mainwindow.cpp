@@ -575,6 +575,12 @@ void MainWindow::on_openButton_triggered()
   openFile();
 }
 
+#if _WIN32 || _WIN64
+  void MainWindow::on_openProcess_triggered()
+{
+
+}
+#else
 void MainWindow::on_openProcess_triggered()
 {
   m_Pswindow.exec();
@@ -587,6 +593,8 @@ void MainWindow::on_openProcess_triggered()
   else
     parser ( m_FileName );
 }
+
+#endif
 
 void MainWindow::on_gotoOffsetButton_triggered()
 {
@@ -674,8 +682,8 @@ void MainWindow::on_headerTable_cellClicked ( int row, int column )
 
   bool enconding = ( m_parser->getElfHeader().getEncoding() == "Big Endian" ) ? true : false;
   int lenght = 0;
-  
-  m_HexEditor->showFromOffset(0x00);
+
+  m_HexEditor->showFromOffset ( 0x00 );
 
   switch ( row )
   {
@@ -780,18 +788,17 @@ void MainWindow::on_headerTable_cellClicked ( int row, int column )
 void MainWindow::on_sectionsTable_cellClicked ( int row, int column )
 {
   int offset = m_ui->sectionsTable->item ( row, 5 )->text().toInt();
-  m_HexEditor->showFromOffset(offset);
+  m_HexEditor->showFromOffset ( offset );
   m_HexEditor->setSelected ( offset, m_ui->sectionsTable->item ( row, 6 )->text().toInt() );
   m_ui->Offset_label->setText ( "Offset 0x" + QString::number ( offset, 16 ) );
 }
 
-void MainWindow::on_programsTable_cellClicked( int row, int column )
+void MainWindow::on_programsTable_cellClicked ( int row, int column )
 {
   int offset = m_ui->programsTable->item ( row, 1 )->text().toInt();
-  m_HexEditor->showFromOffset(offset);
+  m_HexEditor->showFromOffset ( offset );
   m_HexEditor->setSelected ( offset, m_ui->programsTable->item ( row, 4 )->text().toInt() );
   m_ui->Offset_label->setText ( "Offset 0x" + QString::number ( offset, 16 ) );
 }
-
 
 #endif

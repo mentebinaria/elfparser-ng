@@ -493,10 +493,7 @@ int QHexView::cursorPos(const QPoint &position)
   {
     int x = (position.x() - m_posHex) / m_charWidth;
 
-    if ((x % 3) == 0)
-      x = (x / 3) * 2;
-    else
-      x = ((x / 3) * 2) + 2;
+    ((x % 3) == 0) ? x = (x / 3) * 2 : x = ((x / 3) * 2) + 2;
 
     int firstLineIdx = verticalScrollBar()->value();
     int y = (position.y() / m_charHeight) * 2 * m_bytesPerLine;
@@ -527,7 +524,7 @@ void QHexView::setSelection(int pos)
   if (pos == std::numeric_limits<int>::max())
     pos = 0;
 
-  if ((int)pos >= m_selectInit)
+  if (pos >= m_selectInit)
   {
     m_selectEnd = pos;
     m_selectBegin = m_selectInit;
@@ -568,7 +565,7 @@ void QHexView::setCursorPos(int position)
   m_cursorPos = position;
 }
 
-int QHexView::getCursorPos()
+unsigned int QHexView::getCursorPos()
 {
   return m_cursorPos;
 }
