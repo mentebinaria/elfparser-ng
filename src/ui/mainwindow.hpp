@@ -1,6 +1,6 @@
 #ifdef QT_GUI
 
-#pragma once 
+#pragma once
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -58,7 +58,7 @@ class MainWindow : public QMainWindow
   // path name
   QString m_FileName;
 
-  // entropy config 
+  // entropy config
   double m_Entropy;
   double m_VEntropy;
 
@@ -90,8 +90,9 @@ class MainWindow : public QMainWindow
   void on_reportButton_triggered();
   void on_newButton_triggered();
   void on_helpButton_triggered();
-  void on_headerTable_cellClicked(int , int );
-  void on_sectionsTable_cellClicked(int , int );
+  void on_headerTable_cellClicked ( int, int );
+  void on_sectionsTable_cellClicked ( int, int );
+  void on_programsTable_cellClicked ( int, int );
 };
 
 #endif //! QT_GUI
