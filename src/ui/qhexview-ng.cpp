@@ -545,8 +545,6 @@ void QHexView::setSelected(int offset, int length)
   m_selectEnd = m_selectBegin + length * 2;
 
   UPDATE
-
-  verticalScrollBar()->setValue(m_cursorPos / (2 * m_bytesPerLine));
 }
 
 void QHexView::setCursorPos(int position)
