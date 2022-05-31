@@ -137,9 +137,6 @@ void QHexView::updatePositions()
 /*****************************************************************************/
 void QHexView::paintEvent(QPaintEvent *event)
 {
-  if (m_pdata.size() == 0)
-    return;
-
   QPainter painter(viewport());
 
   updatePositions();
@@ -164,6 +161,9 @@ void QHexView::paintEvent(QPaintEvent *event)
   const QByteArray data = m_pdata.mid(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
 
   painter.setPen(COLOR_CHARACTERS); // paint white characters and binary
+
+  if (m_pdata.size() == 0)
+    return;
 
   for (int lineIdx = firstLineIdx, yPos = yPosStart; lineIdx < lastLineIdx;
        lineIdx += 1, yPos += m_charHeight)
