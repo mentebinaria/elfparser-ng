@@ -785,4 +785,13 @@ void MainWindow::on_sectionsTable_cellClicked ( int row, int column )
   m_ui->Offset_label->setText ( "Offset 0x" + QString::number ( offset, 16 ) );
 }
 
+void MainWindow::on_programsTable_cellClicked( int row, int column )
+{
+  int offset = m_ui->programsTable->item ( row, 1 )->text().toInt();
+  m_HexEditor->showFromOffset(offset);
+  m_HexEditor->setSelected ( offset, m_ui->programsTable->item ( row, 4 )->text().toInt() );
+  m_ui->Offset_label->setText ( "Offset 0x" + QString::number ( offset, 16 ) );
+}
+
+
 #endif
