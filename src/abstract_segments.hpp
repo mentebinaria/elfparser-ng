@@ -84,7 +84,7 @@ class AbstractSegments
         const char* m_data;
 
         //! the size of the file in memory
-        boost::uint32_t m_size;
+        boost::uint32_t m_sizeFile;
 
         //! All the section segments
         std::vector<Segment> m_sections;
@@ -130,6 +130,13 @@ class AbstractSegments
 
         //! indicates if we detected a fake dynamic string table
         bool m_fakeDynamicStringTable;
+
+        // offsets this section and program header
+        boost::uint32_t m_offset;
+        boost::uint32_t m_size;
+
+        // size this section and program
+        boost::uint16_t m_pc;
 };
 
 #endif

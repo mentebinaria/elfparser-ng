@@ -52,7 +52,7 @@ public:
      *  p_isLE indicates if the binary is LE or BE
      *  p_reasons scoring reasons
      */
-   void setHeaders(const char* p_data, const char* p_start,
+   void setHeaders(const char* p_data, uint32_t p_offset, const char* p_start,
                                 boost::uint64_t p_total_size, boost::uint16_t p_count,
                                 boost::uint32_t p_size, std::uint32_t p_stringIndex,
                                 bool p_is64, bool p_isLE,

@@ -5,23 +5,23 @@
 #include <boost/foreach.hpp>
 #include <boost/assign.hpp>
 
+
 #if WINDOWS || __APPLE__
 #include "endian.hpp"
 #else
 #include <arpa/inet.h>
 #endif
 
-DynamicSection::DynamicSection() :
-    m_offset(0),
-    m_symbolTableVirtAddress(0),
-    m_stringTableVirtAddress(0),
-    m_stringTableSize(0),
-    m_symbolTableSize(0),
-    m_initArrayVirtAddress(0),
-    m_initArrayEntries(0),
-    m_entries()
+DynamicSection::DynamicSection() : m_offset(0),
+                                   m_symbolTableVirtAddress(0),
+                                   m_stringTableVirtAddress(0),
+                                   m_stringTableSize(0),
+                                   m_symbolTableSize(0),
+                                   m_initArrayVirtAddress(0),
+                                   m_initArrayEntries(0),
+                                   m_entries(),
+                                   m_fileSize(0)
 {
-
 }
 
 DynamicSection::~DynamicSection()
@@ -33,34 +33,32 @@ boost::uint64_t DynamicSection::getOffset() const
     return m_offset;
 }
 
-void DynamicSection::createDynamic(const char* p_start, boost::uint32_t p_offset,
+void DynamicSection::createDynamic(const char *p_start, boost::uint32_t p_offset,
                                    boost::uint32_t p_size, boost::uint64_t p_baseAddress,
-                                   bool p_is64, bool p_isLE, const AbstractSegments& p_segments)
+                                   bool p_is64, bool p_isLE, const AbstractSegments &p_segments)
 {
     if (p_offset == 0)
-    {
         return;
-    }
     else
-    {
         m_offset = p_offset;
-    }
+    
+    m_fileSize = p_size;
 
     // create all the entries
     if (p_is64)
     {
-        doDynamic64(reinterpret_cast<const elf::dynamic::dynamic_64*>(p_start + p_offset),
+        doDynamic64(reinterpret_cast<const elf::dynamic::dynamic_64 *>(p_start + p_offset),
                     p_start, p_start + p_offset + p_size, p_baseAddress, p_isLE);
     }
     else
     {
-        doDynamic32(reinterpret_cast<const elf::dynamic::dynamic_32*>(p_start + p_offset),
+        doDynamic32(reinterpret_cast<const elf::dynamic::dynamic_32 *>(p_start + p_offset),
                     p_start, p_start + p_offset + p_size, p_baseAddress, p_isLE);
     }
 
     // look for strtab
     std::size_t i = 0;
-    for ( ; i < m_entries.size(); ++i)
+    for (; i < m_entries.size(); ++i)
     {
         if (m_entries[i].getTag() == elf::dynamic::k_strtab)
         {
@@ -74,7 +72,7 @@ void DynamicSection::createDynamic(const char* p_start, boost::uint32_t p_offset
         boost::uint64_t offset = p_segments.getOffsetFromVirt(m_entries[i].getValue());
         if (offset != 0)
         {
-            BOOST_FOREACH(AbstractDynamicEntry& entry, m_entries)
+            BOOST_FOREACH (AbstractDynamicEntry &entry, m_entries)
             {
                 entry.createString(p_start + offset);
             }
@@ -82,50 +80,50 @@ void DynamicSection::createDynamic(const char* p_start, boost::uint32_t p_offset
     }
 
     // look for symbol table info
-    BOOST_FOREACH(const AbstractDynamicEntry& entry, m_entries)
+    BOOST_FOREACH (const AbstractDynamicEntry &entry, m_entries)
     {
+        uint64_t value = entry.getValue();
         switch (entry.getTag())
         {
-            case elf::dynamic::k_symtab:
-                m_symbolTableVirtAddress = entry.getValue();
-                break;
-            case elf::dynamic::k_strtab:
-                m_stringTableVirtAddress = entry.getValue();
-                break;
-            case elf::dynamic::k_strsz:
-                m_stringTableSize = entry.getValue();
-                break;
-            case elf::dynamic::k_hash:
-            case elf::dynamic::k_gnuhash:
-                if (m_symbolTableSize == 0)
+        case elf::dynamic::k_symtab:
+            m_symbolTableVirtAddress = value;
+            break;
+        case elf::dynamic::k_strtab:
+            m_stringTableVirtAddress =  value;
+            break;
+        case elf::dynamic::k_strsz:
+            m_stringTableSize =  value;
+            break;
+        case elf::dynamic::k_hash:
+        case elf::dynamic::k_gnuhash:
+            if (m_symbolTableSize == 0 && value <= m_fileSize)
+            {
+                const boost::uint32_t *hashStart = reinterpret_cast<const boost::uint32_t *>(p_start + (entry.getValue() - p_baseAddress));
+                ++hashStart;
+                m_symbolTableSize = *hashStart;
+                if (!p_isLE)
                 {
-                    const boost::uint32_t* hashStart =
-                        reinterpret_cast<const boost::uint32_t*>(p_start + (entry.getValue() - p_baseAddress));
-                    ++hashStart;
-                    m_symbolTableSize = *hashStart;
-                    if (!p_isLE)
-                    {
-                        m_symbolTableSize = ntohl(m_symbolTableSize);
-                    }
+                    m_symbolTableSize = ntohl(m_symbolTableSize);
                 }
-                break;
-            case elf::dynamic::k_initarray:
-                m_initArrayVirtAddress = entry.getValue();
-                break;
-            case elf::dynamic::k_init_arraysz:
-                m_initArrayEntries = entry.getValue() / (p_is64 ? 8 : 4);
-                break;
-            default:
-                break;
+            }
+            break;
+        case elf::dynamic::k_initarray:
+            m_initArrayVirtAddress =  value;
+            break;
+        case elf::dynamic::k_init_arraysz:
+            m_initArrayEntries =  value / (p_is64 ? 8 : 4);
+            break;
+        default:
+            break;
         }
     }
 }
 
-void DynamicSection::doDynamic64(const elf::dynamic::dynamic_64* p_dynamic,
-                                 const char* p_start, const char* p_end,
+void DynamicSection::doDynamic64(const elf::dynamic::dynamic_64 *p_dynamic,
+                                 const char *p_start, const char *p_end,
                                  boost::uint64_t p_baseAddress, bool p_isLE)
 {
-    for ( ; reinterpret_cast<const char*>(p_dynamic) < p_end; ++p_dynamic)
+    for (; reinterpret_cast<const char *>(p_dynamic) < p_end; ++p_dynamic)
     {
         boost::uint64_t tag = p_isLE ? p_dynamic->m_tag : htobe64(p_dynamic->m_tag);
         boost::uint64_t value = p_isLE ? p_dynamic->m_val : htobe64(p_dynamic->m_val);
@@ -138,11 +136,11 @@ void DynamicSection::doDynamic64(const elf::dynamic::dynamic_64* p_dynamic,
     }
 }
 
-void DynamicSection::doDynamic32 (const elf::dynamic::dynamic_32* p_dynamic,
-                                  const char* p_start, const char* p_end,
-                                  boost::uint64_t p_baseAddress, bool p_isLE)
+void DynamicSection::doDynamic32(const elf::dynamic::dynamic_32 *p_dynamic,
+                                 const char *p_start, const char *p_end,
+                                 boost::uint64_t p_baseAddress, bool p_isLE)
 {
-    for ( ; reinterpret_cast<const char*>(p_dynamic) < p_end; ++p_dynamic)
+    for (; reinterpret_cast<const char *>(p_dynamic) < p_end; ++p_dynamic)
     {
         boost::uint32_t tag = p_isLE ? p_dynamic->m_tag : ntohl(p_dynamic->m_tag);
         boost::uint32_t value = p_isLE ? p_dynamic->m_val : ntohl(p_dynamic->m_val);
@@ -185,11 +183,11 @@ boost::uint32_t DynamicSection::getInitArrayEntries() const
     return m_initArrayEntries;
 }
 
-void DynamicSection::evaluate(std::vector<std::pair<boost::int32_t, std::string> >& p_reasons,
-                              std::map<elf::Capabilties, std::set<std::string> >& p_capabilities) const
+void DynamicSection::evaluate(std::vector<std::pair<boost::int32_t, std::string>> &p_reasons,
+                              std::map<elf::Capabilties, std::set<std::string>> &p_capabilities) const
 {
     std::set<std::string> needed;
-    BOOST_FOREACH(const AbstractDynamicEntry& entry, m_entries)
+    BOOST_FOREACH (const AbstractDynamicEntry &entry, m_entries)
     {
         if (entry.getTag() == elf::dynamic::k_needed)
         {
@@ -206,10 +204,15 @@ void DynamicSection::evaluate(std::vector<std::pair<boost::int32_t, std::string>
 std::string DynamicSection::printToStdOut() const
 {
     std::stringstream returnValue;
-    returnValue << "Dynamic Section (count = " << m_entries.size() << ")\n";
-    BOOST_FOREACH(const AbstractDynamicEntry& entry, m_entries)
+    std::size_t size = m_entries.size();
+    if (size > 0)
     {
-        returnValue << entry.printToStdOut();
+        returnValue << "Dynamic Section (count = " << size << ")\n";
+        BOOST_FOREACH (const AbstractDynamicEntry &entry, m_entries)
+        {
+            returnValue << entry.printToStdOut();
+        }
     }
+    
     return returnValue.str();
 }

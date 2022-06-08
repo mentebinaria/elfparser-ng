@@ -104,9 +104,6 @@ void Symbols::createSymbols(const char* p_data,
 {
     m_isDY = p_isDY;
 
-    if (p_symTabOffset == 0 || p_strTabOffset == 0 || p_symTabSize == 0)
-        exit(EXIT_FAILURE);
-
     boost::uint8_t multiplier = p_is64 ? sizeof(elf::symbol::symtable_entry64) : sizeof(elf::symbol::symtable_entry32);
     for (boost::uint32_t i = 0; p_symTabOffset + i < p_dataSize; i += multiplier)
     {
@@ -223,12 +220,16 @@ void Symbols::evaluate(std::vector<std::pair<boost::int32_t, std::string> >& p_r
 std::string Symbols::printToStdOut() const
 {
     std::stringstream returnValue;
-    returnValue << "Symbols (count=" << m_symbols.size() << ")\n";
-    BOOST_FOREACH(const AbstractSymbol& symbol, m_symbols)
+    std::size_t size = m_symbols.size();
+    if (size > 0)
     {
-        returnValue << "\t type= " << symbol.getTypeName() << ", binding= "
-                    << symbol.getBinding() << ", value= 0x" << std::hex
-                    << symbol.getValue() << ", name= " << symbol.getName() << std::endl;
+        returnValue << "Symbols (count=" << size << ")\n";
+        BOOST_FOREACH (const AbstractSymbol &symbol, m_symbols)
+        {
+            returnValue << "\t type= " << symbol.getTypeName() << ", binding= "
+                        << symbol.getBinding() << ", value= 0x" << std::hex
+                        << symbol.getValue() << ", name= " << symbol.getName() << std::endl;
+        }
     }
     return returnValue.str();
 }

@@ -26,7 +26,7 @@ void ProgramHeaders::setHeaders(const char *p_data, boost::uint16_t p_count,
 
 void ProgramHeaders::extractSegments(AbstractSegments &p_segments)
 {
-    BOOST_FOREACH (const AbstractProgramHeader &header, m_programHeaders)
+    BOOST_FOREACH (auto &header, m_programHeaders)
         p_segments.makeSegmentFromProgramHeader(header);
 }
 
@@ -38,18 +38,24 @@ const std::vector<AbstractProgramHeader> &ProgramHeaders::getProgramHeaders() co
 std::string ProgramHeaders::printToStdOut() const
 {
     std::stringstream returnValue;
-    returnValue << "Program Header (count = " << m_programHeaders.size() << ")\n";
-    BOOST_FOREACH (const AbstractProgramHeader &header, m_programHeaders)
+    std::size_t size = m_programHeaders.size();
+    if (size > 0)
     {
-        returnValue << "\t Entry type=" << header.getName()
-                    << "\t flags=" << std::dec << header.getFlags()
-                    << "\t offset=0x" << std::hex << header.getOffset()
-                    << "\t vaddr=0x" << header.getVirtualAddress()
-                    << "\t paddr=0x" << header.getPhysicalAddress()
-                    << "\t filesz=0x" << header.getFileSize()
-                    << "\t memsz=0x" << header.getMemorySize()
-                    << std::dec << std::endl;
+        returnValue << "Program Header (count = " << size << ")\n";
+
+        BOOST_FOREACH (auto &header, m_programHeaders)
+        {
+            returnValue << "\t Entry type=" << header.getName()
+                        << "\t flags=" << std::dec << header.getFlags()
+                        << "\t offset=0x" << std::hex << header.getOffset()
+                        << "\t vaddr=0x" << header.getVirtualAddress()
+                        << "\t paddr=0x" << header.getPhysicalAddress()
+                        << "\t filesz=0x" << header.getFileSize()
+                        << "\t memsz=0x" << header.getMemorySize()
+                        << std::dec << std::endl;
+        }
     }
+
     return returnValue.str();
 }
 
@@ -59,7 +65,7 @@ void ProgramHeaders::evaluate(std::vector<std::pair<boost::int32_t, std::string>
     std::size_t entry_count = 0;
     std::size_t load_count = 0;
 
-    BOOST_FOREACH (const AbstractProgramHeader &header, m_programHeaders)
+    BOOST_FOREACH (auto &header, m_programHeaders)
     {
         if (header.getType() == elf::k_pload)
         {

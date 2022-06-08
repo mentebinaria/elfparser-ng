@@ -74,6 +74,7 @@ private:
     boost::uint64_t m_initArrayVirtAddress;
     boost::uint32_t m_initArrayEntries;
     std::vector<AbstractDynamicEntry> m_entries;
+    uint32_t m_fileSize;
 };
 
 #endif

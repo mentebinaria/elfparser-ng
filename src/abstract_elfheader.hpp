@@ -131,6 +131,13 @@ public:
     // return a string representation of the elf header
     std::string printToStdOut() const;
 
+    // offsets this section and program header
+    boost::uint32_t m_offset;
+
+    // size this section and program
+    boost::uint16_t m_size;
+    boost::uint16_t m_pc;
+
     /*
     examines the elf header results and stores information into one of the two containers.
     p_reasons the reasons for scoring vector

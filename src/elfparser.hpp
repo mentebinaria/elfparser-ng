@@ -17,12 +17,10 @@
 #include <string>
 #include <boost/cstdint.hpp>
 #include <boost/iostreams/device/mapped_file.hpp>
-#include <iostream>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 
 class SearchValue;
-class HexEditor;
 
 /* parses an ELF binary and computes a score that indicates how malicious
  * or dangerous the binary is. A lot of good information on parsing
@@ -77,6 +75,13 @@ private:
 
  	// he var entropy
 	double m_entropy;
+
+    // offsets this section and program header
+    uint32_t m_offset;
+
+    // size this section and program
+    uint16_t m_size;
+    uint16_t m_pc;
 
 	// calc entropy general function
 	void calcEntropy(off_t p_offset, std::size_t p_fileSize);

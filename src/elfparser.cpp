@@ -11,6 +11,7 @@
 #include <set>
 #include <stdexcept>
 #include <boost/regex.hpp>
+#include <iostream>
 
 
 static double calcEntropyFunc(const unsigned int counted_bytes[256], const std::streamsize total_length)
@@ -120,10 +121,16 @@ const std::vector<std::pair<boost::int32_t, std::string>> &ELFParser::getReasons
     return m_reasons;
 }
 
+double ELFParser::getEntropy()
+{
+    return m_entropy;
+}
+
 void ELFParser::parse(const std::string &p_file)
 {
     m_fileSize = findFileSize(p_file); // get size of file
     m_mapped_file.open(p_file, m_fileSize); // map elf in memory
+    m_filename.assign(p_file);    
 
     if (!m_mapped_file.is_open())
         throw std::runtime_error("Failed to memory map the file.");
@@ -131,33 +138,43 @@ void ELFParser::parse(const std::string &p_file)
     else if (p_file.empty())
         throw std::runtime_error("Parser given an empty file name.");
 
-    else
-        m_filename.assign(p_file);
-
-    auto ptrDataMem = m_mapped_file.data();
 
 	// get infos elf
+    const char* ptrDataMem = m_mapped_file.data();
     m_elfHeader.setHeader(ptrDataMem, m_fileSize);
 
+    m_offset =  m_elfHeader.getProgramOffset();
 
-    m_programHeader.setHeaders(ptrDataMem +
-                               m_elfHeader.getProgramOffset(),
-                               m_elfHeader.getProgramCount(),
-                               m_elfHeader.getProgramSize(),
+    m_size =  m_elfHeader.getProgramSize();
+    m_pc =  m_elfHeader.getProgramCount();
+
+    if( m_offset <= m_fileSize && m_size <= m_fileSize )
+    {
+        m_programHeader.setHeaders(ptrDataMem + m_offset,
+                               m_pc,
+                               m_size,
 							   m_elfHeader.is64(),
 							   m_elfHeader.isLE());
+    }
 
-    m_sectionHeader.setHeaders(ptrDataMem +
-                               m_elfHeader.getSectionOffset(),
+    m_offset =  m_elfHeader.getSectionOffset();
+    m_size = m_elfHeader.getSectionSize();
+    m_pc =  m_elfHeader.getSectionCount();
+
+    if(m_offset <= m_fileSize && m_size <= m_fileSize)
+    {
+
+        m_sectionHeader.setHeaders(ptrDataMem, m_offset,
                                ptrDataMem,
 							   m_fileSize,
-                               m_elfHeader.getSectionCount(),
-							   m_elfHeader.getSectionSize(),
+                               m_pc,
+							   m_size,
                                m_elfHeader.getStringTableIndex(),
 							   m_elfHeader.is64(),
 							   m_elfHeader.isLE(),
                                m_capabilities);
-
+    }
+    
     m_segments.setStart(ptrDataMem,
 					    m_fileSize, m_elfHeader.is64(),
                         m_elfHeader.isLE(),
@@ -173,7 +190,6 @@ void ELFParser::parse(const std::string &p_file)
 
 	// calculate entropy binary all
 	calcEntropy(0, m_fileSize);
-	//for(int i = 0;)
 }
 
 void ELFParser::evaluate()
@@ -502,9 +518,4 @@ void ELFParser::calcEntropy(off_t p_offset, std::size_t p_fileSize)
 	}
 
 	m_entropy =  calcEntropyFunc(counted_bytes, m_fileSize);
-}
-
-double ELFParser::getEntropy()
-{
-    return m_entropy;
 }
