@@ -223,12 +223,16 @@ void Symbols::evaluate(std::vector<std::pair<boost::int32_t, std::string> >& p_r
 std::string Symbols::printToStdOut() const
 {
     std::stringstream returnValue;
-    returnValue << "Symbols (count=" << m_symbols.size() << ")\n";
-    BOOST_FOREACH(const AbstractSymbol& symbol, m_symbols)
+    std::size_t size = m_symbols.size();
+    if (size > 0)
     {
-        returnValue << "\t type= " << symbol.getTypeName() << ", binding= "
-                    << symbol.getBinding() << ", value= 0x" << std::hex
-                    << symbol.getValue() << ", name= " << symbol.getName() << std::endl;
+        returnValue << "Symbols (count=" << size << ")\n";
+        BOOST_FOREACH (const AbstractSymbol &symbol, m_symbols)
+        {
+            returnValue << "\t type= " << symbol.getTypeName() << ", binding= "
+                        << symbol.getBinding() << ", value= 0x" << std::hex
+                        << symbol.getValue() << ", name= " << symbol.getName() << std::endl;
+        }
     }
     return returnValue.str();
 }

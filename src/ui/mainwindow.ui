@@ -803,7 +803,7 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_10">
          <item>
-          <widget class="QWidget" name="widget_2" native="true">
+          <widget class="QWidget" name="hexSeparation" native="true">
            <property name="maximumSize">
             <size>
              <width>16777215</width>
@@ -860,12 +860,12 @@
              <widget class="QLabel" name="label_3">
               <property name="maximumSize">
                <size>
-                <width>50</width>
-                <height>50</height>
+                <width>100</width>
+                <height>100</height>
                </size>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; font-style:italic;&quot;&gt;Hex&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; font-style:italic;&quot;&gt;HexDecimal&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
@@ -995,9 +995,26 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <widget class="QMenu" name="menuHex">
+     <property name="title">
+      <string>Hex</string>
+     </property>
+     <addaction name="gotoOffsetButton"/>
+    </widget>
+    <widget class="QMenu" name="menuFind">
+     <property name="title">
+      <string>Find</string>
+     </property>
+     <addaction name="separator"/>
+     <addaction name="separator"/>
+     <addaction name="ButtonFindTableSection"/>
+     <addaction name="ButtonFindTableSymbols"/>
+     <addaction name="ButtonFindTablePrograms"/>
+    </widget>
     <addaction name="EntroyLimitButton"/>
     <addaction name="separator"/>
-    <addaction name="gotoOffsetButton"/>
+    <addaction name="menuFind"/>
+    <addaction name="menuHex"/>
    </widget>
    <addaction name="menufile"/>
    <addaction name="menuEdit_2"/>
@@ -1017,11 +1034,6 @@
   <action name="reparseButton">
    <property name="text">
     <string>Reload</string>
-   </property>
-  </action>
-  <action name="gotoOffsetButton">
-   <property name="text">
-    <string>Goto... </string>
    </property>
   </action>
   <action name="FullScreenButton">
@@ -1052,6 +1064,26 @@
   <action name="openProcess">
    <property name="text">
     <string>Open Process</string>
+   </property>
+  </action>
+  <action name="gotoOffsetButton">
+   <property name="text">
+    <string>Goto...</string>
+   </property>
+  </action>
+  <action name="ButtonFindTableSection">
+   <property name="text">
+    <string>Find Table Section</string>
+   </property>
+  </action>
+  <action name="ButtonFindTableSymbols">
+   <property name="text">
+    <string>Find Table Symbols</string>
+   </property>
+  </action>
+  <action name="ButtonFindTablePrograms">
+   <property name="text">
+    <string>Find Table Programs</string>
    </property>
   </action>
  </widget>

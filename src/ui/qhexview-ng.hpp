@@ -79,6 +79,7 @@ class QHexView: public QAbstractScrollArea
   int  cursorPos ( const QPoint &position );
   void paintMark(int xpos, int ypos);
   void confScrollBar();
+  void copyBytes();
 
  public slots:
   void loadFile ( QString p_file );

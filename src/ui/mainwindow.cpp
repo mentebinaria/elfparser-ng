@@ -115,6 +115,7 @@ void MainWindow::conf_buttons()
   m_ui->openButton->setIcon ( QIcon ( "../src/ui/assets/open.png" ) );
   m_ui->openButton->setShortcut ( QKeySequence ( "Ctrl+O" ) );
   m_ui->openProcess->setIcon ( QIcon ( "../src/ui/assets/proc.png" ) );
+  m_ui->openProcess->setShortcut ( QKeySequence ( "Ctrl+Shift+O" ) );
 
   // rpasser
   m_ui->reparseButton->setIcon ( QIcon ( "../src/ui/assets/rpasser.png" ) );
@@ -579,8 +580,11 @@ void MainWindow::on_openButton_triggered()
   void MainWindow::on_openProcess_triggered()
 {
 
+
 }
+
 #else
+
 void MainWindow::on_openProcess_triggered()
 {
   m_Pswindow.exec();
@@ -799,6 +803,63 @@ void MainWindow::on_programsTable_cellClicked ( int row, int column )
   m_HexEditor->showFromOffset ( offset );
   m_HexEditor->setSelected ( offset, m_ui->programsTable->item ( row, 4 )->text().toInt() );
   m_ui->Offset_label->setText ( "Offset 0x" + QString::number ( offset, 16 ) );
+}
+
+void MainWindow::on_ButtonFindTableSection_triggered()
+{
+  if ( m_FileName.size() == 0 )
+    return;
+  
+  bool done;
+  QString value = QInputDialog::getText ( this, tr ( "Find All Tables..." ),
+                   tr ( "Find:" ), QLineEdit::Normal,
+                   nullptr, &done );
+
+  QList<QTableWidgetItem *> sectionsTable = m_ui->sectionsTable->findItems ( value, Qt::MatchContains );
+  m_ui->mainTabs->setCurrentWidget(m_ui->sectionsTab);
+
+  foreach ( auto &Ptr, sectionsTable )
+    m_ui->sectionsTable->selectRow ( Ptr->row() );
+
+   sectionsTable.clear();
+}
+
+void MainWindow::on_ButtonFindTableSymbols_triggered()
+{
+  if ( m_FileName.size() == 0 )
+    return;
+  
+  bool done;
+  QString value = QInputDialog::getText ( this, tr ( "Find All Tables..." ),
+                   tr ( "Find:" ), QLineEdit::Normal,
+                   nullptr, &done );
+
+  QList<QTableWidgetItem *> symbolsTable = m_ui->symbolsTable->findItems ( value, Qt::MatchContains );
+  m_ui->mainTabs->setCurrentWidget(m_ui->symbolsTab);
+
+  foreach ( auto &Ptr, symbolsTable )
+    m_ui->symbolsTable->selectRow ( Ptr->row() );
+
+   symbolsTable.clear();
+}
+
+void MainWindow::on_ButtonFindTablePrograms_triggered()
+{
+  if ( m_FileName.size() == 0 )
+    return;
+  
+  bool done;
+  QString value = QInputDialog::getText ( this, tr ( "Find All Tables..." ),
+                   tr ( "Find:" ), QLineEdit::Normal,
+                   nullptr, &done );
+
+  QList<QTableWidgetItem *> programsTable = m_ui->programsTable->findItems ( value, Qt::MatchContains );
+  m_ui->mainTabs->setCurrentWidget(m_ui->programsTab);
+
+  foreach ( auto &Ptr, programsTable )
+    m_ui->programsTable->selectRow ( Ptr->row() );
+
+   programsTable.clear();
 }
 
 #endif

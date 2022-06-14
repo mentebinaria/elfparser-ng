@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 # Options
-option(test "Build all tests." OFF)
+option(test "Build all tests." ON)
 option(debug "Build with debug flags." OFF)
 option(qt "Build with Qt GUI." ON)
 option(windows "Enable Windows build." OFF)
@@ -204,8 +204,8 @@ if (test)
                     lib/hash-lib/sha1.cpp
                     lib/hash-lib/sha256.cpp
                     lib/hash-lib/md5.cpp
-                    src/tests/ls_tests.cpp
-                    src/tests/tiny_tests.cpp
+                    tests/ls_tests.cpp
+                    tests/tiny_tests.cpp
                     )
 
     target_link_libraries(${PROJECT_NAME}_test gtest gtest_main ${Boost_LIBRARIES})

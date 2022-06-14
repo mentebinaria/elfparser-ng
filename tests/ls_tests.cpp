@@ -1,12 +1,12 @@
 #include "gtest/gtest.h"
-#include "../elfparser.hpp"
-#include "../abstract_programheader.hpp"
-#include "../abstract_sectionheader.hpp"
-#include "../abstract_segments.hpp"
-#include "../structures/sectionheader.hpp"
-#include "../segment_types/segment_type.hpp"
-#include "../dynamicsection.hpp"
-#include "../symbols.hpp"
+#include "../../src/elfparser.hpp"
+#include "../../src/abstract_programheader.hpp"
+#include "../../src/abstract_sectionheader.hpp"
+#include "../../src/abstract_segments.hpp"
+#include "../../src/structures/sectionheader.hpp"
+#include "../../src/segment_types/segment_type.hpp"
+#include "../../src/dynamicsection.hpp"
+#include "../../src/symbols.hpp"
 
 #include <boost/foreach.hpp>
 
@@ -21,10 +21,10 @@ protected:
 
 TEST_F(LSTest, Sixtyfour_Intel_ls)
 {
-    m_parser.parse("../src/tests/test_files/64_intel_ls");
+    m_parser.parse("../tests/test_files/64_intel_ls");
     EXPECT_TRUE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
-    EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
+    EXPECT_STREQ("7fELF", m_parser.getElfHeader().getMagic().c_str());
     EXPECT_EQ(0x404888, m_parser.getElfHeader().getEntryPoint());
     EXPECT_EQ("0x404888", m_parser.getElfHeader().getEntryPointString());
     EXPECT_EQ(64, m_parser.getElfHeader().getProgramOffset());
@@ -105,10 +105,10 @@ TEST_F(LSTest, Sixtyfour_Intel_ls)
 
 TEST_F(LSTest, Thirtytwo_Intel_ls)
 {
-    m_parser.parse("../src/tests/test_files/32_intel_ls");
+    m_parser.parse("../tests/test_files/32_intel_ls");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
-    EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
+    EXPECT_STREQ("7fELF", m_parser.getElfHeader().getMagic().c_str());
     EXPECT_EQ(0x804c070, m_parser.getElfHeader().getEntryPoint());
     EXPECT_EQ("0x804c070", m_parser.getElfHeader().getEntryPointString());
     EXPECT_EQ(52, m_parser.getElfHeader().getProgramOffset());
@@ -181,10 +181,10 @@ TEST_F(LSTest, Thirtytwo_Intel_ls)
 
 TEST_F(LSTest, Thirtytwo_Arm_ls)
 {
-    m_parser.parse("../src/tests/test_files/32_arm_ls");
+    m_parser.parse("../tests/test_files/32_arm_ls");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
-    EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
+    EXPECT_STREQ("7fELF", m_parser.getElfHeader().getMagic().c_str());
     EXPECT_EQ(0xc3f0, m_parser.getElfHeader().getEntryPoint());
     EXPECT_EQ("0xc3f0", m_parser.getElfHeader().getEntryPointString());
     EXPECT_EQ(52, m_parser.getElfHeader().getProgramOffset());
@@ -258,10 +258,10 @@ TEST_F(LSTest, Thirtytwo_Arm_ls)
 
 TEST_F(LSTest, mips_be_ping)
 {
-    m_parser.parse("../src/tests/test_files/32_mips_be_ping");
+    m_parser.parse("../tests/test_files/32_mips_be_ping");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_FALSE(m_parser.getElfHeader().isLE());
-    EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
+    EXPECT_STREQ("7fELF", m_parser.getElfHeader().getMagic().c_str());
     EXPECT_EQ(0x401440, m_parser.getElfHeader().getEntryPoint());
     EXPECT_EQ("0x401440", m_parser.getElfHeader().getEntryPointString());
     EXPECT_EQ(52, m_parser.getElfHeader().getProgramOffset());

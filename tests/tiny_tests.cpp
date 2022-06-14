@@ -1,12 +1,12 @@
 #include "gtest/gtest.h"
-#include "../elfparser.hpp"
-#include "../abstract_programheader.hpp"
-#include "../abstract_sectionheader.hpp"
-#include "../abstract_segments.hpp"
-#include "../structures/sectionheader.hpp"
-#include "../segment_types/segment_type.hpp"
-#include "../dynamicsection.hpp"
-#include "../symbols.hpp"
+#include "../../src/elfparser.hpp"
+#include "../../src/abstract_programheader.hpp"
+#include "../../src/abstract_sectionheader.hpp"
+#include "../../src/abstract_segments.hpp"
+#include "../../src/structures/sectionheader.hpp"
+#include "../../src/segment_types/segment_type.hpp"
+#include "../../src/dynamicsection.hpp"
+#include "../../src/symbols.hpp"
 
 #include <boost/foreach.hpp>
 
@@ -24,10 +24,10 @@ protected:
  */
 TEST_F(TinyTest, true_binary)
 {
-    m_parser.parse("../src/tests/test_files/true");
+    m_parser.parse("../tests/test_files/true");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
-    EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
+    EXPECT_STREQ("7fELF", m_parser.getElfHeader().getMagic().c_str());
     EXPECT_EQ(0x2549001a, m_parser.getElfHeader().getEntryPoint());
     EXPECT_EQ("0x2549001a", m_parser.getElfHeader().getEntryPointString());
     EXPECT_EQ(4, m_parser.getElfHeader().getProgramOffset());
@@ -49,10 +49,10 @@ TEST_F(TinyTest, true_binary)
  */
 TEST_F(TinyTest, bf_binary)
 {
-    m_parser.parse("../src/tests/test_files/bf");
+    m_parser.parse("../tests/test_files/bf");
     EXPECT_FALSE(m_parser.getElfHeader().is64());
     EXPECT_TRUE(m_parser.getElfHeader().isLE());
-    EXPECT_STREQ("7f 45 4c 46", m_parser.getElfHeader().getMagic().c_str());
+    EXPECT_STREQ("7fELF", m_parser.getElfHeader().getMagic().c_str());
     EXPECT_EQ(0x45e9b095, m_parser.getElfHeader().getEntryPoint());
     EXPECT_EQ("0x45e9b095", m_parser.getElfHeader().getEntryPointString());
     EXPECT_EQ(44, m_parser.getElfHeader().getProgramOffset());

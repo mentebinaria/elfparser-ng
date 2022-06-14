@@ -92,6 +92,9 @@ class MainWindow : public QMainWindow
   void on_headerTable_cellClicked ( int, int );
   void on_sectionsTable_cellClicked ( int, int );
   void on_programsTable_cellClicked ( int, int );
+  void on_ButtonFindTableSection_triggered();
+  void on_ButtonFindTableSymbols_triggered();
+  void on_ButtonFindTablePrograms_triggered();
 };
 
 #endif //! QT_GUI
