@@ -81,7 +81,7 @@
         <enum>QTabWidget::North</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>4</number>
        </property>
        <property name="documentMode">
         <bool>true</bool>
@@ -607,6 +607,12 @@
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
           <widget class="QTableWidget" name="symbolsTable">
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::NoContextMenu</enum>
+           </property>
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
            </property>
@@ -995,12 +1001,6 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <widget class="QMenu" name="menuHex">
-     <property name="title">
-      <string>Hex</string>
-     </property>
-     <addaction name="gotoOffsetButton"/>
-    </widget>
     <widget class="QMenu" name="menuFind">
      <property name="title">
       <string>Find</string>
@@ -1014,7 +1014,7 @@
     <addaction name="EntroyLimitButton"/>
     <addaction name="separator"/>
     <addaction name="menuFind"/>
-    <addaction name="menuHex"/>
+    <addaction name="gotoOffsetButton"/>
    </widget>
    <addaction name="menufile"/>
    <addaction name="menuEdit_2"/>
