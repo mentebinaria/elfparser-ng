@@ -87,7 +87,8 @@ void QHexView::showFromOffset(int offset)
 
     verticalScrollBar()->setValue(cursorY);
     UPDATE
-  }else
+  }
+  else
     throw std::runtime_error("Offset invalid, verify offset " + std::to_string(offset));
 }
 
@@ -128,6 +129,9 @@ void QHexView::updatePositions()
   int serviceSymbolsWidth = ADR_LENGTH * m_charWidth + GAP_ADR_HEX + GAP_HEX_ASCII;
 
   m_bytesPerLine = (width() - serviceSymbolsWidth) / (4 * m_charWidth) - 1; // 4 symbols per byte
+
+  if (m_bytesPerLine == 0) // avoid floating point
+    m_bytesPerLine = 1;
 
   m_posAddr = 0;
   m_posHex = ADR_LENGTH * m_charWidth + GAP_ADR_HEX;
@@ -406,7 +410,6 @@ void QHexView::keyPressEvent(QKeyEvent *event)
 
   if (event->matches(QKeySequence::Copy))
     copyBytes();
-  
 
   if (setVisible)
     ensureVisible();
@@ -439,7 +442,7 @@ void QHexView::mousePressEvent(QMouseEvent *event)
 
   if ((QApplication::keyboardModifiers() & Qt::ShiftModifier))
     setSelection(cPos);
-  else 
+  else
     resetSelection(cPos);
 
   if (cPos != std::numeric_limits<int>::max())
@@ -560,49 +563,49 @@ void QHexView::confScrollBar()
 
 void QHexView::copyBytes()
 {
-    if (m_pdata.size())
+  if (m_pdata.size())
+  {
+    QString res;
+    int idx = 0;
+    int copyOffset = 0;
+
+    QByteArray data = m_pdata.mid(m_selectBegin / 2,
+                                  (m_selectEnd - m_selectBegin) / 2 + 2);
+
+    if (m_selectBegin % 2)
     {
-      QString res;
-      int idx = 0;
-      int copyOffset = 0;
-
-      QByteArray data = m_pdata.mid(m_selectBegin / 2,
-                                    (m_selectEnd - m_selectBegin) / 2 + 2);
-
-      if (m_selectBegin % 2)
-      {
-        res += QString::number((data.at((idx + 2) / 2) & 0xF), 16);
-        res += " ";
-        idx++;
-        copyOffset = 1;
-      }
-
-      int selectedSize = m_selectEnd - m_selectBegin;
-
-      for (; idx < selectedSize; idx += 2)
-      {
-        if (data.size() > (copyOffset + idx) / 2)
-        {
-          QString val = QString::number(
-              (data.at((copyOffset + idx) / 2) & 0xF0) >> 4, 16);
-
-          if (idx + 2 < selectedSize)
-          {
-            val += QString::number(
-                (data.at((copyOffset + idx) / 2) & 0xF), 16);
-            val += " ";
-          }
-
-          res += val;
-
-          if ((idx / 2) % m_bytesPerLine == (m_bytesPerLine - 1))
-            res += "\n";
-        }
-      }
-
-      QClipboard *clipboard = QApplication::clipboard();
-      clipboard->setText(res);
+      res += QString::number((data.at((idx + 2) / 2) & 0xF), 16);
+      res += " ";
+      idx++;
+      copyOffset = 1;
     }
+
+    int selectedSize = m_selectEnd - m_selectBegin;
+
+    for (; idx < selectedSize; idx += 2)
+    {
+      if (data.size() > (copyOffset + idx) / 2)
+      {
+        QString val = QString::number(
+            (data.at((copyOffset + idx) / 2) & 0xF0) >> 4, 16);
+
+        if (idx + 2 < selectedSize)
+        {
+          val += QString::number(
+              (data.at((copyOffset + idx) / 2) & 0xF), 16);
+          val += " ";
+        }
+
+        res += val;
+
+        if ((idx / 2) % m_bytesPerLine == (m_bytesPerLine - 1))
+          res += "\n";
+      }
+    }
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(res);
+  }
 }
 
 #endif
