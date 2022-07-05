@@ -7,6 +7,7 @@
 #include "elfparser.hpp"
 
 #ifdef QT_GUI
+#include <QTextStream>
 #include "ui/mainwindow.hpp"
 #include <QApplication>
 #endif
@@ -16,14 +17,7 @@ bool parseCommandLine(int p_argCount, char *p_argArray[],
                       bool &p_print, bool &p_printReasons, bool &p_capabilities)
 {
     boost::program_options::options_description description("options");
-    description.add_options()
-    ("help", "A list of command line options")
-    ("version", "Display version information")
-    ("file,f", boost::program_options::value<std::string>(), "The ELF file to examine")
-    ("directory,d", boost::program_options::value<std::string>(), "The directory to look through.")
-    ("reasons,r", "Print the scoring reasons")
-    ("capabilities,c", "Print the files observed capabilities")
-    ("print,p", "Print the ELF files various parsed structures.");
+    description.add_options()("help", "A list of command line options")("version", "Display version information")("file,f", boost::program_options::value<std::string>(), "The ELF file to examine")("directory,d", boost::program_options::value<std::string>(), "The directory to look through.")("reasons,r", "Print the scoring reasons")("capabilities,c", "Print the files observed capabilities")("print,p", "Print the ELF files various parsed structures.");
 
     boost::program_options::variables_map argv_map;
     try
@@ -33,7 +27,8 @@ bool parseCommandLine(int p_argCount, char *p_argArray[],
     }
     catch (const std::exception &e)
     {
-        std::cerr << e.what() << std::endl << std::endl;
+        std::cerr << e.what() << std::endl
+                  << std::endl;
         std::cout << description << std::endl;
         return true;
     }
@@ -99,16 +94,15 @@ void do_parsing(const std::string &p_fileName, bool p_printReasons,
 
     parser.evaluate();
 
-    std::cout << "Overview : " << std::endl <<  
-    " - Score: " << parser.getScore() << std::endl << 
-    " - Entropy: " << parser.getEntropy() << std::endl;
+    std::cout << "Overview : " << std::endl
+              << " - Score: " << parser.getScore() << std::endl
+              << " - Entropy: " << parser.getEntropy() << std::endl;
     if (!parser.getFamily().empty())
     {
-        std::cout <<" - Family: " << parser.getFamily() << std::endl;
-        std::cout <<" - SHA256: " << std::hex << parser.getSha256() << std::endl;
-        std::cout <<" - SHA1:   " << std::hex << parser.getSha1() << std::endl;
-        std::cout <<" - MD5:    " << std::hex << parser.getMD5() << std::endl;
-        
+        std::cout << " - Family: " << parser.getFamily() << std::endl;
+        std::cout << " - SHA256: " << std::hex << parser.getSha256() << std::endl;
+        std::cout << " - SHA1:   " << std::hex << parser.getSha1() << std::endl;
+        std::cout << " - MD5:    " << std::hex << parser.getMD5() << std::endl;
     }
     if (p_printReasons)
         parser.printReasons();
@@ -124,6 +118,20 @@ void do_parsing(const std::string &p_fileName, bool p_printReasons,
 int main(int p_argCount, char *p_argArray[])
 {
     QApplication a(p_argCount, p_argArray);
+    QFile f("../src/ui/qdarkstyle/dracula.css");
+
+    if (!f.exists())
+    {
+        std::cerr << "Unable to set stylesheet, file not found\n";
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        a.setStyleSheet(ts.readAll());
+    }
+    
+
     MainWindow w;
     w.show();
 
@@ -149,7 +157,7 @@ int main(int p_argCount, char *p_argArray[])
     {
         for (boost::filesystem::recursive_directory_iterator iter(directoryName);
              iter != boost::filesystem::recursive_directory_iterator(); ++iter)
-                do_parsing(iter->path().string(), printReasons, printCapabilities, printElf);
+            do_parsing(iter->path().string(), printReasons, printCapabilities, printElf);
     }
 
     return EXIT_SUCCESS;

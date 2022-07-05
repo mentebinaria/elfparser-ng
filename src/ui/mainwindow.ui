@@ -81,7 +81,7 @@
         <enum>QTabWidget::North</enum>
        </property>
        <property name="currentIndex">
-        <number>4</number>
+        <number>0</number>
        </property>
        <property name="documentMode">
         <bool>true</bool>
@@ -797,11 +797,14 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
+       <property name="documentMode">
+        <bool>true</bool>
+       </property>
        <property name="movable">
         <bool>true</bool>
        </property>
        <property name="tabBarAutoHide">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <widget class="QWidget" name="HexView">
         <attribute name="title">
@@ -898,8 +901,8 @@
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>40</width>
-                <height>20</height>
+                <width>60</width>
+                <height>30</height>
                </size>
               </property>
              </spacer>
@@ -989,6 +992,7 @@
     <addaction name="openProcess"/>
     <addaction name="reparseButton"/>
     <addaction name="separator"/>
+    <addaction name="ButtonExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -1084,6 +1088,11 @@
   <action name="ButtonFindTablePrograms">
    <property name="text">
     <string>Find Programs</string>
+   </property>
+  </action>
+  <action name="ButtonExit">
+   <property name="text">
+    <string>Exit</string>
    </property>
   </action>
  </widget>

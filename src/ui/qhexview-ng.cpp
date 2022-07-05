@@ -34,6 +34,7 @@ QHexView::QHexView(QWidget *parent)
     : QAbstractScrollArea(parent),
       m_pdata(nullptr),
       m_posAddr(0),
+      m_charWidth(0),
       m_posHex(ADR_LENGTH * m_charWidth + GAP_ADR_HEX),
       m_posAscii(m_posHex + MIN_HEXCHARS_IN_LINE * m_charWidth + GAP_HEX_ASCII),
       m_bytesPerLine(MIN_BYTES_PER_LINE),
@@ -41,8 +42,7 @@ QHexView::QHexView(QWidget *parent)
       m_selectBegin(0),
       m_selectEnd(0),
       m_selectInit(0),
-      m_cursorPos(0),
-      m_charWidth(0)
+      m_cursorPos(0)
 {
   // default configs
   setFont(QFont(FONT, SIZE_FONT)); // default font
@@ -180,8 +180,7 @@ void QHexView::paintEvent(QPaintEvent *event)
          (i < m_bytesPerLine);
          i++, xPosAscii += m_charWidth)
     {
-      int pos = ((lineIdx * m_bytesPerLine + i) * 2);
-      SET_BACKGROUND_MARK(pos);
+      SET_BACKGROUND_MARK((lineIdx * m_bytesPerLine + i) * 2);
 
       char character = data[(lineIdx - firstLineIdx) * (uint)m_bytesPerLine + i];
       CHAR_VALID(character);
@@ -197,8 +196,7 @@ void QHexView::paintEvent(QPaintEvent *event)
                                      ((lineIdx - firstLineIdx) * m_bytesPerLine + i) < data.size();
          i++, xPos += 3 * m_charWidth)
     {
-      int pos = ((lineIdx * m_bytesPerLine + i) * 2);
-      SET_BACKGROUND_MARK(pos);
+      SET_BACKGROUND_MARK((lineIdx * m_bytesPerLine + i) * 2);
 
       QString val = QString::number((data.at((lineIdx - firstLineIdx) * m_bytesPerLine + i) & 0xF0) >> 4, 16);
       painter.drawText(xPos, yPos, val);

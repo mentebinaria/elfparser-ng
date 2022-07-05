@@ -8,6 +8,7 @@
 #include "../abstract_sectionheader.hpp"
 #include "../abstract_programheader.hpp"
 
+#include <iostream>
 #include <QInputDialog>
 #include <QDesktopServices>
 #include <QCursor>
@@ -72,11 +73,9 @@ void MainWindow::openFile()
 
   dialog.exec();
 
-  if (dialog.selectedFiles().count() != 1)
-    return;
-
   m_FileName = dialog.selectedFiles().at(0);
-  parser(m_FileName);
+  if (m_FileName.size() != 0)
+    parser(m_FileName);
 }
 
 void MainWindow::conf_buttons()
@@ -561,6 +560,7 @@ void MainWindow::on_reparseButton_triggered()
 {
   if (m_FileName.size() == 0)
     return;
+
   else
     parser(m_FileName);
 }
@@ -601,7 +601,6 @@ void MainWindow::on_gotoOffsetButton_triggered()
   QString offset = QInputDialog::getText(this, tr("Goto..."),
                                          tr("Offset (0x for hexadecimal):"), QLineEdit::Normal,
                                          nullptr, &done);
-
   try
   {
     if (done && offset[0] == '0' && offset[1] == 'x')
@@ -642,17 +641,55 @@ void MainWindow::on_EntroyLimitButton_triggered()
   double setEntropy = QInputDialog::getDouble(0, "Entropy threshold", "Threshold (default 7.0):", m_Entropy, 0, 8, 2, &done);
 
   if (done)
+  {
     m_Entropy = setEntropy;
+    QMessageBox::StandardButton reload = QMessageBox::question(this, "Reload", "Reload Parser Elf ?", QMessageBox::Yes | QMessageBox::No);
+
+    if (reload == QMessageBox::Yes)
+      on_reparseButton_triggered();
+  }
 }
 
 void MainWindow::on_helpButton_triggered()
 {
-  QDesktopServices::openUrl(QUrl("https://github.com/mentebinaria/elfparser-ng/wiki/Quick-Help"));
+  try
+  {
+    QDesktopServices::openUrl(QUrl("https://github.com/mentebinaria/elfparser-ng/wiki/Quick-Help"));
+  }
+  catch (std::exception &e)
+  {
+    std::string errorMessage("Loading Error: ");
+    errorMessage.append(e.what());
+
+    QMessageBox msgBox;
+    msgBox.setText(errorMessage.c_str());
+    msgBox.exec();
+  }
 }
 
 void MainWindow::on_reportButton_triggered()
 {
-  QDesktopServices::openUrl(QUrl("https://github.com/mentebinaria/elfparser-ng/issues"));
+  try
+  {
+    QDesktopServices::openUrl(QUrl("https://github.com/mentebinaria/elfparser-ng/issues"));
+  }
+  catch (std::exception &e)
+  {
+    std::string errorMessage("Loading Error: ");
+    errorMessage.append(e.what());
+
+    QMessageBox msgBox;
+    msgBox.setText(errorMessage.c_str());
+    msgBox.exec();
+  }
+}
+
+void MainWindow::on_ButtonExit_triggered()
+{
+  QMessageBox::StandardButton close = QMessageBox::question(this, "Close", "Close this Program ?", QMessageBox::Yes | QMessageBox::No);
+
+  if (close == QMessageBox::Yes)
+    this->close();
 }
 
 void MainWindow::on_newButton_triggered()
@@ -812,7 +849,7 @@ void MainWindow::on_ButtonFindTableSection_triggered()
     QList<QTableWidgetItem *> sectionsTable = m_ui->sectionsTable->findItems(value, Qt::MatchContains);
     m_ui->mainTabs->setCurrentWidget(m_ui->sectionsTab);
 
-    foreach (auto &Ptr, sectionsTable)
+    BOOST_FOREACH (const auto &Ptr, sectionsTable)
       m_ui->sectionsTable->selectRow(Ptr->row());
 
     sectionsTable.clear();
@@ -834,7 +871,7 @@ void MainWindow::on_ButtonFindTableSymbols_triggered()
     QList<QTableWidgetItem *> symbolsTable = m_ui->symbolsTable->findItems(value, Qt::MatchContains);
     m_ui->mainTabs->setCurrentWidget(m_ui->symbolsTab);
 
-    foreach (auto &Ptr, symbolsTable)
+    BOOST_FOREACH (const auto &Ptr, symbolsTable)
       m_ui->symbolsTable->selectRow(Ptr->row());
 
     symbolsTable.clear();
@@ -856,7 +893,7 @@ void MainWindow::on_ButtonFindTablePrograms_triggered()
     QList<QTableWidgetItem *> programsTable = m_ui->programsTable->findItems(value, Qt::MatchContains);
     m_ui->mainTabs->setCurrentWidget(m_ui->programsTab);
 
-    foreach (auto &Ptr, programsTable)
+    BOOST_FOREACH (const auto &Ptr, programsTable)
       m_ui->programsTable->selectRow(Ptr->row());
 
     programsTable.clear();
