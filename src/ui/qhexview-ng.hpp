@@ -72,8 +72,8 @@ public slots:
   void clear();
   void showFromOffset(int offset);
   void setSelected(int offset, int length);
-  unsigned int getCursorPos();
-  // void callCursor(void (*ptr)());
+  unsigned int getOffset();
+  
 };
 
 #endif

@@ -96,6 +96,8 @@ class MainWindow : public QMainWindow
   void on_ButtonFindTableSection_triggered();
   void on_ButtonFindTableSymbols_triggered();
   void on_ButtonFindTablePrograms_triggered();
+  void paintEvent(QPaintEvent *event);
+
 };
 
 #endif //! QT_GUI

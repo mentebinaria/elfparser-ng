@@ -900,4 +900,11 @@ void MainWindow::on_ButtonFindTablePrograms_triggered()
   }
 }
 
+void MainWindow::paintEvent(QPaintEvent *event)
+
+{ 
+  auto offset = m_HexEditor->getOffset();
+  m_ui->Offset_label->setText("0x" + QString::number(offset, 16));
+}
+
 #endif

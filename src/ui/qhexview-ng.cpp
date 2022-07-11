@@ -531,9 +531,9 @@ void QHexView::setCursorPos(int position)
   m_cursorPos = position;
 }
 
-unsigned int QHexView::getCursorPos()
+unsigned int QHexView::getOffset()
 {
-  return m_cursorPos;
+  return m_cursorPos / 2;
 }
 
 void QHexView::ensureVisible()
