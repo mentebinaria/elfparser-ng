@@ -573,6 +573,12 @@ void MainWindow::on_openButton_triggered()
 #if _WIN32 || _WIN64
 void MainWindow::on_openProcess_triggered()
 {
+  std::string errorMessage("Information: ");
+  errorMessage.append("This option is not currently available for windows, implementation in progress, elfparser beta version");
+
+  QMessageBox msgBox;
+  msgBox.setText(errorMessage.c_str());
+  msgBox.exec();
 }
 
 #else
@@ -902,7 +908,7 @@ void MainWindow::on_ButtonFindTablePrograms_triggered()
 
 void MainWindow::paintEvent(QPaintEvent *event)
 
-{ 
+{
   auto offset = m_HexEditor->getOffset();
   m_ui->Offset_label->setText("0x" + QString::number(offset, 16));
 }
