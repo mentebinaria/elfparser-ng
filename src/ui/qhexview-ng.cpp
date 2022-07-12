@@ -507,6 +507,7 @@ void QHexView::setSelected(int offset, int length)
   m_selectInit = m_selectBegin = offset * 2;
   m_selectEnd = m_selectBegin + length * 2;
 
+  setCursorPos(offset * 2);
   UPDATE
 }
 

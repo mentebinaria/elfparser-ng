@@ -1019,6 +1019,7 @@
     <addaction name="separator"/>
     <addaction name="menuFind"/>
     <addaction name="gotoOffsetButton"/>
+    <addaction name="actionThemes"/>
    </widget>
    <addaction name="menufile"/>
    <addaction name="menuEdit_2"/>
@@ -1093,6 +1094,11 @@
   <action name="ButtonExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionThemes">
+   <property name="text">
+    <string>Themes</string>
    </property>
   </action>
  </widget>
