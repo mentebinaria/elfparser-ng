@@ -1,15 +1,14 @@
-#ifdef QT_GUI 
+#ifdef QT_GUI
 
 #include "pswindow.hpp"
 #include "ui_pswindow.h"
-
 
 #include <QMessageBox>
 #include <unordered_map>
 
 PsWindow::PsWindow(QWidget *p_parent) : QDialog(p_parent),
-                                          m_ui(new Ui::PsWindow),
-                                          m_pid(0)
+                                        m_ui(new Ui::PsWindow),
+                                        m_pid(0)
 {
   m_ui->setupUi(this);
   Conf_pidTable();
@@ -67,7 +66,7 @@ void PsWindow::on_pidTable_doubleClicked(const QModelIndex &p_index)
   }
   catch (std::exception &error)
   {
-    QMessageBox::critical(nullptr, "Error", "Verify pid " + QString::fromStdString(std::to_string(m_pid)+" error unexpected"));
+    QMessageBox::critical(nullptr, "Error", "Verify pid " + QString::fromStdString(std::to_string(m_pid) + " error unexpected"));
   }
 }
 

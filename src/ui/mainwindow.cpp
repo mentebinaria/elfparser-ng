@@ -78,8 +78,7 @@ void MainWindow::openFile()
   dialog.exec();
 
   m_FileName = dialog.selectedFiles().at(0);
-  if (m_FileName.size() != 0)
-    parser(m_FileName);
+  parser(m_FileName);
 }
 
 void MainWindow::conf_buttons()
@@ -168,6 +167,9 @@ void MainWindow::conf_tables()
 // TODO: signal error handle
 void MainWindow::parser(QString filename)
 {
+  if (filename.size() <= 0)
+    return;
+
   // reset
   m_HexEditor->clear();
   m_tableItems.clear();
@@ -317,6 +319,9 @@ void MainWindow::parser(QString filename)
 
   BOOST_FOREACH (const AbstractSectionHeader &section, sections)
   {
+    m_ui->loadText_label->setText("Loading: " + QString(section.getName().c_str()));
+    m_ui->loadFileProgress->setValue(i);
+
     tableItem = new IntWidgetItem(i);
     m_ui->sectionsTable->setItem(i, 0, tableItem);
     m_tableItems.push_back(tableItem);
@@ -354,6 +359,9 @@ void MainWindow::parser(QString filename)
   i = 0;
   BOOST_FOREACH (const AbstractProgramHeader &program, programs)
   {
+    m_ui->loadText_label->setText("Loading: " + QString(program.getName().c_str()));
+    m_ui->loadFileProgress->setValue(m_ui->loadFileProgress->value() + i);
+
     tableItem = new QTableWidgetItem(QString(program.getName().c_str()));
     m_ui->programsTable->setItem(i, 0, tableItem);
     m_tableItems.push_back(tableItem);
@@ -388,6 +396,9 @@ void MainWindow::parser(QString filename)
   i = 0;
   BOOST_FOREACH (const AbstractSymbol &symbol, allSymbols)
   {
+    m_ui->loadText_label->setText("Loading: " + QString(symbol.getName().c_str()));
+    m_ui->loadFileProgress->setValue(m_ui->loadFileProgress->value() + i);
+
     tableItem = new QTableWidgetItem(QString(symbol.getTypeName().c_str()));
     m_ui->symbolsTable->setItem(i, 0, tableItem);
     m_tableItems.push_back(tableItem);
@@ -403,6 +414,8 @@ void MainWindow::parser(QString filename)
   m_ui->symbolsTable->resizeColumnsToContents();
 
   // capabilities tree
+  m_ui->loadText_label->setText("Loading: loading analysis...");
+
   const std::map<elf::Capabilties, std::set<std::string>> &capabilities(m_parser->getCapabilties());
 
   for (std::map<elf::Capabilties, std::set<std::string>>::const_iterator it = capabilities.begin();
@@ -531,6 +544,10 @@ void MainWindow::parser(QString filename)
 
   m_ui->scoringTable->setSortingEnabled(true);
   m_ui->scoringTable->resizeColumnsToContents();
+  if (m_ui->loadFileProgress->value() != 100)
+    m_ui->loadFileProgress->setValue(100);
+    
+  m_ui->loadText_label->setText("Loading: Parser loaded with, do your review!!...");
 }
 
 void MainWindow::overviewToClipboard()
@@ -594,10 +611,7 @@ void MainWindow::on_openProcess_triggered()
   if (std::to_string(m_Pswindow.getPid()) != "0")
     m_FileName = QString::fromStdString("/proc/" + std::to_string(m_Pswindow.getPid()) + "/exe");
 
-  if (m_FileName.size() == 0)
-    return;
-  else
-    parser(m_FileName);
+  parser(m_FileName);
 }
 
 #endif
@@ -893,7 +907,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
   m_ui->Offset_label->setText("0x" + QString::number(offset, 16));
 }
 
-// style sheets 
+// style sheets
 void MainWindow::on_ButtonDark_triggered()
 {
   QFile f("../src/ui/qdarkstyle/dark.css");
@@ -913,6 +927,8 @@ void MainWindow::on_ButtonDark_triggered()
     f.open(QFile::ReadOnly | QFile::Text);
     QTextStream ts(&f);
     setStyleSheet(ts.readAll());
+    // m_Pswindow.setStyleSheet(ts.readAll());
+
     m_HexEditor->setColorCharacters(Qt::white);
     m_HexEditor->setColorAddress(QColor(30, 30, 30, 0xff));
   }
@@ -937,6 +953,8 @@ void MainWindow::on_ButtonLight_triggered()
     f.open(QFile::ReadOnly | QFile::Text);
     QTextStream ts(&f);
     setStyleSheet(ts.readAll());
+    // m_Pswindow.setStyleSheet(ts.readAll());
+
     m_HexEditor->setColorAddress(Qt::white);
     m_HexEditor->setColorCharacters(Qt::black);
   }

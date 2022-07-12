@@ -48,7 +48,7 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
+    <item row="1" column="0">
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -221,6 +221,26 @@
              <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled|ItemIsTristate</set>
             </property>
            </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="loadText_label">
+           <property name="text">
+            <string>Loading: ...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QProgressBar" name="loadFileProgress">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
           </widget>
          </item>
         </layout>
@@ -1026,6 +1046,7 @@
     <addaction name="separator"/>
     <addaction name="menuFind"/>
     <addaction name="gotoOffsetButton"/>
+    <addaction name="separator"/>
     <addaction name="menuThemes"/>
    </widget>
    <addaction name="menufile"/>
