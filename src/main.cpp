@@ -7,7 +7,6 @@
 #include "elfparser.hpp"
 
 #ifdef QT_GUI
-#include <QTextStream>
 #include "ui/mainwindow.hpp"
 #include <QApplication>
 #endif
@@ -118,20 +117,6 @@ void do_parsing(const std::string &p_fileName, bool p_printReasons,
 int main(int p_argCount, char *p_argArray[])
 {
     QApplication a(p_argCount, p_argArray);
-    QFile f("../src/ui/qdarkstyle/dracula.css");
-
-    if (!f.exists())
-    {
-        std::cerr << "Unable to set stylesheet, file not found\n";
-    }
-    else
-    {
-        f.open(QFile::ReadOnly | QFile::Text);
-        QTextStream ts(&f);
-        a.setStyleSheet(ts.readAll());
-    }
-    
-
     MainWindow w;
     w.show();
 

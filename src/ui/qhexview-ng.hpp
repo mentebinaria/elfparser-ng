@@ -18,8 +18,6 @@
 #define FONT "Consolas"
 #define SIZE_FONT 11
 #define COLOR_SELECTION 98, 114, 164, 0xff
-#define COLOR_ADDRESS 30, 30, 30, 0xff
-#define COLOR_CHARACTERS Qt::white
 
 // config lines
 #define MIN_HEXCHARS_IN_LINE 47
@@ -55,6 +53,9 @@ private:
       m_cursorPos,
       m_bytesPerLine;
 
+  QColor m_colorCharacter;
+  QColor m_colorAddress;
+
   QSize fullSize() const;
   void updatePositions();
   void resetSelection();
@@ -73,7 +74,8 @@ public slots:
   void showFromOffset(int offset);
   void setSelected(int offset, int length);
   unsigned int getOffset();
-  
+  void setColorCharacters(const QColor &color);
+  void setColorAddress(const QColor &color);
 };
 
 #endif

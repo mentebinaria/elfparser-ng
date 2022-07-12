@@ -20,6 +20,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <QCloseEvent>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           m_ui(new Ui::MainWindow),
@@ -53,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
   // configs tables
   conf_tables();
+
+  // dark default
+  on_ButtonDark_triggered();
 
   // hex editor Tab
   m_layout->addWidget(m_HexEditor);
@@ -887,6 +891,55 @@ void MainWindow::paintEvent(QPaintEvent *event)
 {
   auto offset = m_HexEditor->getOffset();
   m_ui->Offset_label->setText("0x" + QString::number(offset, 16));
+}
+
+// style sheets 
+void MainWindow::on_ButtonDark_triggered()
+{
+  QFile f("../src/ui/qdarkstyle/dark.css");
+
+  if (!f.exists())
+  {
+    std::string errorMessage("Loading Error: ");
+    errorMessage.append("Error in load style dark, verify this file exist...");
+
+    QMessageBox msgBox;
+    msgBox.setText(errorMessage.c_str());
+    msgBox.exec();
+    return;
+  }
+  else
+  {
+    f.open(QFile::ReadOnly | QFile::Text);
+    QTextStream ts(&f);
+    setStyleSheet(ts.readAll());
+    m_HexEditor->setColorCharacters(Qt::white);
+    m_HexEditor->setColorAddress(QColor(30, 30, 30, 0xff));
+  }
+}
+
+void MainWindow::on_ButtonLight_triggered()
+{
+  QFile f("../src/ui/qdarkstyle/light.css");
+
+  if (!f.exists())
+  {
+    std::string errorMessage("Loading Error: ");
+    errorMessage.append("Error in load style light, verify this file exist...");
+
+    QMessageBox msgBox;
+    msgBox.setText(errorMessage.c_str());
+    msgBox.exec();
+    return;
+  }
+  else
+  {
+    f.open(QFile::ReadOnly | QFile::Text);
+    QTextStream ts(&f);
+    setStyleSheet(ts.readAll());
+    m_HexEditor->setColorAddress(Qt::white);
+    m_HexEditor->setColorCharacters(Qt::black);
+  }
 }
 
 #endif

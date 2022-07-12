@@ -19,7 +19,7 @@
 
 namespace Ui
 {
-class MainWindow;
+  class MainWindow;
 }
 
 class ELFParser;
@@ -97,6 +97,8 @@ class MainWindow : public QMainWindow
   void on_ButtonFindTableSymbols_triggered();
   void on_ButtonFindTablePrograms_triggered();
   void paintEvent(QPaintEvent *event);
+  void on_ButtonDark_triggered();
+  void on_ButtonLight_triggered();
 
 };
 

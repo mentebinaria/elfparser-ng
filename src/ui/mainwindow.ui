@@ -1015,11 +1015,18 @@
      <addaction name="ButtonFindTableSymbols"/>
      <addaction name="ButtonFindTablePrograms"/>
     </widget>
+    <widget class="QMenu" name="menuThemes">
+     <property name="title">
+      <string>Themes</string>
+     </property>
+     <addaction name="ButtonDark"/>
+     <addaction name="ButtonLight"/>
+    </widget>
     <addaction name="EntroyLimitButton"/>
     <addaction name="separator"/>
     <addaction name="menuFind"/>
     <addaction name="gotoOffsetButton"/>
-    <addaction name="actionThemes"/>
+    <addaction name="menuThemes"/>
    </widget>
    <addaction name="menufile"/>
    <addaction name="menuEdit_2"/>
@@ -1096,9 +1103,14 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionThemes">
+  <action name="ButtonDark">
    <property name="text">
-    <string>Themes</string>
+    <string>Dark</string>
+   </property>
+  </action>
+  <action name="ButtonLight">
+   <property name="text">
+    <string>Light</string>
    </property>
   </action>
  </widget>

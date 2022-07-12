@@ -130,8 +130,8 @@ void QHexView::updatePositions()
 
   m_bytesPerLine = (width() - serviceSymbolsWidth) / (4 * m_charWidth) - 1; // 4 symbols per byte
 
-  if (m_bytesPerLine == 0) // avoid floating point
-    m_bytesPerLine = 1;
+  if (m_bytesPerLine < 5) // avoid floating point
+    m_bytesPerLine = 5;
 
   m_posAddr = 0;
   m_posHex = ADR_LENGTH * m_charWidth + GAP_ADR_HEX;
@@ -156,15 +156,16 @@ void QHexView::paintEvent(QPaintEvent *event)
 
   // paint background address
   painter.fillRect(event->rect(), this->palette().color(QPalette::Base));
-  painter.fillRect(QRect(m_posAddr, event->rect().top(), m_posHex - GAP_ADR_HEX + 10, height()), QColor(COLOR_ADDRESS));
+  painter.fillRect(QRect(m_posAddr, event->rect().top(), m_posHex - GAP_ADR_HEX + 10, height()), m_colorAddress);
+  painter.setBackgroundMode(Qt::OpaqueMode);
 
   // paint line separate ascii
-  painter.setPen(QColor(COLOR_ADDRESS));
+  painter.setPen(m_colorAddress);
   painter.drawLine(linePos, event->rect().top(), linePos, height());
 
   const QByteArray data = m_pdata.mid(firstLineIdx * m_bytesPerLine, (lastLineIdx - firstLineIdx) * m_bytesPerLine);
 
-  painter.setPen(COLOR_CHARACTERS); // paint white characters and binary
+  painter.setPen(m_colorCharacter); // paint white characters and binary
 
   if (m_pdata.size() == 0)
     return;
@@ -605,6 +606,16 @@ void QHexView::copyBytes()
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(res);
   }
+}
+
+void QHexView::setColorCharacters(const QColor &color)
+{
+  m_colorCharacter = color;
+}
+
+void QHexView::setColorAddress(const QColor &color)
+{
+  m_colorAddress = color;
 }
 
 #endif
