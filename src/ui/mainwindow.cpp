@@ -199,10 +199,16 @@ void MainWindow::parser(QString filename)
   {
     std::string errorMessage("Loading Error: ");
     errorMessage.append(e.what());
+    
+    m_ui->loadText_label->setText("Loading: " + QString(e.what()));
+    m_ui->loadFileProgress->setValue(0);
+
+
 
     QMessageBox msgBox;
     msgBox.setText(errorMessage.c_str());
     msgBox.exec();
+
     return;
   }
 
@@ -546,7 +552,7 @@ void MainWindow::parser(QString filename)
   m_ui->scoringTable->resizeColumnsToContents();
   if (m_ui->loadFileProgress->value() != 100)
     m_ui->loadFileProgress->setValue(100);
-    
+
   m_ui->loadText_label->setText("Loading: Parser loaded with, do your review!!...");
 }
 
