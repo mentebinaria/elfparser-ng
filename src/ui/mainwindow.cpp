@@ -203,8 +203,6 @@ void MainWindow::parser(QString filename)
     m_ui->loadText_label->setText("Loading: " + QString(e.what()));
     m_ui->loadFileProgress->setValue(0);
 
-
-
     QMessageBox msgBox;
     msgBox.setText(errorMessage.c_str());
     msgBox.exec();
@@ -668,7 +666,7 @@ void MainWindow::on_EntroyLimitButton_triggered()
   bool done;
   double setEntropy = QInputDialog::getDouble(0, "Entropy threshold", "Threshold (default 7.0):", m_Entropy, 0, 8, 2, &done);
 
-  if (done)
+  if (done && m_FileName.size() > 0)
   {
     m_Entropy = setEntropy;
     QMessageBox::StandardButton reload = QMessageBox::question(this, "Reload", "Reload Parser Elf ?", QMessageBox::Yes | QMessageBox::No);
