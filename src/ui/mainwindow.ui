@@ -150,6 +150,9 @@
            <property name="selectionMode">
             <enum>QAbstractItemView::SingleSelection</enum>
            </property>
+           <property name="gridStyle">
+            <enum>Qt::CustomDashLine</enum>
+           </property>
            <property name="columnCount">
             <number>1</number>
            </property>
@@ -1126,7 +1129,7 @@
   </action>
   <action name="ButtonDark">
    <property name="text">
-    <string>Dark</string>
+    <string>Dark (default)</string>
    </property>
   </action>
   <action name="ButtonLight">
