@@ -76,6 +76,7 @@ public slots:
   unsigned int getOffset();
   void setColorCharacters(const QColor &color);
   void setColorAddress(const QColor &color);
+  unsigned int getBytesSelecteds();
 };
 
 #endif

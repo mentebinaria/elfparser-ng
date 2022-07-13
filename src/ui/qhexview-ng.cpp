@@ -221,7 +221,10 @@ void QHexView::paintEvent(QPaintEvent *event)
       y -= firstLineIdx;
       int cursorX = (((x / 2) * 3) + (x % 2)) * m_charWidth + m_posHex;
       int cursorY = y * m_charHeight + 4;
-      painter.fillRect(cursorX, cursorY, 2, m_charHeight, palette().color(QPalette::WindowText));
+
+      painter.setPen(m_colorAddress); // paint white characters and binary
+      painter.drawRoundedRect(QRectF(cursorX, cursorY, 18, m_charHeight), 0, 0);
+      painter.setPen(m_colorCharacter); // paint white characters and binary
     }
   }
 }
@@ -616,6 +619,11 @@ void QHexView::setColorCharacters(const QColor &color)
 void QHexView::setColorAddress(const QColor &color)
 {
   m_colorAddress = color;
+}
+
+unsigned int QHexView::getBytesSelecteds()
+{
+  return (m_selectEnd - m_selectInit) / 2;
 }
 
 #endif

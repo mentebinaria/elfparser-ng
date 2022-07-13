@@ -199,7 +199,7 @@ void MainWindow::parser(QString filename)
   {
     std::string errorMessage("Loading Error: ");
     errorMessage.append(e.what());
-    
+
     m_ui->loadText_label->setText("Loading: " + QString(e.what()));
     m_ui->loadFileProgress->setValue(0);
 
@@ -909,6 +909,8 @@ void MainWindow::paintEvent(QPaintEvent *event)
 {
   auto offset = m_HexEditor->getOffset();
   m_ui->Offset_label->setText("0x" + QString::number(offset, 16));
+
+  m_ui->selecteds_label->setText("(Bytes " + QString::number(m_HexEditor->getBytesSelecteds()) + " selected)");
 }
 
 // style sheets
