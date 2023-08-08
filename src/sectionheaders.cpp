@@ -16,7 +16,7 @@ SectionHeaders::~SectionHeaders()
 
 void SectionHeaders::setHeaders(const char *p_data, uint32_t p_offset, const char *p_start,
                                 boost::uint64_t p_total_size, boost::uint16_t p_count,
-                                boost::uint32_t p_size, std::uint32_t p_stringIndex,
+                                boost::uint32_t p_size, boost::uint32_t p_stringIndex,
                                 bool p_is64, bool p_isLE,
                                 std::map<elf::Capabilties, std::set<std::string>> &p_capabilities)
 {

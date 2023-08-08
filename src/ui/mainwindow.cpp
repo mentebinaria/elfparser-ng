@@ -116,8 +116,6 @@ void MainWindow::conf_buttons()
   // open
   m_ui->openButton->setIcon(QIcon("../src/ui/assets/open.png"));
   m_ui->openButton->setShortcut(QKeySequence("Ctrl+O"));
-  m_ui->openProcess->setIcon(QIcon("../src/ui/assets/proc.png"));
-  m_ui->openProcess->setShortcut(QKeySequence("Ctrl+Shift+O"));
 
   // rpasser
   m_ui->reparseButton->setIcon(QIcon("../src/ui/assets/rpasser.png"));
@@ -594,31 +592,6 @@ void MainWindow::on_openButton_triggered()
 {
   openFile();
 }
-
-#if _WIN32 || _WIN64
-void MainWindow::on_openProcess_triggered()
-{
-  std::string errorMessage("Information: ");
-  errorMessage.append("This option is not currently available for windows, implementation in progress, elfparser beta version");
-
-  QMessageBox msgBox;
-  msgBox.setText(errorMessage.c_str());
-  msgBox.exec();
-}
-
-#else
-
-void MainWindow::on_openProcess_triggered()
-{
-  m_Pswindow.exec();
-
-  if (std::to_string(m_Pswindow.getPid()) != "0")
-    m_FileName = QString::fromStdString("/proc/" + std::to_string(m_Pswindow.getPid()) + "/exe");
-
-  parser(m_FileName);
-}
-
-#endif
 
 void MainWindow::on_gotoOffsetButton_triggered()
 {

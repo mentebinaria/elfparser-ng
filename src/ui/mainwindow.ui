@@ -1032,7 +1032,6 @@
      <string>File</string>
     </property>
     <addaction name="openButton"/>
-    <addaction name="openProcess"/>
     <addaction name="reparseButton"/>
     <addaction name="separator"/>
     <addaction name="ButtonExit"/>
@@ -1115,11 +1114,6 @@
   <action name="newButton">
    <property name="text">
     <string>New Window</string>
-   </property>
-  </action>
-  <action name="openProcess">
-   <property name="text">
-    <string>Open Process</string>
    </property>
   </action>
   <action name="gotoOffsetButton">

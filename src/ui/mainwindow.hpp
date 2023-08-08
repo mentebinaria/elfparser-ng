@@ -84,7 +84,6 @@ class MainWindow : public QMainWindow
   void conf_buttons();
   void conf_tables();
   void on_openButton_triggered();
-  void on_openProcess_triggered();
   void on_EntroyLimitButton_triggered();
   void on_reportButton_triggered();
   void on_newButton_triggered();
