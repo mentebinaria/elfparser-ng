@@ -14,7 +14,6 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include "pswindow.hpp"
 #include "qhexview-ng.hpp"
 
 namespace Ui
@@ -61,9 +60,6 @@ class MainWindow : public QMainWindow
   // entropy config
   double m_Entropy;
   double m_VEntropy;
-
-  // pswindow
-  PsWindow m_Pswindow;
 
  public:
   explicit MainWindow ( QWidget *parent = 0 );

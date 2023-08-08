@@ -48,12 +48,12 @@ bool AbstractElfHeader::is64() const
 std::string AbstractElfHeader::getMagic() const
 {
   std::stringstream result;
-  
-  result << std::hex <<  static_cast<int> ( ( m_is64 ? m_header64->m_magic0 : m_header32->m_magic0 ) ) 
-  << std::hex << ( m_is64 ? m_header64->m_magic1 : m_header32->m_magic1 ) 
-  << std::hex << ( m_is64 ? m_header64->m_magic2 : m_header32->m_magic2 ) 
-  << std::hex << ( m_is64 ? m_header64->m_magic3 : m_header32->m_magic3 );
-  
+
+  result << std::hex << static_cast<int>((m_is64 ? m_header64->m_magic0 : m_header32->m_magic0))
+         << std::hex << (m_is64 ? m_header64->m_magic1 : m_header32->m_magic1)
+         << std::hex << (m_is64 ? m_header64->m_magic2 : m_header32->m_magic2)
+         << std::hex << (m_is64 ? m_header64->m_magic3 : m_header32->m_magic3);
+
   return result.str();
 }
 
@@ -484,7 +484,7 @@ void AbstractElfHeader::evaluate(std::vector<std::pair<boost::int32_t, std::stri
   {
     p_capabilities[elf::k_antidebug].insert("Possible malformed ELF: Offset invalid Program header (offset  " + std::to_string(offset) + " size " + std::to_string(size) + ")");
   }
-  
+
   offset = getSectionOffset();
   size = getSectionCount();
 
@@ -492,5 +492,4 @@ void AbstractElfHeader::evaluate(std::vector<std::pair<boost::int32_t, std::stri
   {
     p_capabilities[elf::k_antidebug].insert("Possible malformed ELF: Offset invalid Section header (offset  " + std::to_string(offset) + " size " + std::to_string(size) + ")");
   }
-
 }

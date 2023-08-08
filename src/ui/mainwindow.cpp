@@ -906,7 +906,6 @@ void MainWindow::on_ButtonDark_triggered()
     f.open(QFile::ReadOnly | QFile::Text);
     QTextStream ts(&f);
     setStyleSheet(ts.readAll());
-    // m_Pswindow.setStyleSheet(ts.readAll());
 
     m_HexEditor->setColorCharacters(Qt::white);
     m_HexEditor->setColorAddress(QColor(30, 30, 30, 0xff));
@@ -932,7 +931,6 @@ void MainWindow::on_ButtonLight_triggered()
     f.open(QFile::ReadOnly | QFile::Text);
     QTextStream ts(&f);
     setStyleSheet(ts.readAll());
-    // m_Pswindow.setStyleSheet(ts.readAll());
 
     m_HexEditor->setColorAddress(Qt::white);
     m_HexEditor->setColorCharacters(Qt::black);
