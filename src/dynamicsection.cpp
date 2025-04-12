@@ -87,6 +87,11 @@ void DynamicSection::createDynamic(const char *p_start, boost::uint32_t p_offset
     BOOST_FOREACH (const AbstractDynamicEntry &entry, m_entries)
     {
         uint64_t value = entry.getValue();
+
+        if(value > m_fileSize) {
+            throw std::runtime_error("Unexpected dynamic entry value.");
+        }
+
         switch (entry.getTag())
         {
         case elf::dynamic::k_symtab:
