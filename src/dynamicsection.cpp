@@ -74,11 +74,7 @@ void DynamicSection::createDynamic(const char *p_start, boost::uint32_t p_offset
         {
             BOOST_FOREACH (AbstractDynamicEntry &entry, m_entries)
             {
-                if (offset <= m_fileSize) {
-                    entry.createString(p_start + offset);
-                } else {
-                    throw std::runtime_error("Unexpected dynamic section offset.");
-                }
+                entry.createString(p_start + offset);
             }
         }
     }
