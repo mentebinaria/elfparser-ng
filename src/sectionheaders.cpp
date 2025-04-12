@@ -55,10 +55,14 @@ void SectionHeaders::setHeaders(const char *p_data, uint32_t p_offset, const cha
                                           p_stringIndex, m_sectionHeaders,
                                           p_is64, p_isLE);
             if (m_sectionHeaders.back().getType() != elf::k_nobits &&
-                (m_sectionHeaders.back().getPhysOffset() + m_sectionHeaders.back().getSize()) > m_totalSize)
+                (
+                    (m_sectionHeaders.back().getPhysOffset() + m_sectionHeaders.back().getSize()) > m_totalSize ||
+                    (m_sectionHeaders.back().getPhysOffset() > UINT64_MAX - m_sectionHeaders.back().getSize()) // Overflow check
+                )
+            )
             {
                 m_sectionHeaders.pop_back();
-                p_capabilities[elf::k_antidebug].insert("Invalid sections entries in section table , check offsets, possible malformed elf ");
+                p_capabilities[elf::k_antidebug].insert("Invalid sections entries in section table, check offsets, possible malformed elf ");
             }
         }
     }
