@@ -97,7 +97,7 @@ void AbstractSegments::createDynamic()
             m_offset = program.getPhysOffset();
             m_size = program.getSize();
 
-            if (m_offset <= m_sizeFile && m_size <= m_sizeFile )
+            if (m_offset + m_size <= m_sizeFile)
             {
                 m_dynamic.createDynamic(m_data, m_offset,
                                         m_size, m_baseAddress,

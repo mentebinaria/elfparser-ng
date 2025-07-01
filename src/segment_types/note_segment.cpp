@@ -48,6 +48,11 @@ NoteSegment::NoteSegment(const char *p_start, boost::uint32_t p_offset, boost::u
     m_description()
 {
     m_note = reinterpret_cast<const elf::note *>(p_start + p_offset);
+
+    if (m_note->m_nameSize + m_note->m_descSize + sizeof(elf::note) > p_size) {
+        throw std::runtime_error("Unexpected Note segment size.");
+    }
+
     if (m_note->m_nameSize > 1 && m_note->m_nameSize < p_size)
     {
         m_name.assign(p_start + p_offset + sizeof(elf::note),

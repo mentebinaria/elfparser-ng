@@ -148,7 +148,7 @@ void ELFParser::parse(const std::string &p_file)
     m_size =  m_elfHeader.getProgramSize();
     m_pc =  m_elfHeader.getProgramCount();
 
-    if( m_offset <= m_fileSize && m_size <= m_fileSize )
+    if(m_offset + (m_size * m_pc) <= m_fileSize)
     {
         m_programHeader.setHeaders(ptrDataMem + m_offset,
                                m_pc,
@@ -161,7 +161,7 @@ void ELFParser::parse(const std::string &p_file)
     m_size = m_elfHeader.getSectionSize();
     m_pc =  m_elfHeader.getSectionCount();
 
-    if(m_offset <= m_fileSize && m_size <= m_fileSize)
+    if(m_offset + (m_size * m_pc) <= m_fileSize)
     {
 
         m_sectionHeader.setHeaders(ptrDataMem, m_offset,

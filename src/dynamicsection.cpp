@@ -83,6 +83,7 @@ void DynamicSection::createDynamic(const char *p_start, boost::uint32_t p_offset
     BOOST_FOREACH (const AbstractDynamicEntry &entry, m_entries)
     {
         uint64_t value = entry.getValue();
+
         switch (entry.getTag())
         {
         case elf::dynamic::k_symtab:
@@ -98,7 +99,11 @@ void DynamicSection::createDynamic(const char *p_start, boost::uint32_t p_offset
         case elf::dynamic::k_gnuhash:
             if (m_symbolTableSize == 0 && value <= m_fileSize)
             {
-                const boost::uint32_t *hashStart = reinterpret_cast<const boost::uint32_t *>(p_start + (entry.getValue() - p_baseAddress));
+                if (value - p_baseAddress > m_fileSize) {
+                    throw std::runtime_error("Unexpected dynamic entry value.");
+                }
+
+                const boost::uint32_t *hashStart = reinterpret_cast<const boost::uint32_t *>(p_start + (value - p_baseAddress));
                 ++hashStart;
                 m_symbolTableSize = *hashStart;
                 if (!p_isLE)
